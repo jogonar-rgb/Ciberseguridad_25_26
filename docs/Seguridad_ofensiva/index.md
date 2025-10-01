@@ -1,8 +1,8 @@
-title: Apuntes y ejercicios prácticas del curso de especialización ciberseguridad
-description: Apuntes, teoría, prácticas, ejercicio del curso de especialización de ciberseguridad. IES Severo Ochoa Elche.
 ---
+title: Apuntes y ejercicios prácticos del curso de especialización de ciberseguridad en IES Severo Ochoa (Elche)
 
-Apuntes, prácticas y ejercicios del curso de especialización de Ciberseguridad en el IES Severo Ochoa (Elche).
+description: Apuntes, teoría, prácticas, ejercicio del curso de especialización de ciberseguridad. IES severo ochoa Elche. Hacking ético. incidentes de seguridad, puesta en producción segura.
+---
 
 Los ejercicios y conocimientos contenidos en las prácticas y/o apuntes de 
 todos los módulos tienen exclusivamente propósito formativo, por lo que 

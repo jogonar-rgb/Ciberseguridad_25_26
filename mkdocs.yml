@@ -1,1 +1,98 @@
-site_name: My Docs
+site_name: Seguridad en sistemas del curso de especialista en ciberseguridad
+site_url: https://jogonar-rgb.github.io/Ciberseguridad_2025_2026/
+
+
+theme:
+  name: material
+  language: es
+  font:
+    text: Roboto
+    code: Roboto Mono
+  features:
+    - navigation.tabs
+    - toc.integrate
+    - navigation.expand
+    - navigation.top
+    - navigation.indexes
+    - content.tabs.link
+    - content.code.annotate
+    - content.code.copy
+    - navigation.footer
+    
+  palette:
+      - scheme: default
+        primary: light green
+        toggle:
+          icon: material/toggle-switch-off-outline
+          name: Cambiar a modo oscuro
+      - scheme: slate
+        primary: teal
+        toggle:
+          icon: material/toggle-switch
+          name: Cambiar a modo normal
+  plugins:
+    - mkdocs-video:
+        mark: "vid"
+    - search:
+      lang: es
+
+      
+markdown_extensions: 
+  - admonition
+  - pymdownx.extra
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.tabbed
+  - pymdownx.caret   
+  - pymdownx.critic 
+  - pymdownx.details 
+  - attr_list
+  - md_in_html
+  - footnotes
+
+nav:
+  - Introducción: index.md 
+  - Warm up:
+    - warm/index.md
+    - Entornos Linux: warm/Apuntes_Linux.md
+    - Ejercicios propuestos Linux: warm/Ejercicios_Linux.md
+    - Entornos Windows: warm/Apuntes_Windows.md
+    - Ejercicios propuestos Windows: warm/Ejercicios_Windows.md
+    - Webgrafía: warm/webgrafia.md
+  #- Seguridad ofensiva:
+  #  - Seguridad_ofensiva/index.md
+  #  - Introducción: Seguridad_ofensiva/Intro.md
+  #  - Introducción a Nmap: Seguridad_ofensiva/nmap101.md
+  #  - Enumeración de servicios: Seguridad_ofensiva/enumeracion.md
+  #  - Causas de vulnerabilidades en sistemas: Seguridad_ofensiva/servicios_desact.md
+  #  - Explotación de vulnerabilidades: Seguridad_ofensiva/exploit.md
+  #  - Metasploit: Seguridad_ofensiva/metasploit.md
+  #  - Ejercicio práctico - Explotación de EternalBlue: Seguridad_ofensiva/EternalBlue.md
+  #  - Shells: Seguridad_ofensiva/rev_shell.md
+  #  - Escalada de privilegios: Seguridad_ofensiva/privesc.md
+  #  - Enumeración en entornos AD (Active Directory): Seguridad_ofensiva/ad_enumeration.md
+  #  - Gestión y almacenamiento de credenciales en Windows: Seguridad_ofensiva/passw_manag.md
+  #  - Spoofing & phising: Seguridad_ofensiva/phising.md    
+  #  - Ataques en entornos Active Directory: Seguridad_ofensiva/HackingAD1.md
+  #  - Laboratorio de pivoting: Seguridad_ofensiva/Pivoting.md
+  #  - Webgrafía: Seguridad_ofensiva/webgrafia.md
+  #- Seguridad defensiva:
+  #  - Seguridad_defensiva/index.md
+  #  - Análisis de Logs: Seguridad_defensiva/logs.md
+  #  - Monitorización con IDS/IPS: Seguridad_defensiva/idps.md
+  #  - Hardening SSH: Seguridad_defensiva/hardening.ssh.md
+  #  - Monitorización con Security Onion: Seguridad_defensiva/seconion.md
+  #  - Monitorización de red con Arkime: Seguridad_defensiva/arkime.md
+  #  - Análisis de archivos con TruffleHog: Seguridad_defensiva/truffle.md
+  #  - (ACTUALIZADO) Análisis de archivos con TruffleHog: Seguridad_defensiva/truffle2.md
+  #  - Análisis de infraestructura (contenedores) con Trivy: Seguridad_defensiva/trivy.md
+  #- Gestión de incidentes (IR):
+  #  - Gestion_incidentes/index.md
+  #  - Introdución a la gestión de incidentes: Gestion_incidentes/intro.md
+  #  - Casos prácticos de respuesta a incidentes: Gestion_incidentes/casos.md
+  #  - Detección de web shells con Wazuh: Gestion_incidentes/wazuh.md    
+  #  - Reglas Sigma: Gestion_incidentes/sigma.md 
+
+  
+extra_css:
+  - stylesheets/extra.css

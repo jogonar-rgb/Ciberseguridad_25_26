@@ -1,3 +1,4 @@
+---
 title: Apuntes y ejercicios prácticas del curso de especialización ciberseguridad
 description: Apuntes, teoría, prácticas, ejercicio del curso de especialización de ciberseguridad. IES Severo Ochoa Elche.
 ---
