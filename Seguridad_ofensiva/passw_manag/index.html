@@ -1,0 +1,856 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Credenciales, passwords, contraseñas, windows, SAM, LSA, LSASS, NTLM, hash, NTDS. Apuntes, teoría, prácticas, ejercicio del curso de especialización de ciberseguridad. IES severo ochoa Elche. Hacking ético. incidentes de seguridad, puesta en producción segura.">
+      
+      
+      
+        <link rel="canonical" href="https://jogonar-rgb.github.io/Ciberseguridad_2025_2026/Seguridad_ofensiva/passw_manag/">
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.20">
+    
+    
+      
+        <title>Teoría básica gestión contraseñas en Windows - Seguridad en sistemas del curso de especialista en ciberseguridad</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.e53b48f4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-green" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#credenciales-en-windows" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Seguridad en sistemas del curso de especialista en ciberseguridad" class="md-header__button md-logo" aria-label="Seguridad en sistemas del curso de especialista en ciberseguridad" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Seguridad en sistemas del curso de especialista en ciberseguridad
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Teoría básica gestión contraseñas en Windows
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="light-green" data-md-color-accent="indigo"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="indigo"  aria-label="Cambiar a modo normal"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo normal" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Introducción
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../warm/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Warm up
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Seguridad en sistemas del curso de especialista en ciberseguridad" class="md-nav__button md-logo" aria-label="Seguridad en sistemas del curso de especialista en ciberseguridad" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Seguridad en sistemas del curso de especialista en ciberseguridad
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introducción
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../warm/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Warm up
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Warm up
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Apuntes_Linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Entornos Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Ejercicios_Linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ejercicios propuestos Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Apuntes_Windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Entornos Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Ejercicios_Windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ejercicios propuestos Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/webgrafia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Webgrafía
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Teoría básica gestión contraseñas en Windows</h1>
+
+<h2 id="credenciales-en-windows">Credenciales en Windows</h2>
+<p>El sistema operativo Windows tiene muchos lugares diferentes donde almacena o <em>cachea</em> sus credenciales. A continuación se nombran algunos de los tipos de credenciales de Windows que almacena y las ubicaciones donde se pueden encontrar estas credenciales:</p>
+<ul>
+<li>
+<p><strong>Base de datos del administrador de cuentas de seguridad (SAM).</strong></p>
+<p>La base de datos SAM es un archivo que está presente en <ins>todos</ins> los sistemas Windows en la ubicación <code>C:\Windows\System32\config\SAM</code></p>
+<p>Este archivo contiene todas las cuentas locales creadas, así como todas las cuentas locales integradas que se encuentran en un sistema operativo Windows (XP, Vista, Win7, 8.1 y 10). Las contraseñas se almacenan aquí como hashes. (hash de contraseña NT).</p>
+<p>Protección:</p>
+<ul>
+<li>El archivo SAM está cifrado usando claves almacenadas en LSA (Local Security Authority).</li>
+<li>
+<p>No es accesible directamente mientras el sistema está activo.</p>
+<p><strong>¿Cómo funciona?</strong></p>
+<p>Cuando un usuario intenta iniciar sesión, el sistema toma la contraseña introducida y la compara con la versión cifrada almacenada en la SAM. Si coincide, se concede acceso al sistema. Si la SAM se corrompe o no puede accederse, los usuarios no podrán iniciar sesión.</p>
+<p><strong>Acceso a la SAM:</strong></p>
+<p>El acceso a la SAM está restringido a los administradores y el sistema operativo.</p>
+<p>Herramientas de hacking como <code>pwdump</code> intentan obtener las contraseñas desde la SAM al obtener acceso a su archivo, pero esto generalmente requiere acceso físico o privilegios de administrador, ya que el archivo está protegido.</p>
+<p>Es una de las piezas fundamentales para la gestión de seguridad en sistemas operativos Windows.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Otros archivos</strong></p>
+<p>Las contraseñas también se pueden encontrar en una gran variedad de archivos, incluidos los archivos de configuración y los archivos creados por el usuario (generalmente en texto plano).</p>
+<p>Ciertos archivos de registro pueden contener información de credenciales, como los registros del instalador, y en ocasiones también se pueden encontrar en los informes de vulnerabilidades.</p>
+</li>
+<li>
+<p><strong>Credenciales en caché</strong></p>
+<p><ins>Las credenciales de dominio se almacenan en caché en el registro para permitir que los usuarios inicien sesión en su sistema cuando no está conectado al dominio.</ins></p>
+<p>El sistema de Windows almacena en caché los últimos 10 hashes de inicio de sesión y algunos almacenan hasta 25 de forma predeterminada. Este número es configurable en el registro.</p>
+<p>Como ya se ha dicho, esto permite que si se pierda la conectividad con el Domain Controller de Active Directory, por la razón que sea, podamos al menos acceder a nuestro sistema.</p>
+<p>Las credenciales en caché están físicamente guardadas en el archivo <code>%SystemRoot%\System32\config\SECURITY</code>.</p>
+<p>Este archivo es parte de la base de datos del registro de Windows y contiene datos relacionados con las políticas de seguridad locales, incluidas las credenciales en caché.</p>
+</li>
+<li>
+<p><strong>LSA (Local Security Authority)</strong></p>
+<p>El LSA (Local Security Authority) es un componente central de seguridad en Windows que gestiona la autenticación, autorización y políticas de seguridad del sistema.</p>
+<ul>
+<li>Es responsable de validar las credenciales de usuarios y servicios.</li>
+<li>Proporciona tokens de acceso para determinar qué recursos puede usar cada usuario.</li>
+<li>Funciona a través del proceso LSASS (lsass.exe), que protege y gestiona datos sensibles en memoria.</li>
+</ul>
+<p>Los <em>secretos de LSA</em> son datos sensibles que almacena y protege el LSA para garantizar la autenticación y el acceso seguro. Esto incluye VPN, tareas programadas, inicios de sesión automáticos, cuentas de servicio de copia de seguridad, sitios web de IIS, etc. Se incluyen en el registro de Seguridad/Política/Secretos en forma cifrada.</p>
+</li>
+<li>
+<p><strong>Proceso de servicio del subsistema de la autoridad de seguridad local (LSASS)</strong></p>
+<p>Al iniciar sesión en una máquina con Windows, ya sea localmente o en un dominio, las credenciales se almacenan en el proceso LSASS en la memoria (lsass.exe) y reside en la memoria RAM del sistema operativo mientras el proceso está en ejecución. Las credenciales no se escriben directamente en disco en esta etapa.</p>
+<p><ins>Esto se usa principalmente para permitir que el usuario acceda a otros recursos en la red a los que está autorizado a acceder sin tener que volver a autenticarse.</ins> </p>
+<p>Los formatos almacenados pueden ser texto sin formato (cifrado reversible), hash NT y LM y tickets Kerberos.</p>
+</li>
+</ul>
+<h3 id="resumen-de-las-diferencias">Resumen de las diferencias:</h3>
+<ul>
+<li><strong><em>SAM</em></strong>: Base de datos local que almacena las credenciales de los usuarios y sus contraseñas cifradas.</li>
+<li><strong><em>Credenciales en caché</em></strong>: Copia local de las credenciales de los usuarios que permite la autenticación sin conexión a un controlador de dominio.</li>
+<li><strong><em>LSA</em></strong>: Entidad que maneja la seguridad local y las políticas de autenticación de usuarios, interactuando con la SAM y el LSASS.</li>
+<li><strong><em>LSASS</em></strong>: Proceso encargado de la autenticación y autorización de los usuarios, creando tokens de acceso y aplicando políticas de seguridad.</li>
+</ul>
+<p>En definitiva, la SAM almacena las credenciales de usuario, la LSA gestiona la seguridad y las políticas locales, el LSASS maneja la autenticación de los usuarios y la generación de tokens de seguridad, y las credenciales en caché permiten a los usuarios autenticarse sin conexión al controlador de dominio.</p>
+<ul>
+<li>
+<p><strong>Credential Manager</strong></p>
+<p>El administrador viene preinstalado ya en Windows 7 y superiores.</p>
+<p>Básicamente es un almacén digital que permite a los usuarios almacenar las credenciales de usuario de forma <em>"segura"</em>. Todas las credenciales se almacenan en una carpeta específica en el sistema de Windows. </p>
+<p>Se almacenan passwords de inicio de sesión en Windows, así como credenciales web (credenciales del navegador, Skype, Office...).</p>
+<p>Las credenciales están cifradas usando DPAPI (Data Protection API) y asociadas al perfil del usuario.</p>
+<p>Podría pensarse que el Credential Manager y la SAM almacenan información duplicada, pero no es así:</p>
+<ul>
+<li>El Credential Manager está orientado a credenciales que los usuarios guardan manualmente para servicios específicos.</li>
+<li>La SAM almacena las contraseñas de las cuentas de usuario locales en Windows, utilizadas en el inicio de sesión.</li>
+</ul>
+</li>
+<li>
+<p><strong>Base de datos de dominio de Active Directory (NTDS.DIT)</strong></p>
+<p>Esta base de datos almacena todas las credenciales de los usuarios y equipos ubicados en cada servidor de controlador de dominio de Active Directory, en un entorno de dominio de Active Directory. </p>
+<p>Este archivo está ubicado en el directorio: <code>C:\Windows\NTDS\NTDS.dit</code></p>
+<p>Es más complejo que el SAM, ya que soporta una infraestructura completa de dominio.</p>
+<p>Seguridad:</p>
+<ul>
+<li>
+<p>Los datos están cifrados usando claves maestras almacenadas en el subsistema LSA.</p>
+</li>
+<li>
+<p>Requiere privilegios elevados para ser accedido.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="tipos-de-hashes-de-credenciales-en-windows">Tipos de hashes de credenciales en Windows</h2>
+<h3 id="hash-lm">Hash LM</h3>
+<p>El hash <strong>LAN Manager</strong> fue uno de los primeros algoritmos de hash de contraseñas que usaron los sistemas operativos Windows y la única versión compatible, hasta la llegada de NTLM, que se usaba en Windows 2000, XP, Vista y 7. Los sistemas operativos más nuevos aún admiten el uso de hash LM con fines de compatibilidad con versiones anteriores. Sin embargo, está deshabilitado de forma predeterminada para Windows Vista y Windows 7.</p>
+<p>Si realizaramos un volcado de la base de datos SAM/NTDS, se muestran junto con NTHash, antes de los dos puntos.</p>
+<p><ins>Ejemplo</ins></p>
+<ul>
+<li>
+<p>Si los hashes LM están habilitados en el sistema (Win XP y versiones anteriores), un volcado de hash se verá así:</p>
+<p><code>Administrador:500:01FC5A6BE7BC6929AAD3B435B51404EE:0CB6948805F797BF2A82807973B89537:::</code></p>
+</li>
+<li>
+<p>Si los hashes LM están deshabilitados en el sistema (Win Vista, 7, 8+), un volcado de hash se verá así:</p>
+<p><code>Administrador:500:SIN ​​CONTRASEÑA*********************:0CB6948805F797BF2A82807973B89537:::</code></p>
+</li>
+</ul>
+<h4 id="desglose-de-un-hash-lm">Desglose de un hash LM</h4>
+<ul>
+<li>
+<p>Primer campo: el nombre de usuario</p>
+</li>
+<li>
+<p>Segundo campo: el SID (Security IDentifier) ​​para ese nombre de usuario</p>
+</li>
+<li>
+<p>Tercer campo: el hash LM</p>
+</li>
+<li>
+<p>Cuarto campo: el hash NTLM</p>
+</li>
+</ul>
+<h4 id="mecanica-hash-lm">Mecánica hash LM</h4>
+<ul>
+<li>
+<p>Cuando un usuario crea una nueva contraseña, esta contraseña se convierte a mayúsculas</p>
+</li>
+<li>
+<p>Luego se rellena a 14 caracteres, utilizando 0s </p>
+</li>
+<li>
+<p>Más tarde, la contraseña se divide en dos fragmentos de 7 bytes.</p>
+</li>
+<li>
+<p>Los dos fragmentos se utilizarán como clave en un cifrado de Estándar de cifrado de datos (DES) para cifrar un valor fijo</p>
+</li>
+<li>
+<p>Los valores de las dos operaciones DES se concatenan y el resultado se almacena como el hash LM</p>
+</li>
+</ul>
+<h4 id="debilidades-de-hash-de-lm">Debilidades de hash de LM</h4>
+<ul>
+<li>
+<p>La longitud de la contraseña está limitada a 14 caracteres, dividida en dos partes independientes de 7 bytes</p>
+</li>
+<li>
+<p>La contraseña no distingue entre mayúsculas y minúsculas, lo que reduce el espacio de claves disponible para que los usuarios elijan sus contraseñas</p>
+</li>
+</ul>
+<h3 id="nthash-aka-ntlm">NTHash (a.k.a NTLM)</h3>
+<p>Esta es la forma en que se almacenan las contraseñas en los sistemas Windows modernos ya que fue creado para ser el sucesor de LM y estos hashes se pueden obtener volcando la base de datos SAM o usando la famosa herramienta <a href="https://github.com/gentilkiwi/mimikatz">Mimikatz</a>. También se almacenan en controladores de dominio en el archivo NTDS.</p>
+<p>Este tipo de hashes se pueden emplear para llevar a cabo la técnica conocida como <a href="https://en.wikipedia.org/wiki/Pass_the_hash">Pass-the-Hash</a></p>
+<p>Por lo general, se suele denominar a esto el hash NTLM (o simplemente NTLM), lo cual es engañoso, ya que Microsoft se refiere a esto como NTHash (al menos en algunas fuentes). </p>
+<h4 id="mecanica-ntlm">Mecánica NTLM</h4>
+<ul>
+<li>
+<p>Toma la contraseña, la codifica usando el algoritmo MD4</p>
+</li>
+<li>
+<p>No rompe la contraseña en trozos</p>
+</li>
+<li>
+<p>La contraseña distingue entre mayúsculas y minúsculas</p>
+</li>
+<li>
+<p>Puede admitir contraseñas muy largas (127 caracteres)</p>
+</li>
+</ul>
+<h3 id="ntlmv1-aka-net-ntlmv1">NTLMv1 (a.k.a Net-NTLMv1)</h3>
+<p>La v1 del protocolo utiliza el hash NT y LM, según la configuración y lo que esté disponible. </p>
+<p>NTLM utiliza un procedimiento de desafío/respuesta para autenticar a los participantes de la red. El cliente y el host siguen los siguientes pasos:</p>
+<ol>
+<li>
+<p>El cliente envía un nombre de usuario al host.</p>
+</li>
+<li>
+<p>El host responde con un número aleatorio, el desafío.</p>
+</li>
+<li>
+<p>El cliente crea un valor a partir de ese número y el hash de la contraseña del usuario y lo devuelve como respuesta.</p>
+</li>
+<li>
+<p>Del mismo modo, el host, que también conoce el hash de la contraseña (está en la SAM), crea el valor y, a continuación, lo compara con la respuesta del cliente.</p>
+</li>
+<li>
+<p>Si ambos valores coinciden, se confirma la autenticidad del cliente y se permite el acceso. Si no hay coincidencia, se bloquea al cliente.</p>
+</li>
+</ol>
+<p><img alt="" src="../img/ntlmv1.png" /></p>
+<h3 id="ntlmv2-aka-net-ntlmv2">NTLMv2 (a.k.a Net-NTLMv2)</h3>
+<p>Esta es la versión nueva y mejorada del protocolo NTLM, lo que lo hace un poco más difícil de descifrar. El concepto es el mismo que NTLMv1, sólo cambia el algoritmo utilizado para cifrar y las respuestas enviadas al servidor. </p>
+<p>NTLMv2 necesita además que la posible diferencia horaria entre clientes y servidores no supere los 30 minutos.</p>
+<p><ins>Ejemplo</ins></p>
+<p><code>admin::n46isnekpt:08CA45B7D7EA58EE:88DCBE4446168966A153A0064958DAC6: 5C7830315C78303100100000000000b45c67103d07d7b95acd12fa11230E0000000052920b85f78d013c31cdb3b92f5d765c783030</code></p>
+<h2 id="dumping-de-credenciales">Dumping de credenciales</h2>
+<p>El dumping de credenciales es un tipo de ciberataque en el que se vulnera un ordenador y el atacante obtiene los nombres de usuario y las contraseñas. Esto puede ser perjudicial si le ocurre a su ordenador personal, pero puede ser absolutamente devastador si un atacante es capaz de realizar el dumping de credenciales en un ordenador que forma parte de una red más grande.</p>
+<p>Esta técnica de hacking se implementa después de que un ordenador haya sido comprometido por el atacante. Los nombres de usuario y las contraseñas son extremadamente valiosos para los ciberdelincuentes y pueden utilizarse para adquirir información sensible, así como para obtener acceso a las credenciales de administrador y otras cuentas privilegiadas o a otros ordenadores de una red.</p>
+<p>Después de obtener acceso a un ordenador, un atacante llevará a cabo el dumping o volcado de credenciales accediendo a la caché de contraseñas que se almacenan en la memoria de su ordenador.</p>
+<p>Para la comodidad del usuario, los sistemas operativos y los navegadores tienen la capacidad de guardar los nombres de usuario y las contraseñas y luego rellenar automáticamente su información de acceso a los sitios y programas que frecuenta. Desgraciadamente, esta comodidad tiene un coste y puede dejar la información más vulnerable al robo de credenciales y al dumping.</p>
+<h3 id="de-donde-se-puede-realizar-un-dumping-de-credenciales">¿De dónde se puede realizar un dumping de credenciales?</h3>
+<p>Un atacante puede obtener credenciales de diferentes áreas de un sistema. Con acceso a una computadora terminal regular, un atacante puede buscar credenciales en las siguientes ubicaciones.</p>
+<ul>
+<li><strong>WDigest</strong></li>
+</ul>
+<p>Este es un protocolo heredado utilizado para autenticar usuarios en Windows. </p>
+<p>CUando está habilitado, peermite la transmisión de credenciales en texto plano durante ciertos procesos de autenticación. Su lugar en el ecosistema de seguridad de Windows se relaciona con el manejo de contraseñas en memoria y su interacción con otros componentes de seguridad como LSASS, pero su uso ha sido desalentado debido a sus implicaciones de seguridad.</p>
+<p>Si bien el servicio está deshabilitado de forma predeterminada hoy en día, todavía existe en las últimas versiones de Windows y los atacantes a menudo lo habilitan para robar credenciales.</p>
+<ul>
+<li><strong>Administrador de cuentas de seguridad (SAM)</strong></li>
+</ul>
+<p>Ya hemos hablado largo y tendido anteriormente de este archivo. Si los atacantes roban este fichero, potencialmente se puede descifrar y se pueden extraer los nombres de usuario y las contraseñas almacenados en él.</p>
+<ul>
+<li><strong>LSA secrets</strong></li>
+</ul>
+<p>La Autoridad de Seguridad Local (LSA) administra la autenticación y el inicio de sesión de los usuarios en un sistema Windows, así como la política de seguridad local para una computadora. Los datos confidenciales utilizados por este subsistema se almacenan en un área de almacenamiento protegida llamada "secretos LSA".</p>
+<ul>
+<li><strong>Kerberos</strong></li>
+</ul>
+<p>El protocolo Kerberos fue diseñado específicamente para una autenticación sólida y segura. Lo hace a través de un sistema de ticketing, otorgando diversos permisos a usuarios y servicios. Los ataques contra Kerberos generalmente implican falsificar o inyectar tickets de Kerberos robados para obtener acceso.</p>
+<p>Si un atacante logra ingresar a un controlador de dominio, el servidor de red responsable de administrar la autenticación en el dominio, existen áreas adicionales donde se almacenan las credenciales.</p>
+<ul>
+<li><strong>NTDS</strong></li>
+</ul>
+<p>Aquí es donde Active Directory almacena información sobre los miembros de un dominio para verificar usuarios y credenciales.</p>
+<ul>
+<li><strong>DCSync</strong></li>
+</ul>
+<p>En lugar de una ubicación, DCSync es una técnica en la que un atacante aprovecha la forma en que los controladores de dominio manejan las llamadas API disponibles. En resumen, el atacante imita el comportamiento de otro controlador de dominio a través de llamadas a la API y consigue que el controlador envíe hashes de credenciales que se pueden usar en otros ataques.</p>
+<ul>
+<li><strong>Archivos de preferencias de directivas de grupo</strong></li>
+</ul>
+<p>Esta herramienta de Windows permite a los administradores implementar directivas de dominio para incluir credenciales incrustadas, lo que facilita la administración. Estas políticas generalmente se almacenan en un recurso compartido llamado SYSVOL, que cualquier usuario del dominio puede ver y potencialmente descifrar.</p>
+<p><strong><em>Mitigaciones y medidas correctivas</em></strong></p>
+<ol>
+<li>Eliminar las credenciales de GPP:<ul>
+<li>Microsoft dejó de soportar la funcionalidad para configurar credenciales en GPP en Windows Server 2012 R2 y posteriores.</li>
+<li>Los administradores deben buscar y eliminar cualquier archivo de GPP que contenga credenciales.</li>
+</ul>
+</li>
+<li>Implementar directivas de privilegios mínimos</li>
+<li>Actualizar los controladores de dominio</li>
+<li>Uso de alternativas más seguras:<ul>
+<li>Configurar cuentas o accesos a través de otros métodos más seguros, como PowerShell DSC (Desired State Configuration) o herramientas de gestión centralizada de credenciales (por ejemplo, soluciones de Privileged Access Management, PAM).</li>
+</ul>
+</li>
+</ol>
+<h3 id="mimikatz">Mimikatz</h3>
+<p>Una de las herramientas más utilizadas para realizar el dumping de credenciales es Mimikatz. Esta herramienta fue creada por Benjamin Delphy en 2007 para demostrar un fallo de seguridad en Windows. Su código tuvo éxito y convenció a Microsoft para que acabara corrigiendo el fallo, y Mimikatz siguió utilizándose para realizar pruebas de penetración y seguridad.</p>
+<p>Desafortunadamente, también se ha convertido en una herramienta popular para los actores malintencionados.</p>
+<h3 id="como-evitar-el-dumping-de-credenciales">Cómo evitar el dumping de credenciales</h3>
+<ul>
+<li>
+<p>Limitar y controlar el uso de contraseñas de administrador.</p>
+</li>
+<li>
+<p>Limitar la reutilización de credenciales.</p>
+</li>
+<li>
+<p>Implantar la autenticación multifactor.</p>
+</li>
+<li>
+<p>Utilizar un gestor de contraseñas con una contraseña fuerte y no almacenada.</p>
+</li>
+<li>
+<p>Implementar un hash y un cifrado fuertes.</p>
+</li>
+<li>
+<p>Supervisar el acceso a servicios como LSASS y bases de datos como SAM con regularidad.</p>
+</li>
+<li>
+<p>Deshabilitar o restringir NT LAN Manager (NTLM)</p>
+</li>
+<li>
+<p>Supervisar los registros de actividades no programadas en el DC</p>
+</li>
+<li>
+<p>No mezclar las cuentas de administrador de dominio con las de grupos de administradores locales</p>
+</li>
+<li>
+<p>Habilitar Credential Guard en entornos modernos (Windows 10+).</p>
+</li>
+</ul>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "toc.integrate", "navigation.expand", "navigation.top", "navigation.indexes", "content.tabs.link", "content.code.annotate", "content.code.copy", "navigation.footer"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

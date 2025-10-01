@@ -1,0 +1,746 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Update, upgrade, servicio, parche, patch. Apuntes, teoría, prácticas, ejercicio del curso de especialización de ciberseguridad. IES severo ochoa Elche. Hacking ético. incidentes de seguridad, puesta en producción segura.">
+      
+      
+      
+        <link rel="canonical" href="https://jogonar-rgb.github.io/Ciberseguridad_2025_2026/Seguridad_ofensiva/servicios_desact/">
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.20">
+    
+    
+      
+        <title>Servicios desactualizados - Seguridad en sistemas del curso de especialista en ciberseguridad</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.e53b48f4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-green" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#el-riesgo-de-seguridad-de-los-sistemas-y-servicios-desactualizados" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Seguridad en sistemas del curso de especialista en ciberseguridad" class="md-header__button md-logo" aria-label="Seguridad en sistemas del curso de especialista en ciberseguridad" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Seguridad en sistemas del curso de especialista en ciberseguridad
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Servicios desactualizados
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="light-green" data-md-color-accent="indigo"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="indigo"  aria-label="Cambiar a modo normal"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo normal" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Introducción
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../warm/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Warm up
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Seguridad en sistemas del curso de especialista en ciberseguridad" class="md-nav__button md-logo" aria-label="Seguridad en sistemas del curso de especialista en ciberseguridad" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Seguridad en sistemas del curso de especialista en ciberseguridad
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introducción
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../warm/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Warm up
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Warm up
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Apuntes_Linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Entornos Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Ejercicios_Linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ejercicios propuestos Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Apuntes_Windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Entornos Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Ejercicios_Windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ejercicios propuestos Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/webgrafia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Webgrafía
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Servicios desactualizados</h1>
+
+<p>A día de hoy se podría decir que el incidente de seguridad más sufrido por las empresas es sin duda la infección de ransomware, normalmente mediante algún ataque previo exitoso de phising.</p>
+<p>Sin embargo, otro vector de ataque muy importante viene dado por los sistemas desactualizados. </p>
+<p>Algunas cosas se han fabricado para durar para siempre. El software no es una de ellas.</p>
+<p>De hecho, el software se parece más a la comida: caduca. Puede que esté bien un poco después de su fecha de caducidad, pero luego se pudre, se enmohece. Y cuanto más lo dejas, peor se pone. Pero no es un desgradable caso de intoxicación alimentaria a lo que nos arriesgaremos, precisamente. El software obsoleto corre el riesgo de envenenar los sistemas del negocio y causar estragos en la seguridad.</p>
+<p>De hecho, el software obsoleto posee una serie de vulnerabilidades de seguridad. Si está presente en alguno de los sistemas, se está poniendo en riesgo los datos y su negocio.</p>
+<p>Ya vimos con anterioridad como podían existir exploits 0-day que, en un principio, al ser desconocida la vulnerabilidad que aprovechan, nos hacen imposible tener el sistema actualizado o parcheado. No obstante, en cuánto surgen parches de seguridad dirigidos a solucionar estos problemas, deben ser aplicados, con mayor celeridad si cabe si hablamos de vulnerabilidades graves.</p>
+<p>Un buen ejemplo actual de la importancia de mantenerse al día con los parches de seguridad es la reciente vulnerabilidad crítica en log4j, con varios parches consecutivos en tiempo récord a medida que se iban descubriendo nuevas vulnerabilidades: <a href="https://www.csoonline.com/article/3645431/the-apache-log4j-vulnerabilities-a-timeline.html">log4j</a></p>
+<h2 id="el-riesgo-de-seguridad-de-los-sistemas-y-servicios-desactualizados">El riesgo de seguridad de los sistemas y servicios desactualizados</h2>
+<h3 id="por-que-representa-el-software-desactualizado-un-riesgo">¿Por qué representa el software desactualizado un riesgo?</h3>
+<p>La tecnología se desarrolla a un ritmo rápido, en constante evolución y está impulsada por la innovación. Como resultado, el software tiene un ciclo de vida corto, uno sostenido por <a href="https://www.parkersoftware.com/blog/whats-the-difference-between-a-software-upgrade-and-a-software-update/"><em>updates</em> y <em>upgrades</em></a> continuos .</p>
+<p>Cuando el software ya no tiene actualizaciones para mantenerlo, se vuelve obsoleto. Este software obsoleto no se mantiene, no puede integrarse con nuevas aplicaciones, ni puede funcionar sin problemas en nuevos dispositivos.</p>
+<p>Luego existen otros riesgos a considerar. El software obsoleto no tiene parches si se le encuentran vulnerabilidades y puede ser víctima de ciberataques mucho más avanzados. Esto plantea una conjunción de riesgos de seguridad, tanto debido a la malicia humana como a las posibilidades de fallo del sistema.</p>
+<h4 id="malicia-humana">Malicia humana</h4>
+<p>Así como la tecnología y el software cambian y avanzan en poco tiempo, también lo hacen las ciberamenazas. Los virus, el malware y los ataques se vuelven cada vez más sofisticados. Además, los ciberdelincuentes conocen y <a href="https://www.parkersoftware.com/blog/legacy-code-dangers-code-inventory/">pueden aprovechar</a> las debilidades del software obsoleto.</p>
+<p>Como resultado, es posible que el software obsoleto no pueda resistir un ciberataque <em>moderno</em>.</p>
+<p>Por lo tanto, si ese software obsoleto incluye el uso, almacenamiento o aplicación de datos, esos datos se ponen en claro riesgo. Los sistemas serán más vulnerables a los ataques de ransomware, malware y filtraciones. El software desactualizado puede por tanto darle a los atacantes una puerta de entrada al resto de sistemas.</p>
+<p>Los fallos de seguridad plantean problemas de <em>compliance</em> (cumplimiento normativo) posteriores. En términos de GDPR, no tener un software actualizado podría verse como una forma de negligencia. Esto significa que si se tiene un software desactualizado y se sufre una brecha de seguridad relacionada, no solo se pierde la confianza de los clientes, sino que además podríamos enfrentarnos a una fuerte multa.</p>
+<h4 id="fallo-del-sistema">Fallo del sistema</h4>
+<p>El software obsoleto no solo causa que la seguridad sea susceptible de ser afectada por la maldad humana, sino también por fallos del sistema.</p>
+<p>Un software obsoleto es aquel que ya no tiene soporte por parte del proveedor. Esto significa que los nuevos fallos encontrados en él no se solucionarán. Además, es cada vez menos probable que el software desactualizado funcione en hardware nuevo y siga siendo compatible con los sistemas operativos más nuevos. De hecho, no es raro encontrar en empresas software antediluviano que, debido a su nula actualización, obliga a mantener sistemas operativos e incluso hardware de las mismas características, representando un grave riesgo para la empresa.</p>
+<p>En el mejor de los casos, esto puede dar lugar a interrupciones en el servicio. </p>
+<p>En el peor de los casos, se puede sufrir una falla total del sistema. Esto puede suceder, por ejemplo, si el software obsoleto es fundamental para el funcionamiento </p>
+<h3 id="manteniendo-el-software-saludable">Manteniendo el software "saludable"</h3>
+<p>Por tanto, es importante que los sistemas no funcionen con software obsoleto. Pero, ¿cómo puede mantenerse saludable y los datos seguros? La respuesta está en <strong><em>updates</em></strong> y <strong><em>upgrades</em></strong> periódicos.</p>
+<p>Las actualizaciones (updates) a menudo ocurren automáticamente en segundo plano, pero no siempre. Por lo tanto, una buena práctica es buscar actualizaciones con regularidad y asegurarse de que nuestro software las tenga. Las actualizaciones de software son para el mantenimiento general de su software. Incluyen parchear vulnerabilidades y protegerse contra amenazas cibernéticas nuevas.</p>
+<p>De vez en cuando, necesitará un <em>upgrade</em> para mantener su software en buen estado. Este es un cambio mayor que necesitará algo de atención. Los <em>upgrades</em> no siempre son necesarios de inmediato. Sin embargo, los proveedores a menudo dejan de brindar soporte (léase: proporcionar actualizaciones) a sus programas más antiguos. Cuando esto suceda, se deberá actualizar para evitar el uso de software obsoleto.</p>
+<p>Cuando sea el momento de un <em>upgrade</em>, debemos asegurarnos de hacer una copia de seguridad de los datos previamente. También se debe verificar la compatibilidad para la integración del sistema y discutir cualquier inquietud con el proveedor. Esto reduce los riesgos de pérdida de datos, interrupción del negocio y una experiencia de actualización no adecuada. </p>
+<h3 id="software-o-sistemas-desactualizados-un-eslabon-debil">Software o sistemas desactualizados: un eslabón débil</h3>
+<p>Cuando se tiene un software obsoleto, no sólo se está perdiendo algunas funciones nuevas o un programa un poco ligero o con mayor <em>performance</em>. También está exponiendo su empresa a vulnerabilidades y riesgos de seguridad.</p>
+<p>Se debe concebir de esta manera: no dejaríamos fruta pasada en el frutero, porque corre el riesgo de que la fruta fresca también se eche a perder. Con el software ocurre algo parecido. Por lo tanto, no se debe dejar que el software <em>caduque</em>, se ha de mantener actualizado, seguro y saludable.</p>
+<h3 id="en-resumen">En resumen</h3>
+<p>¿Actualización de sistemas? ¿Parches de seguridad? ¿Boletines de actualización? ¿Es realmente útil y necesario perder tiempo y esfuerzo en estas tareas?</p>
+<p>La respuesta es un rotundo SÍ, y nunca se debe dejar de insistir sobre la importancia de mantener todos nuestros sistemas actualizados como método de prevención de muchos incidentes de seguridad, como las infecciones por malware. Tanto nuestros sistemas operativos, como los contenidos y páginas web, como los programas que utilizamos para el trabajo, deben estar debidamente actualizados a sus últimas versiones y con todos los parches de seguridad instalados.</p>
+<p>Cualquier software desactualizado como un sistema operativo obsoleto, sin soporte por parte del fabricante, así como el resto de aplicaciones informáticas que utilizamos, desde herramientas ofimáticas, pasando por tu CRM, hasta el software de la web o las apps de los móviles, son susceptibles de tener fallos de seguridad o vulnerabilidades.  Los ciberdelincuentes aprovechan estos agujeros para intentar introducirse en nuestros sistemas y así:</p>
+<ul>
+<li>
+<p>Obtener información sensible y confidencial de nuestra empresa, como cuentas de acceso a otros servicios o bases de datos de clientes o de facturación</p>
+</li>
+<li>
+<p>Cifrar la información del servidor y solicitar un «rescate» por ella, el tan mencionado ransomware</p>
+</li>
+<li>
+<p>Desconfigurar los sistemas de seguridad de la compañía para espiarnos, robar información o atacarnos más adelante</p>
+</li>
+<li>
+<p>Usar nuestros sistemas como plataforma de ataque hacia otros sistemas</p>
+</li>
+</ul>
+<p>El INCIBE posee una infografía muy buena a modo de concienciación sobre las actualizaciones de seguridad que se pasa a reproducir:</p>
+<p><img alt="" src="../img/actualizaciones.png" /></p>
+<p>Así las cosas, se hace esencial y vital hacer uso de una adecuada política de actualizaciones y/o parcheo, como veremos en la siguiente sección.</p>
+<h2 id="politicas-de-actualizaciones">Políticas de actualizaciones</h2>
+<p>Ya hemos nombrado los problemas que podríamos sufrir debido a la presencia de software/sistemas/servicios desactualizados en nuestra red. Es por ello que se debe establecer una adecuada y ajustada política de actualizaciones con la que suplir estos inconvenientes.</p>
+<h3 id="el-proceso-de-gestion-de-parches">El proceso de gestión de parches</h3>
+<p>No es una buena estrategia instalar nuevos parches en el mismo momento en que estén disponibles y para todos los activos en el inventario de la organización sin considerar el impacto. En cambio, debería adoptarse un enfoque más estratégico. La gestión de parches debe implementarse mediante un proceso organizativo detallado que sea rentable y centrado en la seguridad.  </p>
+<p>Los pasos clave para esta proceso de gestión de parches o actualizaciones incluyen:</p>
+<ol>
+<li>
+<p><ins>Desarrollar un inventario actualizado de todos los sistemas de producción:</ins> ya sea trimestral o mensualmente, esta es la única forma de monitorizar verdaderamente los activos que existen en su ecosistema. A través de una gestión de activos exhaustiva, se tendrá una visión exacta de los sistemas operativos, los tipos de versión y las direcciones IP que existen, junto con sus ubicaciones geográficas y sus "propietarios" en la organización. Como regla general, cuanto mayor sea la frecuencia con la que se actualiza el inventario de activos, más informado se estará.</p>
+</li>
+<li>
+<p><ins>Diseñar un plan para estandarizar sistemas y sistemas operativos para el mismo tipo de versión:</ins> aunque es difícil de ejecutar, la estandarización del inventario de activos hace que la aplicación de parches sea más rápida y eficiente. Es deseable estandarizar los activos hasta obtener un número manejable para que se pueda acelerar el proceso de remediación a medida que se lanzan nuevos parches. Esto ayudará a los equipos técnicos a ahorrar tiempo dedicado a la reparación.</p>
+</li>
+<li>
+<p><ins>Hacer una lista de todos los controles de seguridad que existen dentro de la organización:</ins> realizar un seguimiento de los firewalls, antivirus y herramientas de administración de vulnerabilidades. Se debe saber dónde se encuentran, qué protegen y qué activos están asociados con ellos. </p>
+</li>
+<li>
+<p><ins>Comparar las vulnerabilidades reportadas con el inventario:</ins> el uso de una herramienta de administración de vulnerabilidades para evaluar qué vulnerabilidades existen para qué activos en nuestro ecosistema nos ayudará a comprender el riesgo de seguridad en nuestra organización.  </p>
+</li>
+<li>
+<p><ins>Clasificar el riesgo:</ins> a través de las herramientas de administración de vulnerabilidades, se puede administrar fácilmente qué activos se consideran críticos para la empresa y, por tanto, priorizar en consecuencia lo que necesita ser remediado con más prisa.</p>
+</li>
+<li>
+<p><ins>¡REALIZAR PRUEBAS!</ins> Se deben aplicar los parches a una muestra representativa de activos en un entorno de test. Se han de realizar igualmente pruebas de estrés en las máquinas para asegurarse de que los parches no causen problemas en el entorno de producción.</p>
+</li>
+<li>
+<p><ins>Aplicar los parches:</ins> una vez se haya priorizado lo que debe solucionarse primero, se comienzan a aplicar parches para reducir realmente el riesgo en nuestro entorno. Las herramientas de administración de vulnerabilidades más avanzadas también ofrecen la capacidad de automatizar las partes del proceso de parcheo que requieren mucho tiempo.
+    Se puede considerar implementar los parches en lotes de activos; aunque ya se habrán probado en el entorno de test, es posible que todavía haya resultados inesperados en producción. </p>
+</li>
+<li>
+<p><ins>Realizar un seguimiento de su progreso:</ins> vigilar los activos para asegurarse de que el parcheo se haya realizado correctamente. </p>
+</li>
+</ol>
+<h3 id="buenas-practicas-para-la-gestion-de-parches">Buenas prácticas para la gestión de parches</h3>
+<p>Mitre establece una serie de técnicas de mitigación para las actualizaciones de software: <a href="https://attack.mitre.org/mitigations/M1051/">MITRE ATT&amp;CK</a></p>
+<p>Una serie de pautas muy básicas que podríamos dar en cuanto a la gestión de parches o actualizaciones de seguridad:</p>
+<ol>
+<li>
+<p><strong>Mantenerse actualizado</strong></p>
+<p>Los proveedores de software lanzan actualizaciones de software con regularidad, y muchas de ellas se enfocan a problemas de seguridad importantes. Debe haber un responsable para que se encargue de estar al tanto de las actualizaciones de software y de consultar los sitios web de esos proveedores con regularidad. Esa persona también debe estar atento a las amenazas emergentes, como nuevos tipos de ransomware u otro tipo de malware.</p>
+</li>
+<li>
+<p><strong>Conocer el programa de actualizaciones de Microsoft</strong></p>
+<p>En la mayoría de las pequeñas e incluso grandes empresas con toda probabilidad se estará usando alguno de los productos de Microsoft. Microsoft lanza actualizaciones de software importantes el segundo martes de cada mes. Es importante asegurarse de no esperar demasiado para instalar las actualizaciones necesarias después de su publicación. </p>
+</li>
+<li>
+<p><strong>Mantenerse al día con las tareas de mantenimiento regulares</strong></p>
+<p>Debe existir un responsable a cargo de mantener las licencias de software actualizadas y mantener el software actualizado.</p>
+</li>
+<li>
+<p><strong>Desarrollar relaciones con proveedores clave</strong></p>
+<p>Si se depende en gran medida de uno o más proveedores de software, se ha de intentar realizar una llamada mensual o semanal o, al menos, mantenerse en contacto por correo electrónico con el comercial o gerente de la cuenta. Siempre es una buena idea tener relaciones estrechas con los principales proveedores de software, redes y sistemas operativos.</p>
+</li>
+<li>
+<p><strong>Crear un inventario</strong></p>
+<p>Tal y como se ha comentado con anterioridad, es conveniente realizar una lista de todos sus sistemas de producción. Si es necesario, utilizar escáneres de red comerciales y productos de descubrimiento automatizado que puedan ayudar con este proceso. Luego comparar la lista con las nuevas vulnerabilidades de seguridad que se notifiquen y actualizar según sea necesario.</p>
+</li>
+<li>
+<p><strong>Automatizar todo lo que se pueda</strong></p>
+<p>Automatizar todo lo que sea susceptible de ello contribuirá en gran medida a reducir la carga de trabajo. Por ejemplo, muchos paquetes de software vienen con la opción de actualizaciones automáticas.</p>
+</li>
+<li>
+<p><strong>Hacer una copia de seguridad de todo lo que se pueda</strong></p>
+<p>Nos debemos asegurar de que nuestros datos críticos estén respaldados en todo momento. Si algo sale mal durante la actualización o el parche, nos alegraremos de haberlo hecho. </p>
+</li>
+</ol>
+<p>No obstante, dependiendo de la fuente que se consulte, aparecerán unas u otras de estas mejores prácticas , a pesar de haber algunas líneas generales. Como ejemplo, esta infografía bastante actualizada de la empresa de seguridad <a href="https://www.secpod.com/blog/patch-management-best-practices-for-2020/">Secpod</a>:</p>
+<p><img alt="" src="../img/Top-10-PM-Best-Practices-2020.jpg" /></p>
+<p>Un ejemplo real de una política de atualizaciones la podemos consultar para la <a href="https://security.berkeley.edu/MSSND/patching-and-updates-guidelines">universidad de Berkeley</a></p>
+<h2 id="un-caso-real-eternalblue-ms17-010-smbv1-y-wannacry">Un caso real: Eternalblue (MS17-010), SMBv1 y Wannacry</h2>
+<h3 id="que-es-eternalblue">¿Qué es EternalBlue?</h3>
+<p><strong>EternalBlue</strong> es tanto el nombre de una serie de vulnerabilidades de software de Microsoft como el exploit creado por la NSA a modo de herramienta de ciberataque. Aunque el exploit EternalBlue, oficialmente nombrado <strong>MS17-010</strong> por Microsoft, afecta solo a los sistemas operativos Windows, cualquier cosa que use el protocolo de intercambio de archivos SMBv1 (Server Message Block versión 1), está técnicamente en riesgo de ser blanco de ransomware y otros ciberataques debido a una vulnerabilidad de tipo RCE (Ejecución Remota de Código).</p>
+<p>EternalBlue fue creado por la Agencia de Seguridad Nacional de los Estados Unidos (NSA) como parte de una iniciativa más que cuestionable de almacenar y convertir en armas para uso propio las vulnerabilidades del software en lugar de reportarlas al proveedor pertinente, según se condena los comentarios hechos por Microsoft.</p>
+<p>La NSA supuestamente pasó casi un año buscando un error en el software de Microsoft y una vez que lo encontraron, desarrolló EternalBlue para explotar la vulnerabilidad. La NSA estuvo usando EternalBlue durante cinco años antes de alertar a Microsoft de su existencia.</p>
+<p>Desde entonces, Microsoft ha pedido a la NSA y a otros organismos gubernamentales que apoyen una Convención Digital de Ginebra que exige el fin de la acumulación de vulnerabilidades de software por los estados-nación.</p>
+<h3 id="leak-filtracion-inicial">Leak (filtración) inicial</h3>
+<p>Aquí es donde las cosas se ponen interesantes: la NSA es pirateada y, sin saberlo, esparce la peligrosa amenaza de EternalBlue por el mundo. Poco se sabe oficialmente sobre cómo se pirateó la NSA.</p>
+<p>Shadow Brokers, el ahora conocido grupo de hacking, obtuvo acceso a EternalBlue y filtró (junto con muchas otras herramientas para otras vulnerabilidades) el exploit de la NSA el 14 de abril de 2017 a través de un enlace en su cuenta de Twitter. </p>
+<p>Algunas de estas vulnerabilidades (CVE-2017-0143, CVE-2017-0144, CVE-2017-0145, CVE-2017-0146, CVE-2017-0147 y CVE-2017-0148), permiten la ejecución de código arbitrario de manera remota (Eternalblue + Doublepulsar), en caso de que un atacante (sin necesidad de autenticarse) envíe paquetes específicamente creados a un servidor Microsoft Server Message Block 1.0 (SMBv1).</p>
+<p><img alt="" src="../img/EternalBlue-1.png" /></p>
+<p>El 14 de marzo de 2017, casi <strong><em>dos meses antes de la filtración de Shadow Brokers</em></strong>, Microsoft publicó el Boletín de seguridad MS17-010 . La línea de tiempo sugiere que Microsoft recibió un aviso sobre la violación de la NSA y se apresuró a hacer todo lo posible para proteger los millones de sistemas Windows vulnerables.</p>
+<p>El parche MS17-010 fue diseñado para corregir las fallas del software SMBv1 para todos los sistemas operativos Windows compatibles, incluidos Windows Vista, Windows 7, Windows 8.1, Windows 10, Windows Server 2008, Windows Server 2012 y Windows Server 2016 . Microsoft también deshabilitó automáticamente SMBv1 en las últimas versiones de Windows 10 y Windows Server 2012 y 2016 de forma predeterminada.</p>
+<p>Además, en un movimiento sin precedentes para demostrar la gravedad del exploit EternalBlue, Microsoft lanzó un segundo parche de emergencia para sistemas operativos no compatibles una vez que la filtración se hizo pública. Esta segunda versión es compatible con Windows XP, Windows 8 y Windows Server 2003.</p>
+<p><strong>Esto pone de manifiesto la pobre gestión de las políticas de actualizaciones por parte de las empresas</strong>, puesto que a pesar de poseer un lapso de <em>dos meses para aplicar el parche de Microsoft</em>, las consecuencias de esta vulnerabilidad fueron funestas, como se verá a continuación.</p>
+<h3 id="como-funciona-eternalblue">¿Cómo funciona EternalBlue?</h3>
+<p>El exploit EternalBlue funciona aprovechando las vulnerabilidades SMBv1 presentes en versiones anteriores de los sistemas operativos de Microsoft. SMBv1 se desarrolló por primera vez a principios de 1983 como un protocolo de comunicación de red para permitir el acceso compartido a archivos, impresoras y puertos. Básicamente, era una forma de que las máquinas con Windows se comunicaran entre sí y con otros dispositivos para servicios remotos.</p>
+<p>EternalBlue aprovecha las vulnerabilidades de SMBv1 para insertar paquetes de datos maliciosos y propagar malware por la red.</p>
+<p>El exploit hace uso de la forma en que Microsoft Windows maneja, o más bien "malmaneja", paquetes especialmente diseñados por atacantes malintencionados. Todo lo que el atacante debe hacer es enviar un paquete creado con fines malintencionados al servidor de destino y boom, el malware se propaga y se produce un ciberataque.</p>
+<p>El parche de Microsoft cierra la vulnerabilidad de seguridad por completo, evitando así los intentos de implementar ransomware, malware, cryptojacking o cualquier otro intento similar a un gusano de infiltración digital utilizando el exploit EternalBlue. Pero persiste un problema clave: para muchas versiones de Windows, <strong>la actualización de software debe instalarse para poder brindar protección</strong>.</p>
+<p>Es este problema clave el que le da a EternalBlue una vida útil tan larga: muchas personas e incluso empresas no actualizan su software con regularidad, dejando sus sistemas operativos sin parches y, por lo tanto, vulnerables a EternalBlue y otros ataques. Hasta el día de hoy, la cantidad de sistemas Windows vulnerables sin parchear sigue siendo de millones.</p>
+<p>Todo lo expuesto hasta ahora pone de relieve varios de los asuntos clave que nos ocupan en la presente píldora formativa:</p>
+<ol>
+<li>
+<p>Es muy importante estar al día de las nuevas vulnerabilidades y avisos</p>
+</li>
+<li>
+<p>Es importante tener una correcta gestión de los parches de seguridad y aplicarlos con la mayor celeridad, máxime si son casos tan graves como estos</p>
+</li>
+<li>
+<p>Es muy importante no utilizar software desactualizado. El servicio SMBv1 tiene casi 30 años de vida, fue diseñado para un contexto distinto, con apenas amenazas, ya que 30 años en informática pueden representan un mundo. Se deberían haber realizado los mayores esfuerzos posibles para dejar de usarse en el entorno empresarial.</p>
+</li>
+<li>
+<p>Entroncando con el punto anterior, Windows XP recibió el correspondiente parche de seguridad debido a la gravedad del asunto, a pesar de ser un Sistema Operativo fuera de soporte. Esto no es más que la excepción que confirma la regla y lo más probable en cualquier otro caso hubiera sido no recibir parche alguno.
+    Así las cosas, resulta esencial el uso de software con el soporte apropiado.</p>
+</li>
+</ol>
+<p><img alt="" src="../img/EternalBlue-2.png" /></p>
+<h3 id="como-se-usa-eternalblue-en-ciberataques">¿Cómo se usa EternalBlue en ciberataques?</h3>
+<p>EternalBlue se ha utilizado para difundir el ransomware WannaCry y Petya. Pero el exploit se puede utilizar para implementar cualquier tipo de ciberataque, incluido el cryptojacking y el malware similar a un gusano. El hack de la NSA abrió la puerta para que cualquier atacante envíe un paquete malicioso a un servidor vulnerable que no ha aplicado el parche para reparar CVE-2017-0144.</p>
+<p>En 2017, el ransomware <em>WannaCry</em> se convirtió en uno de los ciberataques más devastadores jamás vistos. Se extendió por todo el mundo, bloqueando sistemas críticos en todo el mundo e infectando más de 230,000 ordenadores en más de 150 países en solo un día.</p>
+<p>El Servicio Nacional de Salud (NHS) del Reino Unido, FedEx, Telefónica o Renault-Nissan son solo algunos nombres que se convirtieron en víctimas de alto perfil de los paralizantes ataques del ransomware WannaCry.</p>
+<p>El ciberataque de WannaCry comenzó el 12 de mayo de 2017 e inmediatamente tuvo un impacto global. El ransomware se propagó a una velocidad de 10,000 dispositivos por hora, infectando a más de 230,000 PC con Windows en 150 países en un solo día.</p>
+<p><img alt="" src="../img/eternalblue-wannacry-2.png" /></p>
+<p>Petya es otro ciberataque de ransomware que utilizó el exploit EternalBlue para causar estragos</p>
+<p>Petya se lanzó técnicamente a principios de 2016, antes de WannaCry, pero con poca fanfarria y daños. La primera versión de Petya se propagó a través de un archivo adjunto de correo electrónico malicioso y era una forma bastante sencilla de ransomware: su computadora se infecta y sus archivos se cifran (o se retienen como rescate) hasta que paga $ 300 en Bitcoin para comprar una clave de descifrado</p>
+<p><em>Petya</em> es otra variedad de ransomware que utilizó el exploit EternalBlue para cifrar los archivos y exigir un rescate en Bitcoin para liberarlos.</p>
+<p>Gracias a EternalBlue y al desafortunado éxito de WannaCry, el ransomware Petya tuvo una segunda oportunidad de destrucción. En junio de 2017, NotPetya se implementó utilizando el exploit EternalBlue.</p>
+<p>La diferencia clave entre la primera y la segunda versión de Petya fue que NotPetya (Petya V2) tenía como objetivo desactivar completamente un sistema. Rescate pagado o no, no había cura. El ciberataque cifró permanentemente la tabla de archivos maestra de una computadora (MFT) y el registro de inicio maestro (MBR).</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "toc.integrate", "navigation.expand", "navigation.top", "navigation.indexes", "content.tabs.link", "content.code.annotate", "content.code.copy", "navigation.footer"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>
