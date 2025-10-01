@@ -1,0 +1,1089 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://jogonar-rgb.github.io/Ciberseguridad_2025_2026/Seguridad_defensiva/hardening.ssh/">
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.20">
+    
+    
+      
+        <title>Hardening.ssh - Seguridad en sistemas del curso de especialista en ciberseguridad</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.e53b48f4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-green" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#introduccion" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Seguridad en sistemas del curso de especialista en ciberseguridad" class="md-header__button md-logo" aria-label="Seguridad en sistemas del curso de especialista en ciberseguridad" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Seguridad en sistemas del curso de especialista en ciberseguridad
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Hardening.ssh
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="light-green" data-md-color-accent="indigo"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="indigo"  aria-label="Cambiar a modo normal"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo normal" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Introducción
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../warm/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Warm up
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Seguridad en sistemas del curso de especialista en ciberseguridad" class="md-nav__button md-logo" aria-label="Seguridad en sistemas del curso de especialista en ciberseguridad" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Seguridad en sistemas del curso de especialista en ciberseguridad
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introducción
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../warm/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Warm up
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Warm up
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Apuntes_Linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Entornos Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Ejercicios_Linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ejercicios propuestos Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Apuntes_Windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Entornos Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Ejercicios_Windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ejercicios propuestos Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/webgrafia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Webgrafía
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Hardening.ssh</h1>
+
+<h2 id="introduccion">Introducción</h2>
+<p>Vamos a aprender a instalar y a configurar un servicio SSH para poder conectarnos de forma remota. Tras ello, veremos varias formas de fortificarlo.
+Para el cometido de esta práctica necesitaremos un par de máquinas virtuales:</p>
+<ul>
+<li>
+<p>Un servidor Linux (Ubuntu Server por ejemplo). No hace falta que haga uso del entorno gráfico, así haremos la máquina más liviana, sin necesidad de tantos recursos.</p>
+<p>Poseerá una interfaz tipo bridge/puente.</p>
+</li>
+<li>
+<p>Un cliente para conectarnos al servidor. En primer lugar utilizaremos una máquina Linux cualquiera. Puede ser desde vuestra Kali/Parrot hasta un ligero Xubuntu que instaléis para la ocasión.
+En segunda instancia haremos la configuración con un cliente Windows.</p>
+</li>
+</ul>
+<h2 id="instalacion-y-configuracion-de-openssh">Instalación y configuración de OpenSSH</h2>
+<h3 id="instalacion">Instalación</h3>
+<p>Para instalar nuestro servidor SSH, en caso de que no estuviera instalado, no tenemos más que:</p>
+<div class="highlight"><pre><span></span><code><span class="go">sudo apt install openssh-server</span>
+</code></pre></div>
+<p>Para comprobar el estado del servicio:</p>
+<div class="highlight"><pre><span></span><code><span class="go">systemctl status ssh</span>
+</code></pre></div>
+<p>Linux ya viene con un cliente SSH preinstalado, por lo que no sería necesaria mayor configuración en el cliente. Ya deberíais poder conectaros de forma remota al servidor con el siguiente comando:</p>
+<ul>
+<li>
+<p>Si queréis conectaros por el nombre de la máquina en lugar de por la IP, podéis añadir el nombre a <code>/etc/hosts</code></p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Cuidado porque si la máquina coge la IP por DHCP, puede que ésta vaya cambiando, por lo que esta forma puede convertirse en más tediosa.</p>
+</div>
+</li>
+<li>
+<p>Probad que podéis conectaros desde el cliente usando obviamente la IP de su interfaz</p>
+</li>
+<li>
+<p>Para conectaros desde un ordenador con Windows deberéis instalaros un cliente SSH como <a href="https://www.aemilius.net/ayuda/articulos/acceso-ssh-ssl-secure-shell-telnet- putty.html">Putty</a></p>
+</li>
+</ul>
+<p>La primera vez que os conectéis, os aparecerá algo como esto</p>
+<p><img alt="" src="../img/ssh_key_fingerprint.png" /></p>
+<p>Se nos está informando de que el equipo al que nos estamos conectando por SSH podría no ser el nuestro o el que pensamos que es. Para estar 100% seguros, habría que ir al servidor, comprobar su <em>huella</em> (<em>fingerprint</em>) que lo identifica y compararla con la que aquí se nos muestra.</p>
+<p>Dado que esto es una práctica académica, que nuestro escenario es muy sencillo y podemos estar seguros de que el servidor es nuestra máquina, simplemente le diremos <em>yes</em> y continuaremos la conexión.</p>
+<p>Esta acción añadirá el servidor al archivo <strong>known_hosts</strong>.</p>
+<h3 id="que-archivos-de-configuracion-tengo">¿Qué archivos de configuración tengo?</h3>
+<ol>
+<li>
+<p><code>/etc/ssh/sshd_config</code>: Archivo principal de configuración del servidor SSH (configura el demonio o servicio).</p>
+</li>
+<li>
+<p><code>/etc/ssh/ssh_config</code>: Archivo principal de configuración de los clientes SSH.</p>
+</li>
+<li>
+<p><code>~/.ssh/config</code>: Archivo personal de cada usuario. Contiene la configuración utilizada por los clientes SSH. Permite al usuario local utilizar una configuración distinta a la definida en el archivo /etc/ssh/ssh_config.</p>
+</li>
+<li>
+<p><code>~/.ssh/known_hosts</code>: Archivo personal de cada usuario. Contiene las firmas digitales de los servidores SSH a los que se conectan los clientes. </p>
+<p>Cuando éstas firmas cambian, se pueden actualizar ejecutando el comando <code>ssh-keygen -R</code>, pasando el nombre del anfitrión o la IP del anfitrión como argumento. Este comando elimina la entrada correspondiente en el archivo <code>~/.ssh/known_hosts</code> y, permite añadir de nuevo al anfitrión con una nueva firma digital.</p>
+</li>
+<li>
+<p><code>~/.ssh/authorized_keys</code>: Archivo personal para cada usuario. Contiene los certificados de los clientes SSH, para permitir autenticación hacia servidores SSH sin requerir contraseña.</p>
+</li>
+</ol>
+<h3 id="principales-directivas-de-la-configuracion">Principales directivas de la configuración</h3>
+<p>Cuando hablamos de hacer hardening de un servicio, lo podríamos traducir como <u>fortificación</u> o bastionado. Es decir, se configura un servicio de tal manera que se protege lo máximo posible de cualquier fallo o ataque a dicho servicio.</p>
+<p>Tras la instalación procederemos a la configuración del servidor, para ello, editaremos el fichero de configuración <code>/etc/ssh/sshd_config</code></p>
+<p>Veamos detalladamente las directrices que pueden aparecer en este archivo:</p>
+<h3 id="directriz-port">Directriz Port</h3>
+<p>De forma predeterminada, el servicio SSH escucha por el puerto 22. La directriz por defecto sería:</p>
+<p><code>Port 22</code></p>
+<p>Una forma de elevar la seguridad del servidor SSH, consiste en cambiar el número de puerto predeterminado por otro que sólo el administrador del sistema conozca. A este tipo de técnicas se les conoce como seguridad por oscuridad. Aunque no se considera ni recomendable ni suficiente.</p>
+<p>Los atacantes buscarán servidores que estén escuchando por el puerto 22. Cambiar de puerto disminuye considerablemente la posibilidad de una intrusión.</p>
+<h3 id="directriz-listenaddress">Directriz ListenAddress</h3>
+<p>De forma predeterminada, el servicio SSH escuchará peticiones a través de todas las direcciones IP correspondientes a todas las interfaces de red del sistema. La directriz por defecto sería:</p>
+<p><code>ListenAddress 0.0.0.0</code></p>
+<p>Se puede configurar para que sólo escuche por una de las interfaces.</p>
+<h3 id="directriz-protocol">Directriz Protocol</h3>
+<p>Permite indicar qué versión del protocolo utilizar. Ya dijimos que la versión segura hoy día es la 2:</p>
+<p><code>Protocol 2</code></p>
+<h3 id="directriz-logingracetime">Directriz LoginGraceTime</h3>
+<p>En esta directriz se establece el tiempo, en segundos, durante el cual la pantalla de login estará disponible para que el usuario introduzca su nombre de usuario y contraseña, si no lo
+hace durante ese período de tiempo el login se cerrará, evitando así dejar por tiempo indeterminado pantallas de login sin que nadie las use, o que alguien este intentando mediante un <strong>script</strong> adivinar un usuario y su contraseña.</p>
+<p>Si el valor es <strong>0</strong>, no hay límite de tiempo para que un usuario se autentique, lo cual no es recomendable ya que de esta forma un atacante podría utilizar ataques de fuerza bruta o usando métodos de diccionario para adivinar la contraseña, por lo tanto no es recomendable dejar esta directriz a <strong>0</strong>.</p>
+<h3 id="directriz-permitrootlogin">Directriz PermitRootLogin</h3>
+<p>Probablemente sea la directriz de seguridad más importante que podemos establecer para asegurar nuestro servidor SSH. En los sistemas Unix y Linux se crea por defecto al usuario root, con privilegios de adnimistrador.</p>
+<p>Muchos ataques de fuerza bruta se concentran en atacar al usuario root con la esperanza de que tenga una contraseña débil. Sabiendo una parte de la ecuación (root) solo será cuestión de tiempo para que alguien con paciencia y suerte vulnere el sistema. En esta directriz denegamos el acceso al usuario root y por lo tanto, cualquier intento de ataque directo al usuario root será inútil.</p>
+<p>Al denegar el acceso al usuario root, cada vez que necesitemos realizar tareas administrativas, accederemos como un usuario normal y una vez dentro, utilizando alguno de los comandos su o sudo podremos realizar dichas tareas administrativas. Por lo tanto, denegando el acceso al usuario root, el atacante tendrá que acertar tanto el nombre de un usuario del sistema como su contraseña, algo que disminuye notablemente la probabilidad de una intrusión.</p>
+<h3 id="directriz-strictmodes">Directriz StrictModes</h3>
+<p>En esta directriz se establece que <em>sshd</em> (el servicio ssh) revisara los modos y permisos de los archivos de los usuarios y el directorio <code>$HOME</code> de el usuario antes de aceptar la sesión. Esto es normalmente deseable porque a veces algunos usuarios dejan sus directorios, accidentalmente, con permiso de escritura para cualquiera. El valor predeterminado es yes, por lo tanto, lo dejaremos con su valor predeterminado.</p>
+<p><code>StrictModes yes/no</code></p>
+<h3 id="directriz-maxauthtries">Directriz MaxAuthTries</h3>
+<p>El valor de esta directriz establece el máximo número de intentos de autenticación permitidos por conexión, es decir, la cantidad de veces que podemos equivocarnos al ingresar el usuario
+y/o contraseña. Una vez que los intentos alcanzan la mitad de este valor, las conexiones fallidas siguientes serán registradas.</p>
+<p>Después del máximo número de intentos se cerrará la conexión. Es posible volver a intentarlo, pero el límite de intentos por vez evita ataques basados en la persistencia de la conexión.</p>
+<p><code>MaxAuthTries 5</code></p>
+<h3 id="directriz-maxstartups">Directriz MaxStartups</h3>
+<p>El valor de esta directriz establece el máximo número de conexiones simultaneas de login que permitirá el servidor SSH por cada IP que intente conectarse.</p>
+<p>Hay ataques muy efectivos que dividen el ataque en una gran cantidad de conexiones de login. Es decir, el atacante divide en una gran cantidad de logins los intentos por ingresar, aumentando sus posibilidades de adivinar antes al usuario y su contraseña.</p>
+<p><code>MaxStartups 5</code></p>
+<h3 id="directrices-para-autenticar-con-password">Directrices para autenticar con password</h3>
+<p>La directriz <strong><em>PasswordAuthentication</em></strong> habilita o deshabilita la autenticación con contraseñas. Por defecto está permitida la autenticación con contraseña. Si establecemos el valor no sólo se permitirá el acceso a través de firmas digitales. Es muy importante no cambiar el valor de esta directriz a no hasta haber instalado nuestra firma digital.</p>
+<p><code>PasswordAuthentication yes/no</code></p>
+<p>La directriz <strong><em>PermitEmptyPasswords</em></strong> especifica si se permite el uso de contraseñas vacías, es decir, autenticarse sin contraseña (no recomendable por motivos de seguridad). Esta directriz es válida cuando se usa conjuntamente con PasswordAuthenticacion yes.</p>
+<p><code>PermitEmptyPasswords yes/no</code></p>
+<h3 id="directrices-para-permitir-el-uso-de-x11">Directrices para permitir el uso de X11</h3>
+<p>La directriz <em>X11Forwarding</em> establece si se permitirá la ejecución remota de aplicaciones gráficas que utilicen el <a href="https://es.wikipedia.org/wiki/Sistema_de_ventanas_X">servidor X11</a>. Es necesario que el valor esté establecido a yes para poder ejecutar aplicaciones gráficas.</p>
+<div class="highlight"><pre><span></span><code>X11Forwarding yes/no
+X11DisplayOffset 10 
+X11UseLocalhost yes/no
+</code></pre></div>
+<h3 id="directriz-allowusers">Directriz AllowUsers</h3>
+<p>Con esta directriz establecemos que usuarios del sistema pueden ingresar vía SSH. Solo los usuarios listados en esta directriz podrán acceder.</p>
+<p><code>AllowUsers raul profesor administrador otroprofesor</code></p>
+<p>Los usuarios r<em>aul, profesor, administrador y otroprofesor</em> podrán acceder desde cualquier ordenador, no se valida el host desde el que se conectan. </p>
+<p>Si se quiere más seguridad, es posible indicar también el host o hosts (desde los cuales el usuario se puede conectar) mediante el símbolo @. Veamos los siguientes ejemplos:</p>
+<p><div class="highlight"><pre><span></span><code>AllowUsers raul@192.168.10.2 (Sólo desde la IP indicada)
+AllowUsers raul@172.1.1.* (Toda la red indicada)
+AllowUsers raul@*.raul.es(Todo el dominio indicado)
+AllowUsers raul@clienteciber.raul.es (Solo el equipo del dominio indicado)
+</code></pre></div>
+Combinación de varias:</p>
+<div class="highlight"><pre><span></span><code>AllowUsers raul@192.168.10.2 profesor@172.1.1.* administrador@*.raul.es otroprofesor
+</code></pre></div>
+<h3 id="directriz-usedns">Directriz UseDNS</h3>
+<p>Cuando un cliente SSH realiza una conexión hacia un servidor SSH, el servidor intentará resolver la dirección IP del cliente. Si el servidor DNS predeterminado del sistema carece de una zona de resolución inversa que resuelva un nombre para la dirección IP del cliente, la conexión se demorará algunos segundos más de lo normal.</p>
+<p>Podemos deshabilitar esta directriz para agilizar las conexiones SSH en redes donde se carece de servidores DNS que tengan zonas de reenvío para resolver los nombres o zonas de resolución inversa para resolver las direcciones IP de los segmentos de red local.</p>
+<p>Puesto que nosotros tenemos nuestro DNS donde todas los registros de la zona de resolución directa deben tener su equivalencia en la zona de resolución inversa, lo podemos dejar activado.</p>
+<p><code>UseDNS yes/noUseDNS yes/no</code></p>
+<h3 id="directriz-hostkey">Directriz HostKey</h3>
+<p>Estudiemos las siguientes líneas:</p>
+<div class="highlight"><pre><span></span><code># HostKey for protocol version 1
+# HostKey /etc/ssh/ssh_host_key
+# HostKeys for protocol version 2
+# HostKey /etc/ssh/ssh_host_rsa_key
+# HostKey /etc/ssh/ssh_host_dsa_key #HostKey /etc/ssh/ssh_host_ecdsa_ke
+</code></pre></div>
+<p>La directriz HostKey nos indica la ubicación de las llaves públicas para el servidor sshd, tanto para el protocolo SSHv1 y SSHv2 de SSH. Como en nuestro ejemplo solo usaremos el protocolo SSHv2, eliminaremos (o comentaremos) las líneas correspondientes al protocolo SSHv1.</p>
+<p>Si quisiéramos usar el algoritmos RSA para nuestras claves, deberíamos dejar algo así:</p>
+<div class="highlight"><pre><span></span><code># HostKeys for protocol version 2
+
+HostKey /etc/ssh/ssh_host_rsa_key
+</code></pre></div>
+<h3 id="directriz-printmotd">Directriz PrintMotd</h3>
+<p>Esta directriz establece si se presentará o no el <strong>mensaje del día (MOTD).</strong></p>
+<p>El <strong>motd</strong> de <strong>Linux</strong> es un archivo que contiene un mensaje del día que se muestra a todos los usuarios que se conectan a la máquina por terminal. Normalmente se usa para informar a los usuarios sobre el estado del servidor o simplemente para dar la bienvenida a la máquina. La ruta al archivo es <code>/etc/mtod</code></p>
+<p>Se trata de un archivo de texto plano el cual podemos personalizar. Hay que tener en cuenta que si el motd ya está habilitado para los usuarios del sistema, si lo habilitamos en
+<code>/etc/ssh/sshd_config</code>, al iniciar sesión en el servidor SSH, este aparecerá duplicado. El motd se muestra después de autenticarnos en el servidor.</p>
+<p><code>PrintMotd yes/no</code></p>
+<h3 id="directriz-banner">Directriz Banner</h3>
+<p>Por medio de esta directriz podemos presentar un <strong>banner de acceso</strong> que nos permitirá mostrar un mensaje antes de la autenticación. Enseñar un cartel de advertencia exponiendo temas legales de un acceso no autorizado.</p>
+<p><code>Banner /etc/ssh/ssh_pre-login</code></p>
+<p>El <strong>banner de acceso</strong> no es más que el contenido de un fichero de texto plano ubicado en algún sitio del sistema y que podremos personalizar a nuestro gusto. El banner de acceso se presenta antes de autenticarnos en el servidor.</p>
+<h3 id="directrices-de-registro-de-eventos-logs">Directrices de registro de eventos (logs)</h3>
+<p>El registro de eventos del servicio es importante así como la ruta donde guardarlos, un atacante  experimentado  intentará  limpiar  los  logs  para  evitar  ser  atrapado. En estas directrices se especifican los parámetros para el registro de eventos:</p>
+<p>SyslogFacility especifica el tipo de registros que generará, en este caso es AUTH, es decir, de las autenticaciones que se hacen contra el servidor. El parámetro AUTH es el predeterminado.
+LogLevel con el valor <strong><em>INFO</em></strong> es el valor predeterminado. </p>
+<p>Otros parámetros están especificados en la <a href="https://man.freebsd.org/cgi/man.cgi?sshd_config(5)">página del manual de sshd_config (man sshd_config)</a>, los parámetros <strong><em>DEBUG2</em></strong> y <strong><em>DEBUG3</em></strong> cada uno de ellos especifican el nivel más alto de registro. Guardar registros con el nivel DEBUG viola la privacidad de los usuarios y por lo tanto no es recomendable.</p>
+<p>En nuestro ejemplo el registro de eventos quedaría configurado de la siguiente manera:</p>
+<div class="highlight"><pre><span></span><code>SyslogFacility AUTH
+LogLevel INFO
+</code></pre></div>
+<h3 id="directriz-rsaauthentication">Directriz RSAAuthentication</h3>
+<p>Con esta directriz deshabilitamos la autenticación con RSA.</p>
+<p><code>RSAAuthentication yes/no</code></p>
+<h3 id="directriz-pubkeyauthentication">Directriz PubkeyAuthentication</h3>
+<p>Esta directriz especifica el uso de autenticación por medio de la llave pública.</p>
+<p><code>PubkeyAuthentication yes/no</code></p>
+<h3 id="directriz-authorizedkeysfile">Directriz AuthorizedKeysFile</h3>
+<p>Esta directriz se usa en conjunto cuando se usa autenticación por llave pública, y especifica donde se guardaran las llaves en el host remoto. El valor por defecto es <code>~/.ssh/authorized_keys</code> esta ruta es por defecto para el protocolo <strong><em>SSHv2</em></strong> de SSH.</p>
+<p><code>AuthorizedKeysFile %h/.ssh/authorized_key</code></p>
+<h3 id="directriz-ignoreuserknownhosts">Directriz IgnoreUserKnownHosts</h3>
+<p>Esta directriz especifica si se ignorara o no el uso de el archivo <code>~/.ssh/known_hosts</code> en el cual se agregan las llaves de los servidores SSH a los cuales nos conectamos y confiamos. Por lo tanto debe de estar en <strong>no</strong> para no ignorar este archivo.</p>
+<p><code>IgnoreUserKnownHosts yes/no</code></p>
+<h3 id="directriz-allowtcpforwarding">Directriz AllowTcpForwarding</h3>
+<p>Especifica si se permite hacer redireccionamiento de protocolos basados en TCP. Permite crear túneles a conexiones de protocolos no seguros, enviando la información en texto plano por un túnel cifrado. Muy usada en conexiones POP3 o IMAP, se recomienda dejarlo por defecto.</p>
+<p><code>AllowTcpForwarding yes/no</code></p>
+<h3 id="directriz-printlastlog">Directriz PrintLastLog</h3>
+<p>Aquí se especifica si se mostrara un mensaje mostrando la dirección IP de donde se conecto el usuario la ultima vez. Muy útil para saber si alguien más se está conectando con un usuario en especifico.</p>
+<p><code>PrintLastLog yes/no</code></p>
+<h3 id="directriz-tcpkeepalive">Directriz TCPKeepAlive</h3>
+<p>Nos indica que el servidor sshd enviará mensajes de keepalive al cliente después de que detecta alguna inactividad. Este método puede ser explotado por técnicas de <a href="https://es.wikipedia.org/wiki/Suplantaci%C3%B3n">spoofing</a>.</p>
+<p><code>TCPKeepAlive yes/no</code></p>
+<h3 id="directriz-useprivilegeseparation">Directriz UsePrivilegeSeparation</h3>
+<p>Significa que después de que la sesión SSH se ha establecido se pasaran los privilegios de ese proceso al usuario de quien inicie la conexión, si se deshabilita, el proceso estará a nombre de root. Muy importante para evitar elevación de privilegios.</p>
+<p><code>UsePrivilegeSeparation yes/no</code></p>
+<h3 id="directriz-clientaliveinterval">Directriz ClientAliveInterval</h3>
+<p>Esta directriz especifica el intervalo de tiempo en segundos en el cual después de que no se ha recibido ningún dato de el cliente, sshd enviara un mensaje a través del canal cifrado para requerir una respuesta de el cliente, el valor predeterminado es 0, el cual significa que no se envía tal mensaje. Esta opción sólo se aplica al protocolo SSHv2. Es útil cuando se tiene una conexión intermitente y se requiere que la sesión esté abierta sin que se cierre la sesión.</p>
+<p><code>ClientAliveInterval 0</code></p>
+<h3 id="directriz-clientalivecountmax">Directriz ClientAliveCountMax</h3>
+<p>Nos indica las veces que el servidor sshd enviará mensajes <strong>keepalive</strong> cuando el cliente está inactivo. Si el cliente no envía ninguna respuesta, entonces el servidor terminara la conexión y por lo tanto la sesión. Si tenemos conexiones intermitentes es recomendable subir el numero a este valor. </p>
+<p>Hay que tener en cuenta que esta opción es diferente a la opción <em>TCPKeepAlive</em>, estos mensajes son enviados a través de el canal cifrado, por lo tanto no puede ser explotado por técnicas de <a href="https://es.wikipedia.org/wiki/Suplantaci%C3%B3n">spoofing</a> como el <em>TCPKeepAlive</em>.</p>
+<h3 id="directriz-pidfile">Directriz PidFile</h3>
+<p>Esta opcion establece el nombre y ruta del archivo donde se guarda el <a href="https://es.wikipedia.org/wiki/Identificador_de_proceso">identificador de proceso <strong><em>(pid)</em></strong></a> de sshd.</p>
+<h3 id="directriz-subsystem">Directriz Subsystem</h3>
+<p>Esta opción lo que hace es iniciar el servidor <strong>sftp-server</strong> el cual es un sustituto para un servidor FTP, pero la comunicación es segura, ya que se hace por un canal cifrado.</p>
+<p><code>Subsystem sftp /usr/libexec/sftp-server</code></p>
+<h3 id="directriz-permitblacklistedkeys">Directriz PermitBlacklistedKeys</h3>
+<p>Si esta directriz se establece a yes permitirá hacer login con claves en lista negra.</p>
+<p><code>PermitBlacklistedKeys yes/no</code></p>
+<h3 id="directriz-ignorerhosts-y-rhostsrsaauthentication">Directriz IgnoreRhosts y RhostsRSAAuthentication</h3>
+<p>Con estas directrices denegamos el uso de relaciones de confianza establecidas en los ficheros
+<code>~/.rhosts</code> y <code>~/.shosts</code> de los usuarios:</p>
+<div class="highlight"><pre><span></span><code>IgnoreRhosts yes/no
+
+RhostsRSAAuthentication yes/no
+</code></pre></div>
+<h3 id="directriz-hostbasedauthentication">Directriz HostbasedAuthentication</h3>
+<p>Deshabilitar o habilitar autenticación basada en host.</p>
+<p><code>HostbasedAuthentication yes/no</code></p>
+<h3 id="directriz-usepam">Directriz UsePAM</h3>
+<p>Si usamos claves no necesitamos <a href="https://es.wikipedia.org/wiki/Pluggable_Authentication_Modules">PAM (Módulos de autenticación Conectables)</a> y permitimos a sshd funcionar como un usuario no root.</p>
+<p><code>UsePAM no</code></p>
+<h2 id="bastionadohardeningfortificacion-del-servicio-ssh">Bastionado/hardening/fortificación del servicio SSH</h2>
+<p>Ya  hemos  visto  en  <a href="#que-archivos-de-configuracion-tengo">un  apartado anterior </a> que  el  fichero  que  debemos  modificar  es  el
+/etc/ssh/sshd_config, que es el que se corresponde con el del servidor del servicio SSH.</p>
+<p>Como siempre que vayamos a modificar una configuración, lo primero será hacer una copia de <code>sshd_config</code> a <code>sshd_config.bak</code>, por si algo no saliera bien.</p>
+<ul>
+<li>Para empezar, si os habéis fijado, al hacer login en un Ubuntu Server (p. ej.), se nos muestra una gran cantidad e información, algo así</li>
+</ul>
+<p><img alt="" src="../img/ssh_login_info.jpg" /></p>
+<p>Esto, como hemos visto en las directivas, es lo que conocemos como <strong><em>motd o “message of the day”</em></strong>.</p>
+<p>Puede que en algunos casos esto resulte útil pero para el caso que nos ocupa, es demasiada información, se hace innecesaria y proporciona demasiada pistas sobre la máquina.
+La única forma de desactivar este motd por defecto es impidiendo que se ejecuten los archivos de configuración asociados:</p>
+<p>Podemos crearnos un asciiart para crearnos un motd personalizado, además de un mensaje advirtiendo del acceso restringido a la máquina. Este motd personalizado debemos crearlo en el directorio /etc y dentro de este directorio, en un archivo llamado <strong>motd</strong>.</p>
+<p>Podéis crearos un ascciart <a href="http://www.patorjk.com/software/taag/#p=display&amp;f=Graffiti&amp;t=Type%20Something%20">aquí</a></p>
+<div class="admonition task">
+<p class="admonition-title">Tarea</p>
+<p><strong>Comprueba</strong> adjuntando una captura de pantalla, que aparece correctamente el motd al hacer login mediante ssh.</p>
+</div>
+<div class="admonition task">
+<p class="admonition-title">Tarea</p>
+<p>Parámetros de seguridad que debéis configurar dentro de sshd_config <strong>mediante las directivas</strong> que hemos visto antes(las que no estén, deberéis añadirlos vosotros)</p>
+<ul>
+<li>Utilizar sólo la versión 2 del protocolo</li>
+<li>
+<p>Utilizar el puerto 8022 en lugar del 22</p>
+<ul>
+<li>Para conectaros deberéis utilizar la opción “-p 8022” para indicar el puerto: <code>ssh nombre_usuario@nombremaquina -p 8022</code></li>
+</ul>
+</li>
+<li>
+<p>No se permite al usuario root hacer login mediante SSH</p>
+</li>
+<li>
+<p>El tiempo que el usuario tendrá para introducir su login antes de que se cierre laconexión con el servidor es de 20 segundos</p>
+<ul>
+<li><strong>Comprueba</strong>, adjuntando una captura de pantalla, que tras ejecutar el comando <code>ssh nombre_usuario@nombremaquina -p 8022</code>, si esperáis más de 20 segundos, cuando intentáis introducir el password, el servidor os desconecta.</li>
+</ul>
+</li>
+<li>
+<p>No se permite el login con passwords vacíos</p>
+</li>
+<li>Puesto que vamos a configurar el login por claves únicamente<ul>
+<li>En principio, sí se debe permitir la autenticación con password</li>
+<li>No se debe permitir la autenticación mediante Kerberos, ni mediante GSSAPI.</li>
+</ul>
+</li>
+<li>Ignorar rhosts</li>
+<li>Deshabilitar TCPKeepAlive</li>
+<li>Sólo se permite hacer login al usuario “raul” desde la IP de vuestros clientes.<ul>
+<li>Añadid un nuevo usuario1<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">2</a></sup> que sea vuestro primer apellido a la máquina que hace de servidor y comprobad, adjuntando una captura de pantalla, que no podéis hacer login con ese nuevo usuario.</li>
+</ul>
+</li>
+<li>Debe estar activada la autenticación PAM</li>
+<li>El SyslogFacility debe ser AUTH y el nivel de LOG debe ser INFO</li>
+<li>Debemos saber cuál fue la IP que utilizó el usuario para conectarse o hacer login por SSH la última vez.</li>
+<li>
+<p>Debe aparecer un banner antes de autenticarnos con el texto <strong><em>ATENCIÓN: Debe estar autorizado para acceder a este servidor</em></strong></p>
+<ul>
+<li><strong>Comprueba</strong>, adjuntando una captura de pantalla, que, efectivamente, aparece el banner antes de introducir ningún password</li>
+</ul>
+</li>
+</ul>
+<p>Además, pega una o varias capturas de pantalla donde se vea claramente la configuración de todos los parámetros indicados.</p>
+</div>
+<h3 id="generacion-de-claves-configuracion-y-comprobacion">Generación de claves, configuración y comprobación</h3>
+<p>La configuración del login mediante claves nos dará la ventaja de no necesitar utilizar password para autenticarnos en el servidor cuando hagamos uso de SSH.</p>
+<p>Para crear un par de claves pública/privada en el cliente, ejecutaremos el comando:</p>
+<p>Si dejáis las opciones por defecto, os creará una clave privada (<em>id_rsa</em>) y una clave pública (<em>id_rsa.pub</em>) en el directorio <code>/home/vuestro_usuario/.ssh</code></p>
+<p>Os pedirá un password para proteger vuestra clave privada. La clave privada asociada a la pública debe ser protegida convenientemente para que nadie más que el usuario tenga acceso a ella.</p>
+<p>Este paso añade una capa más de seguridad a nuestro servicio, sin embargo también produce la incomodidad de no podernos librar del paso de introducir una contraseña. En ciberseguridad, siempre debe haber un compromiso entre funcionalidad y seguridad por lo que este paso podría ser opcional dependiendo del caso.</p>
+<ul>
+<li>
+<p>Le ponemos el password a la clave privada porque la vamos a guardar cifrada en el disco y esta será la contraseña necesaria para descifrarla y poder utilizarla.</p>
+<p><img alt="" src="../img/ssh_par_claves.png" /></p>
+</li>
+<li>
+<p>Para copiar la clave pública al servidor, podemos hacerlo manualmente o utilizando SSH (más fácil):</p>
+<ul>
+<li>
+<p>Utilizando SSH:</p>
+<p><code>ssh-copy-id usuario_servidor@IP_servidor</code> </p>
+</li>
+<li>
+<p>Manualmente:</p>
+<p>Copiáis el valor de la clave.</p>
+<p><code>cat ~/.ssh/id_rsa_ciber.pub</code></p>
+<p>Hacéis login por SSH al servidor y copiáis ese valor de la clave en el siguiente archivo (creadlo si no existe):</p>
+<p><code>/home/vuestro_usuario/.ssh/authorized_keys</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Si tuvieráis algún problema de permisos, podéis poner los permisos adecuados a los directorios con los siguientes comandos:</p>
+<div class="highlight"><pre><span></span><code>chmod<span class="w"> </span><span class="m">700</span><span class="w"> </span>~/.ssh
+chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>~/.ssh/authorized_keys
+</code></pre></div>
+<div class="admonition task">
+<p class="admonition-title">Tareas</p>
+<ul>
+<li>Comprobad, adjuntando una captura de pantalla, que a la hora de iniciar ahora la sesión SSH contra el servidor os pide un password. Se trata del password de la clave privada.</li>
+<li>
+<p>Comprobad, adjuntando una captura de pantalla, que en las sucesivas sesiones SSH (abrís otra pestaña, salís y volvéis a entrar en la sesión, cerráis y abrís el terminal…), no os vuelve a pedir ninguna contraseña y hace login automáticamente.</p>
+<p>✔ Sólo hay que introducir el password una vez, una vez hecho esto la clave queda descifrada en la RAM para poder hacer uso de ella.</p>
+</li>
+</ul>
+</div>
+<p>Cuando repitamos toda esta operación con Windows, podemos utilizar o WSL2 o bien un cliente nativo de Windows, pudiendo elegir entre toda la miríada de ellos.</p>
+<p>En cualquier, para el más típico de ellos, <em>PuTTY</em>, podemos seguir el siguiente tutorial para la configuración de las claves, no siendo excluyente la utilización de cualquier otro.</p>
+<h2 id="proteccion-con-sshguard">Protección con sshguard</h2>
+<p>Los servidores expuestos a Internet suelen sufrir con gran frecuencia <strong>ataques por fuerza bruta</strong>. Un ataque por fuerza bruta sobre SSH consiste en intentar iniciar sesión en el sistema con todas las combinaciones de nombres y contraseñas posibles.</p>
+<p>Se deben tomar las precauciones adecuadas para evitar que se produzca un acceso no autorizado al sistema mediante este ataque.</p>
+<p>Es muy famoso el uso de <em>fail2ban</em> para protegernos frente a esto. Sin embargo en esta práctica utilizaremos <a href="https://wiki.archlinux.org/title/Sshguard_(Espa%C3%B1ol)">sshguard</a> ya que admite fácilmente la integración con <em>systemd</em>, además de con múltiples firewalls diferentes. Además, está escrito en C, por lo que es mucho más ligero.</p>
+<p>Con <em>sshguard</em>, cuando se realizan un número (establecido en la configuración) de intentos de autenticación fallidos en el sistema, se bloquea la dirección IP desde donde se está llevando a cabo el ataque.</p>
+<p>Procedamos pues a instalar y configurar <em>sshguard</em>.</p>
+<div class="admonition danger">
+<p class="admonition-title">¡Atención!</p>
+<p>Podríamos protegernos contra ataques de fuerza bruta con claves erróneas pero es un escenario que rara vez se producirá. Lo que realmente queremos es protegernos de los ataques de diccionario con diferentes contraseñas.</p>
+<p>Puesto que anteriormente hemos configurado el servicio para que la autenticación se produzca usando claves, vamos a desactivar este tipo de autenticación temporalmente hasta que hayamos configurado y comprobado el funcionamiento de <em>sshguard</em>.</p>
+<p>Basta con añadir esta directiva al archivo de configuración de ssh: <code>PubkeyAuthentication no</code></p>
+<p><strong><em>Recuerda reactivar la autenticación con claves al acabar con la parte de sshguard</em></strong></p>
+</div>
+<h3 id="instalacion-de-sshguard">Instalación de <em>sshguard</em></h3>
+<p>En primer lugar actualizamos los repositorios:</p>
+<p><code>sudo apt update</code></p>
+<p>Instalamos el paquete de sshguard.</p>
+<p><code>sudo apt install sshguard</code></p>
+<p>Comprobamos que el servicio funciona sin problemas:</p>
+<p><code>systemctl status sshguard</code></p>
+<h3 id="configuracion-de-sshguard">Configuración de <em>sshguard</em></h3>
+<p>Lo primero que debemos hacer es instalar algún firewall que bloquee las IPs que <em>sshguard</em> le indique cuando sea necesario. Procedamos con el clásico y archiconocido <strong><em>iptables</em></strong> si no lo tuvieráis instalado todavía:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>sshguard
+</code></pre></div>
+<p>Y le decimos al firewall que todo el tráfico que le entre con el puerto destino TCP 22 (SSH), lo redirija a la cadena sshguard que creamos en el primer paso y que es donde se introducirán las reglas de bloqueo pertinente:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>iptables<span class="w"> </span>-N<span class="w"> </span>sshguard
+sudo<span class="w"> </span>iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-m<span class="w"> </span>multiport<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--destination-ports<span class="w"> </span><span class="m">8022</span><span class="w"> </span>-j<span class="w"> </span>sshguard
+sudo<span class="w"> </span>iptables-save<span class="w"> </span>&gt;<span class="w"> </span>/home/raul/iptables.rules
+</code></pre></div>
+<p>El archivo de configuración de este servicio se llama <em>sshguard.conf</em> y lo encontraréis en el siguiente directorio: <code>/etc/sshguard</code></p>
+<p><em>Sshguard</em> se basa en revisar los logs en busca de registros de intentos de login fallidos. Si detecta más de <em>X</em> intentos fallidos en <em>Y</em> tiempo (ambas cosas configurables), introduce una regla en el firewall para bloquear a la IP origen de esos ataques.</p>
+<p><u>Existe un error conocido de <em>sshguard</em></u> como es que también busca en sus propios logs intentos fallidos de login, haciendo que cada vez que registra un intento erróneo, lo vuelve a detectar y a registrar en un bucle que continúa hasta que se bloquea la IP.<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">1</a></sup></p>
+<p>¿En qué se traduce esto? Pues que con un único intento fallido de login SSH, que puede ser no intencionado (me he equivocado al poner el password), se bloqueará la IP origen.</p>
+<ul>
+<li>
+<p>Para solucionarlo, en el archivo de configuración debemos cambiar el valor del parámetro LOGREADER` para que quede así:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">LOGREADER</span><span class="o">=</span><span class="s2">&quot;LANG=C.UTF8 /bin/journalctl -afb -p info -n1 -o cat -t sshd</span>
+</code></pre></div>
+</li>
+<li>
+<p>Además, aunque sshguard permite utilizar múltiples firewalls como ya hemos dicho, vamos a utilizar <strong>iptables</strong>. Para ello hay que cambiar el valor del parámetro BACKEND para que quede así:</p>
+<p><div class="highlight"><pre><span></span><code><span class="nv">BACKEND</span><span class="o">=</span><span class="s2">&quot;/usr/libexec/sshguard/sshg-fw-iptables&quot;</span>
+</code></pre></div>
+En definitiva, el fichero sshguard.conf debe quedar así</p>
+</li>
+</ul>
+<p><img alt="" src="../img/ssh_sshguard_conf.png" /></p>
+<p>Donde, aparte de lo ya dicho:</p>
+<ul>
+<li><strong>THRESHOLD:</strong> cada ataque tiene un valor de peligrosidad (normalmente 10). El threshold es el valor acumulado de esos ataques que se ha de superar para bloquear la IP.</li>
+<li><strong>BLOCK_TIME:</strong> es el tiempo (en segundos) durante el que se bloquea una IP.</li>
+<li><strong>DETECTIONS_TIME:</strong>el tiempo (en segundos) dentro del cual se van acumulando el valor de los ataques que se producen (si la suma supera al threshold, se bloquea la IP).</li>
+</ul>
+<p>Así las cosas, lo que hemos configurado es lo siguiente:</p>
+<ol>
+<li>
+<p>Si en un periodo de 30 segundos (<em>DETECTION_TIME</em>) se producen una serie de ataques que, sumando su peligrosidad, superen el valor 30 (<em>THRESHOLD</em>), se bloqueará la IP durante 10 segundos (<em>BLOCK_TIME</em>).</p>
+</li>
+<li>
+<p>Cabe decir que si la IP insiste, cada nueva vez que se vuelva a bloquear, lo hará durante el doble de tiempo que la anterior ocasión (primero 10s, luego 20s, luego 40s…)</p>
+</li>
+</ol>
+<div class="admonition task">
+<p class="admonition-title">Comprobación</p>
+<p>Conéctate por SSH al servidor desde tu terminal Linux: <code>ssh usuraio@servidor</code></p>
+<p>O desde Putty en Windows.</p>
+<p>Ejecuta el siguiente comando para ver los logs de <em>sshguard</em> en tiempo real: <code>journalctl -u sshguard -f</code></p>
+<p>Ahora, desde el cliente, intenta conectarte por SSH al servidor pero introduciendo un nombre de usuario incorrecto o una contraseña incorrecta.</p>
+<ul>
+<li>En los logs aparecerán estos intentos de conexión como ataques y se informará del bloqueo de esa IP. Adjunta captura de pantalla.</li>
+<li>Además, comprueba desde el cliente que, efectivamente, se te ha bloqueado el acceso y no te deja hacer un SSH al servidor. Adjunta captura de pantalla.</li>
+</ul>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Notas importantes</p>
+<p>Si en un principio ssguard no bloquea las IP, es posible que haya que informar al firewall con los siguientes comandos:
+<div class="highlight"><pre><span></span><code>iptables<span class="w"> </span>-N<span class="w"> </span>sshguard
+iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-m<span class="w"> </span>multiport<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--destination-ports<span class="w"> </span><span class="m">8022</span><span class="w"> </span>-j<span class="w"> </span>sshguard
+</code></pre></div></p>
+<p>Si sshguard, por lo que sea, os bloquea la IP permanentemente y no la desbloquea al cabo del tiempo que os indica, la podéis desbloquear a mano con el siguiente comando:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>iptables<span class="w"> </span>-F<span class="w"> </span>sshguard
+</code></pre></div>
+</div>
+<h3 id="que-es-la-autenticacion-multifactor">¿Qué es la autenticación multifactor?</h3>
+<p>La autentificación multifactor (MFA) es un método en el que se proporciona acceso a un sistema o servicio solo después de que puedas demostrar que efectivamente eres tú quien dices ser. Lo harás presentando dos o más evidencias (o factores).</p>
+<p>Estos pueden ser una contraseña que tenga un código de verificación secundario, un certificado digital instalado en el equipo, una pregunta personal, etc. Está claro que cuantas más capas de protección pongas mejor vas a poder proteger tus cuentas.</p>
+<p>Normalmente se suelen compaginar los siguientes factores:</p>
+<ul>
+<li><strong>Algo que conozco:</strong> una contraseña, respuesta a una pregunta, un PIN, etc.</li>
+<li><strong>Algo que obtengo:</strong> una notificación que recibo en el móvil, un código de seguridad, etc.</li>
+<li><strong>Algo único que tengo:</strong> en este caso es la biometría, como tu huella digital y/o el reconocimiento facial.</li>
+</ul>
+<h3 id="como-vamos-a-implementar-la-mfa">¿Cómo vamos a implementar la MFA?</h3>
+<p>Vamos a partir de la práctica anterior, donde ya podemos conectarnos por SSH a nuestro servidor.</p>
+<p>Necesitaremos instalar en nuestro móvil la aplicación <strong>Google Authenticator</strong>.</p>
+<h2 id="instalacion-y-configuracion-de-mfa-para-openssh">Instalación y configuración de MFA para OpenSSH</h2>
+<p>Ahora que ya hemos configurado SSH para no necesitar introducir el password cada vez que hagamos login, vamos a implementar el 2FA o segundo factor de autenticación para mayor seguridad. </p>
+<p>Esto es lo que se conoce como hacer <em>hardening</em> o fortificación de servidores.</p>
+<div class="admonition warning">
+<p class="admonition-title">Atención</p>
+<p>Vamos a conectarnos por SSH al servidor y vamos a realizar toda la configuración de esta práctica estando conectados por SSH.</p>
+<p>Si necesitáis hacer pruebas de nuevas conexiones, podéis abrir otra pestaña del terminal sin desconectaros.</p>
+</div>
+<p>Los pasos que se deben seguir son los siguientes:</p>
+<ol>
+<li>Hacer un update del sistema
+    <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>update
+</code></pre></div></li>
+<li>Instalar el módulo de autenticación de Google para Ubuntu
+    <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>libpam-google-authenticator
+</code></pre></div></li>
+<li>
+<p>Una vez instalado, se ejecuta
+    <div class="highlight"><pre><span></span><code>google-authenticator
+</code></pre></div></p>
+<p>y os irá haciendo una serie de preguntas que debéis responder. La primera os pregunta si el código debe de cambiar aleatoriamente en el tiempo, a lo cual debéis responder sí. Os generará el código QR que debéis escanear con el móvil y los códigos de recuperación.</p>
+<p><img alt="" src="../img/ssh_qr.png" style="height:570px;width:800px" /></p>
+</li>
+<li>
+<p>En la app Google-authenticator debéis darle al icono <strong><em>+</em></strong> y luego escanear el código QR que os ha aparecido antes
+    <img alt="" src="../img/ssh_authenticator.png" style="height:370px;width:200px" /></p>
+</li>
+<li>La siguiente os pregunta si queréis que actualice automáticamente el achivo google_authenticator, cosa necesaria para que funcione el 2FA, ergo debéis responder sí nuevamente
+    <img alt="" src="../img/ssh_authenticator2.png" /></li>
+<li>En la siguiente pregunta, al responder que sí, le indicáis que el código que uséis caduque en ese mismo instante. Esto quiere decir que sólo se podrá realizar un login cada 30 segundos pero aumentará la protección frente a ataques automatizados
+    <img alt="" src="../img/ssh_authenticator3.png" /></li>
+<li>Por defecto los códigos se generan cada 30 segundos, dejando un pequeño margen temporal donde el código anterior y el posterior seguirán siendo válidos. Esto es para compensar ciertos desajustes temporales entre la hora del servidor y del cliente.
+    Aquí responderemos que no pues este margen es suficiente y podría comprometer la seguridad del aumentarlo
+    <img alt="" src="../img/ssh_authenticator4.png" /></li>
+<li>Para proteger nuestro servidor contra ataques de fuerza bruta responderemos que sí a la pregunta de permitir un máximo de 3 intentos de login cada 30 segundos
+    <img alt="" src="../img/ssh_authenticator2.png" /></li>
+</ol>
+<h3 id="configurar-openssh">Configurar OpenSSH</h3>
+<div class="admonition warning">
+<p class="admonition-title">Nota importante</p>
+<p>Puesto que vamos a realizar cambios para SSH estando conectados por SSH, es muy importante no cerrar nunca la conexión SSH inicial para no correr el riesgo de perder el acceso al servidor.</p>
+</div>
+<p>Para hacer pruebas, estableceremos una nueva conexión SSH y cuando comprobemos que todo funciona, podrán cerrarse todas las sesiones.</p>
+<p>Ahora debemos configurar el servicio de autenticación de Linux para que sea consciente de que puede utilizar la autenticación de Google. Editamos <code>/etc/pam.d/sshd</code></p>
+<p>Y añadiremos al final del archivo la línea</p>
+<p><img alt="" src="../img/ssh_authenticator6.png" /></p>
+<p>El “nullok” del final sirve para indicarle al mecanismo de autorización centralizado de Linux, PAM (Pluggable Authentication Modules) que este método de autenticación es opcional. De esta forma permitiremos que los usuarios que no utilicen el 2FA, puedan seguir haciendo login todavía usando sus claves.</p>
+<p>A continuación debemos configurar el archivo de configuración del servicio SSH para que soporte este tipo de autenticación, editando el archivo <code>/etc/ssh/ssdh_config</code> para añadir:</p>
+<p><img alt="" src="../img/ssh_authenticator7.png" /></p>
+<p>Guardamos el archivo y reiniciamos el servicio: <code>systemctl restart sshd</code></p>
+<h3 id="haciendo-que-ssh-sea-consciente-de-la-autenticacion-multifactor">Haciendo que SSH sea consciente de la autenticación multifactor</h3>
+<p>Reabrimos el archivo de configuración del servicio ssh <code>/etc/ssh/sshd_config</code></p>
+<p>Y añadimos esta línea al final del archivo, para indicarle al SSH que métodos de autenticación se requieren. Esto le indica a SSH que necesitamos o una clave SSH, o un password o un código de verificación (o las tres cosas)</p>
+<p><img alt="" src="../img/ssh_authenticator8.png" /></p>
+<p>Cerramos y guardamos este archivo. Ahora volvemos a abrir el archivo de configuración de PAM <code>/etc/pam.d/sshd</code></p>
+<p>Debemos buscar y comentar la línea indicada para decirle a PAM que no muestre la opción de introducir password</p>
+<p><img alt="" src="../img/ssh_authenticator9.png" /></p>
+<p>Guardamos y cerramos el archivo. Acto seguido reiniciamos el servicio <code>systemctl restart sshd</code></p>
+<p>Ahora debéis intentar hacer login de nuevo en el server. En esta ocasión debería pediros el código de verificación.</p>
+<p>Este código de verificación es el que aparece en Google-authenticator cada 30 segundos, así que deberéis consultarlo en el móvil, introducirlo y si todo va bien, estaréis logueados.</p>
+<p><img alt="" src="../img/ssh_authenticator10.png" /></p>
+<p>A pesar de que no se explicita, se han usado tanto las claves SSH como el código de verificación, es decir, dos factores. Para verificarlo, haced el ssh con la opción -v (de verbose) para poder comprobarlo</p>
+<p><img alt="" src="../img/ssh_authenticator11.png" />
+<img alt="" src="../img/ssh_authenticator12.png" /></p>
+<p>En el <strong>recuadro rojo</strong> podéis ver que se produce la <strong>autenticación mediante claves</strong>, resultando en una autenticación parcial.</p>
+<p>Quedaría la segunda parte, que se corresponde con la parte configurada como interactiva con el teclado (keyboard-interactive), que no es mas que introducir el <strong>código temporal de Google-authenticator</strong>, como os dice en el fragmento <strong>recuadrado en verde</strong>.</p>
+<div class="admonition task">
+<p class="admonition-title">Tarea</p>
+<p>Comprueba que te funciona este doble factor de autenticación.</p>
+<p>Adjunta unas capturas de pantallas, utilizando la opción “-v” e indica, recuadrándolo, dónde se puede ver que ha utilizado ambos factores de autenticación.</p>
+</div>
+<h3 id="anadiendo-un-tercer-factor-de-autenticacion">Añadiendo un tercer factor de autenticación</h3>
+<p>En la fase 3 hemos listado varios tipos de autenticación permitidas, en el archivo de configuración sshd_config:
++ Claves públicas (publickey)
++ Password (password publickey)
++ Código de verificación (keyboard-interactive)</p>
+<p>Pero a pesar de ello, sólo hemos permitido el login mediante clave pública + código de verificación.</p>
+<p>Si quisiéramos tener los tres factores, se podría realizar con un cambio rápido. Simpleente habría que descomentar la línea que hemos comentado antes en el archivo <code>/etc/pam.d/sshd</code></p>
+<p><img alt="" src="../img/ssh_authenticator13.png" /></p>
+<p>Y reiniciar el servicio.</p>
+<p>Después de esto, al intentar hacer el ssh, nos pedirá el password además del código de verificación.</p>
+<p><img alt="" src="../img/ssh_authenticator14.png" /></p>
+<div class="admonition task">
+<p class="admonition-title">Tarea</p>
+<p>Comprueba  que te funciona  correctamente el login con  los tres factores de autenticación.</p>
+<p>Adjunta una captura con la opción “-v” donde indiques, con un recuadro, dónde se están utilizando cada uno de los tres factores.</p>
+</div>
+<h2 id="referencias">Referencias</h2>
+<p><a href="https://wiki.archlinux.org/title/Sshguard#">SSHGUARD</a></p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:2">
+<p><a href="https://bugs.launchpad.net/ubuntu/+source/sshguard/+bug/1881459">Parece estar solucionado</a>&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:1">
+<p><div class="highlight"><pre><span></span><code>useradd<span class="w"> </span>-m<span class="w"> </span>apellido
+passwd<span class="w"> </span>apellido
+usermod<span class="w"> </span>-a<span class="w"> </span>-G<span class="w"> </span>sudo<span class="w"> </span>apellido
+chsh<span class="w"> </span>-s<span class="w"> </span>/bin/bash<span class="w"> </span>apellido
+</code></pre></div>&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "toc.integrate", "navigation.expand", "navigation.top", "navigation.indexes", "content.tabs.link", "content.code.annotate", "content.code.copy", "navigation.footer"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

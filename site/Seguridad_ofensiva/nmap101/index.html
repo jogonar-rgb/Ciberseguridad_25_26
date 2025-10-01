@@ -1,0 +1,1193 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Nmap, puertos, escáner, scanner, window, linux, scripts, opciones. Apuntes, teoría, prácticas, ejercicio del curso de especialización de ciberseguridad. IES severo ochoa Elche. Hacking ético. incidentes de seguridad, puesta en producción segura.">
+      
+      
+      
+        <link rel="canonical" href="https://jogonar-rgb.github.io/Ciberseguridad_2025_2026/Seguridad_ofensiva/nmap101/">
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.20">
+    
+    
+      
+        <title>Nmap básico - Seguridad en sistemas del curso de especialista en ciberseguridad</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.e53b48f4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-green" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#que-son-los-puertos" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Seguridad en sistemas del curso de especialista en ciberseguridad" class="md-header__button md-logo" aria-label="Seguridad en sistemas del curso de especialista en ciberseguridad" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Seguridad en sistemas del curso de especialista en ciberseguridad
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Nmap básico
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="light-green" data-md-color-accent="indigo"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="indigo"  aria-label="Cambiar a modo normal"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo normal" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Introducción
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../warm/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Warm up
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Seguridad en sistemas del curso de especialista en ciberseguridad" class="md-nav__button md-logo" aria-label="Seguridad en sistemas del curso de especialista en ciberseguridad" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Seguridad en sistemas del curso de especialista en ciberseguridad
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introducción
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../warm/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Warm up
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Warm up
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Apuntes_Linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Entornos Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Ejercicios_Linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ejercicios propuestos Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Apuntes_Windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Entornos Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Ejercicios_Windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ejercicios propuestos Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/webgrafia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Webgrafía
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Nmap básico</h1>
+
+<h2 id="que-son-los-puertos">¿Qué son los puertos?</h2>
+<p>Ya hemos comentado que Nmap es el estándar de facto a la hora de realizar un escáner de puertos pero... ¿qué entendemos por puertos?</p>
+<p>En los sistemas operativos modernos, los puertos son direcciones numeradas para el tráfico de red. Los diferentes tipos de servicios utilizan diferentes puertos de forma predeterminada.</p>
+<p>Por ejemplo, el tráfico web normal usa el puerto 80, mientras que el correo electrónico POP3 usa el puerto 110. Una de las formas en que funciona un firewall es permitiendo o restringiendo el tráfico a través de un puerto en particular.</p>
+<p>Dado que la configuración del puerto puede suponer un riesgo para la seguridad, es fundamental saber qué puertos están abiertos y cuáles están bloqueados.</p>
+<h2 id="que-es-un-escaner-de-puertos">¿Qué es un escáner de puertos?</h2>
+<p>Esta es una herramienta que se utiliza para descubrir y auditar redes, escanear y verificar vulnerabilidades en direcciones y puertos de Protocolo de Internet (IP) para una red determinada.</p>
+<p>Es usado por el administrador de red, gerente de TI o simplemente un profesional de seguridad de la empresa. Uno de los desafíos críticos que enfrentarán estos perfiles es batallar para saber qué se está ejecutando en su red y el tipo de problemas/desafíos de seguridad que plantean.</p>
+<p>Hay varias herramientas (incluido Nmap) disponibles para que los administradores de red las usen para monitorear su red y obtener actividades en tiempo real en su red:</p>
+<p>Con Nmap:</p>
+<ul>
+<li>Los administradores de red pueden identificar todos los dispositivos que se ejecutan o acceden a sus sistemas.</li>
+<li>Un administrador puede identificar todos los hosts, equipos conectados a su red, así como los servicios que ofrecen.</li>
+<li>Un administrador puede escanear todos los puertos abiertos, dando prioridad a la seguridad, es decir, las detecciones de amenazas a la seguridad.</li>
+<li>Un administrador puede escanear/monitorear un solo host o miles de dispositivos conectados.</li>
+</ul>
+<p>Como se ha indicado al principio, Nmap es, con mucho, la herramienta de escaneo de red más utilizada. Es una herramienta de escaneo de puertos, lo que significa que recopila información de estos puertos. </p>
+<p>Nmap puede escucha las repsuestas de los sistemas y así determinar si un puerto está abierto, cerrado o filtrado de una forma u otra por el firewall (un sistema diseñado para denegar el acceso de usuarios no autorizados hacia o desde una red privada).</p>
+<p>Es una herramienta flexible y versátil, lo que significa que puede adaptarse a diferentes actividades y funciones.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>El escaneo de puertos también se puede denominar enumeración o descubrimiento de puertos. Usaremos estos términos indistintamente, mientras que significan lo mismo.</p>
+</div>
+<p>Tal y como podemos leer en el propio site de <a href="https://nmap.org/book/intro.html">Nmap</a>:</p>
+<div class="admonition quote">
+<p class="admonition-title">Cita</p>
+<p>Nmap utiliza paquetes IP sin procesar de formas novedosas para determinar qué hosts están disponibles en la red, qué servicios (nombre y versión de la aplicación) ofrecen esos hosts, qué sistemas operativos (y versiones de SO) están ejecutando, qué tipo de filtros de paquetes/firewalls están en uso y decenas de otras características.</p>
+<p>Fue diseñado para escanear rápidamente redes grandes, pero funciona bien contra hosts únicos. Nmap se ejecuta en todos los principales sistemas operativos de computadoras, y están disponibles versiones gráficas y de consola.</p>
+</div>
+<h2 id="windows-o-linux">Windows o Linux</h2>
+<p>Nmap se desarrolló inicialmente para ejecutarse solo en sistemas basados en Unix. La versión de Windows se lanzó en 2000, pero actualmente cuenta con algunas limitaciones que incluyen:</p>
+<ul>
+<li>No se pueden realizar escaneos tan en profundidad como en un sistema Unix (por ejemplo puede haber problemas con clientes VPN)</li>
+<li>No se puede escanear la propia máquina </li>
+<li>Los escaneos en Windows, por la manera que tiene de formar los paquetes, puede resultar un poco más lenta en algunos casos</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Por lo tanto, se recomienda el uso de Nmap en Linux por una mayor rapidez, eficiencia y experiencia de uso.</p>
+<p>Es posible instalar la interfaz gráfica "Zenmap" como frontend de Nmap aunque en este curso únicamente veremos su manejo en línea de comandos en Linux.</p>
+<p>Este curso no cubre el proceso de instalación de ninguna de las dos herramientas en ninguno de los dos SSOO ya que se da por sabido este proceso.</p>
+</div>
+<h2 id="como-es-una-cabecera-tcp">¿Cómo es una cabecera TCP?</h2>
+<p><img alt="" src="../img/CabeceraTCP.png" /></p>
+<h2 id="que-es-el-3-way-handshake">¿Qué es el 3-way-handshake?</h2>
+<p>El <strong>3-way handshake</strong> (o <strong>apretón de manos de tres vías</strong>) es el proceso utilizado en el protocolo <strong>TCP</strong> (Transmission Control Protocol) para establecer una conexión confiable entre un cliente y un servidor antes de transmitir datos. Este proceso es clave para garantizar que ambas partes estén listas para enviar y recibir datos, y que la conexión sea confiable.</p>
+<h3 id="proceso-del-3-way-handshake">Proceso del <strong>3-way handshake</strong>:</h3>
+<ol>
+<li><strong>SYN (Solicitud de sincronización)</strong>:<ul>
+<li>El cliente inicia la conexión enviando un segmento TCP con el <strong>flag SYN</strong> activado.</li>
+<li>El segmento incluye un número de secuencia (sequence number), que en este caso será un valor inicial (digamos, <code>seq = x</code>).</li>
+</ul>
+</li>
+</ol>
+<p><strong>Propósito</strong>: El cliente informa al servidor que quiere iniciar una comunicación y establece su número de secuencia.</p>
+<ol>
+<li><strong>SYN-ACK (Sincronización y reconocimiento)</strong>:<ul>
+<li>El servidor recibe el mensaje SYN del cliente y responde con un segmento que tiene dos flags activados: <strong>SYN</strong> y <strong>ACK</strong>.</li>
+<li>El <strong>SYN</strong> indica que el servidor también quiere sincronizar la conexión, y el <strong>ACK</strong> es para confirmar que recibió correctamente el SYN del cliente.</li>
+<li>El servidor envía su propio número de secuencia (<code>seq = y</code>) y reconoce el número de secuencia del cliente con un <strong>acknowledgment number</strong> (por ejemplo, <code>ack = x + 1</code>).</li>
+</ul>
+</li>
+</ol>
+<p><strong>Propósito</strong>: El servidor confirma que recibió la solicitud del cliente y envía su propio número de secuencia para la sincronización.</p>
+<ol>
+<li><strong>ACK (Confirmación del cliente)</strong>:<ul>
+<li>El cliente recibe el segmento <strong>SYN-ACK</strong> del servidor y responde con un segmento <strong>ACK</strong>.</li>
+<li>Este segmento contiene el <strong>acknowledgment number</strong> (<code>ack = y + 1</code>), que confirma que recibió el número de secuencia del servidor.</li>
+</ul>
+</li>
+</ol>
+<p><strong>Propósito</strong>: El cliente confirma que ha recibido el SYN del servidor, y la conexión se establece.</p>
+<p>Una vez que el <strong>3-way handshake</strong> se ha completado, la conexión está completamente establecida y se pueden intercambiar datos de manera confiable.</p>
+<h3 id="explicacion-grafica">Explicación gráfica</h3>
+<p>A continuación te describo cómo se verían las tres fases del 3-way handshake. Aunque no puedo insertar imágenes directamente, te puedo describir cómo podrías visualizarlo:</p>
+<h4 id="paso-1-cliente-envia-syn">Paso 1: Cliente envía SYN</h4>
+<p><div class="highlight"><pre><span></span><code>Cliente                       Servidor
+   |                              |
+   | --- [SYN, seq = x] ---&gt;      |
+   |                              |
+</code></pre></div>
+- El cliente envía un paquete SYN con el número de secuencia <code>x</code>.</p>
+<h4 id="paso-2-servidor-responde-con-syn-ack">Paso 2: Servidor responde con SYN-ACK</h4>
+<p><div class="highlight"><pre><span></span><code>Cliente                                    Servidor
+   |                                           |
+   | --- [SYN, seq = x] ---&gt;                   |
+   |                                           |
+   | &lt;--- [SYN, ACK, seq = y, ack = x + 1] --- |
+   |                                           |
+</code></pre></div>
+- El servidor responde con un SYN y ACK, reconociendo el número de secuencia del cliente (con <code>ack = x + 1</code>) y enviando su propio número de secuencia (<code>seq = y</code>).</p>
+<h4 id="paso-3-cliente-responde-con-ack">Paso 3: Cliente responde con ACK</h4>
+<p><div class="highlight"><pre><span></span><code>Cliente                                     Servidor
+   |                                            |
+   | --- [SYN, seq = x] ---&gt;                    |
+   |                                            |
+   | &lt;--- [SYN, ACK, seq = y, ack = x + 1] ---  |
+   |                                            |
+   | --- [ACK, ack = y + 1] ---&gt;                |
+   |                                            |
+</code></pre></div>
+- El cliente envía el último paquete, un <strong>ACK</strong> que confirma el número de secuencia del servidor (<code>ack = y + 1</code>).</p>
+<p>Con esto, la conexión TCP está establecida y lista para transmitir datos.</p>
+<hr />
+<h3 id="resumen">Resumen</h3>
+<ol>
+<li><strong>SYN</strong>: El cliente dice "Quiero iniciar una conexión, este es mi número de secuencia."</li>
+<li><strong>SYN-ACK</strong>: El servidor responde "Confirmo que recibí tu solicitud, aquí está mi número de secuencia."</li>
+<li><strong>ACK</strong>: El cliente responde "He recibido tu número de secuencia, comencemos a enviar datos."</li>
+</ol>
+<h3 id="concepto-clave">Concepto clave</h3>
+<ul>
+<li>El intercambio de números de secuencia y <strong>acknowledgments</strong> (confirmaciones) asegura que ambos lados saben qué datos han sido enviados y recibidos, permitiendo que la transmisión de información sea confiable y ordenada. </li>
+</ul>
+<h2 id="uso-de-nmap">Uso de Nmap</h2>
+<p>Podemos ver la infinidad de opciones que nos ofrece Nmap simplemente escribiendo <code>$ nmap</code> en el terminal:</p>
+<p><img alt="" src="../img/nmap_opciones.png" style="height:600px;width:500px" /></p>
+<p>Existen un <a href="https://nmap.org/book/scan-methods.html">sinfín de técnicas y algoritmos de escaneo en Nmap</a>, así como otras tantas opciones a aplicar a estos escaneos. Es imposible cubrirlo todo en este curso por lo que sólo nombraremos los aspectos más importantes y queda a discrección del alumno profundizar más.</p>
+<p>Output completo:</p>
+<div class="highlight"><pre><span></span><code>Nmap<span class="w"> </span><span class="m">5</span>.61TEST5<span class="w"> </span><span class="o">(</span><span class="w"> </span>https://nmap.org<span class="w"> </span><span class="o">)</span>
+Usage:<span class="w"> </span>nmap<span class="w"> </span><span class="o">[</span>Scan<span class="w"> </span>Type<span class="o">(</span>s<span class="o">)]</span><span class="w"> </span><span class="o">[</span>Options<span class="o">]</span><span class="w"> </span><span class="o">{</span>target<span class="w"> </span>specification<span class="o">}</span>
+TARGET<span class="w"> </span>SPECIFICATION:
+<span class="w">  </span>Can<span class="w"> </span>pass<span class="w"> </span>hostnames,<span class="w"> </span>IP<span class="w"> </span>addresses,<span class="w"> </span>networks,<span class="w"> </span>etc.
+<span class="w">  </span>Ex:<span class="w"> </span>scanme.nmap.org,<span class="w"> </span>microsoft.com/24,<span class="w"> </span><span class="m">192</span>.168.0.1<span class="p">;</span><span class="w"> </span><span class="m">10</span>.0.0-255.1-254
+<span class="w">  </span>-iL<span class="w"> </span>:<span class="w"> </span>Input<span class="w"> </span>from<span class="w"> </span>list<span class="w"> </span>of<span class="w"> </span>hosts/networks
+<span class="w">  </span>-iR<span class="w"> </span>:<span class="w"> </span>Choose<span class="w"> </span>random<span class="w"> </span>targets
+<span class="w">  </span>--exclude<span class="w"> </span>:<span class="w"> </span>Exclude<span class="w"> </span>hosts/networks
+<span class="w">  </span>--excludefile<span class="w"> </span>:<span class="w"> </span>Exclude<span class="w"> </span>list<span class="w"> </span>from<span class="w"> </span>file
+HOST<span class="w"> </span>DISCOVERY:
+<span class="w">  </span>-sL:<span class="w"> </span>List<span class="w"> </span>Scan<span class="w"> </span>-<span class="w"> </span>simply<span class="w"> </span>list<span class="w"> </span>targets<span class="w"> </span>to<span class="w"> </span>scan
+<span class="w">  </span>-sn:<span class="w"> </span>Ping<span class="w"> </span>Scan<span class="w"> </span>-<span class="w"> </span>disable<span class="w"> </span>port<span class="w"> </span>scan
+<span class="w">  </span>-Pn:<span class="w"> </span>Treat<span class="w"> </span>all<span class="w"> </span>hosts<span class="w"> </span>as<span class="w"> </span>online<span class="w"> </span>--<span class="w"> </span>skip<span class="w"> </span>host<span class="w"> </span>discovery
+<span class="w">  </span>-PS/PA/PU/PY<span class="o">[</span>portlist<span class="o">]</span>:<span class="w"> </span>TCP<span class="w"> </span>SYN/ACK,<span class="w"> </span>UDP<span class="w"> </span>or<span class="w"> </span>SCTP<span class="w"> </span>discovery<span class="w"> </span>to<span class="w"> </span>given<span class="w"> </span>ports
+<span class="w">  </span>-PE/PP/PM:<span class="w"> </span>ICMP<span class="w"> </span>echo,<span class="w"> </span>timestamp,<span class="w"> </span>and<span class="w"> </span>netmask<span class="w"> </span>request<span class="w"> </span>discovery<span class="w"> </span>probes
+<span class="w">  </span>-PO<span class="o">[</span>protocol<span class="w"> </span>list<span class="o">]</span>:<span class="w"> </span>IP<span class="w"> </span>Protocol<span class="w"> </span>Ping
+<span class="w">  </span>-n/-R:<span class="w"> </span>Never<span class="w"> </span><span class="k">do</span><span class="w"> </span>DNS<span class="w"> </span>resolution/Always<span class="w"> </span>resolve<span class="w"> </span><span class="o">[</span>default:<span class="w"> </span>sometimes<span class="o">]</span>
+<span class="w">  </span>--dns-servers<span class="w"> </span>:<span class="w"> </span>Specify<span class="w"> </span>custom<span class="w"> </span>DNS<span class="w"> </span>servers
+<span class="w">  </span>--system-dns:<span class="w"> </span>Use<span class="w"> </span>OS<span class="s1">&#39;s DNS resolver</span>
+<span class="s1">  --traceroute: Trace hop path to each host</span>
+<span class="s1">SCAN TECHNIQUES:</span>
+<span class="s1">  -sS/sT/sA/sW/sM: TCP SYN/Connect()/ACK/Window/Maimon scans</span>
+<span class="s1">  -sU: UDP Scan</span>
+<span class="s1">  -sN/sF/sX: TCP Null, FIN, and Xmas scans</span>
+<span class="s1">  --scanflags : Customize TCP scan flags</span>
+<span class="s1">  -sI : Idle scan</span>
+<span class="s1">  -sY/sZ: SCTP INIT/COOKIE-ECHO scans</span>
+<span class="s1">  -sO: IP protocol scan</span>
+<span class="s1">  -b : FTP bounce scan</span>
+<span class="s1">PORT SPECIFICATION AND SCAN ORDER:</span>
+<span class="s1">  -p : Only scan specified ports</span>
+<span class="s1">    Ex: -p22; -p1-65535; -p U:53,111,137,T:21-25,80,139,8080,S:9</span>
+<span class="s1">  -F: Fast mode - Scan fewer ports than the default scan</span>
+<span class="s1">  -r: Scan ports consecutively - don&#39;</span>t<span class="w"> </span>randomize
+<span class="w">  </span>--top-ports<span class="w"> </span>:<span class="w"> </span>Scan<span class="w">  </span>most<span class="w"> </span>common<span class="w"> </span>ports
+<span class="w">  </span>--port-ratio<span class="w"> </span>:<span class="w"> </span>Scan<span class="w"> </span>ports<span class="w"> </span>more<span class="w"> </span>common<span class="w"> </span>than<span class="w"> </span>
+SERVICE/VERSION<span class="w"> </span>DETECTION:
+<span class="w">  </span>-sV:<span class="w"> </span>Probe<span class="w"> </span>open<span class="w"> </span>ports<span class="w"> </span>to<span class="w"> </span>determine<span class="w"> </span>service/version<span class="w"> </span>info
+<span class="w">  </span>--version-intensity<span class="w"> </span>:<span class="w"> </span>Set<span class="w"> </span>from<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">(</span>light<span class="o">)</span><span class="w"> </span>to<span class="w"> </span><span class="m">9</span><span class="w"> </span><span class="o">(</span>try<span class="w"> </span>all<span class="w"> </span>probes<span class="o">)</span>
+<span class="w">  </span>--version-light:<span class="w"> </span>Limit<span class="w"> </span>to<span class="w"> </span>most<span class="w"> </span>likely<span class="w"> </span>probes<span class="w"> </span><span class="o">(</span>intensity<span class="w"> </span><span class="m">2</span><span class="o">)</span>
+<span class="w">  </span>--version-all:<span class="w"> </span>Try<span class="w"> </span>every<span class="w"> </span>single<span class="w"> </span>probe<span class="w"> </span><span class="o">(</span>intensity<span class="w"> </span><span class="m">9</span><span class="o">)</span>
+<span class="w">  </span>--version-trace:<span class="w"> </span>Show<span class="w"> </span>detailed<span class="w"> </span>version<span class="w"> </span>scan<span class="w"> </span>activity<span class="w"> </span><span class="o">(</span><span class="k">for</span><span class="w"> </span>debugging<span class="o">)</span>
+SCRIPT<span class="w"> </span>SCAN:
+<span class="w">  </span>-sC:<span class="w"> </span>equivalent<span class="w"> </span>to<span class="w"> </span>--script<span class="o">=</span>default
+<span class="w">  </span>--script<span class="o">=</span>:<span class="w">  </span>is<span class="w"> </span>a<span class="w"> </span>comma<span class="w"> </span>separated<span class="w"> </span>list<span class="w"> </span>of
+<span class="w">           </span>directories,<span class="w"> </span>script-files<span class="w"> </span>or<span class="w"> </span>script-categories
+<span class="w">  </span>--script-args<span class="o">=</span>:<span class="w"> </span>provide<span class="w"> </span>arguments<span class="w"> </span>to<span class="w"> </span>scripts
+<span class="w">  </span>--script-args-file<span class="o">=</span>filename:<span class="w"> </span>provide<span class="w"> </span>NSE<span class="w"> </span>script<span class="w"> </span>args<span class="w"> </span><span class="k">in</span><span class="w"> </span>a<span class="w"> </span>file
+<span class="w">  </span>--script-trace:<span class="w"> </span>Show<span class="w"> </span>all<span class="w"> </span>data<span class="w"> </span>sent<span class="w"> </span>and<span class="w"> </span>received
+<span class="w">  </span>--script-updatedb:<span class="w"> </span>Update<span class="w"> </span>the<span class="w"> </span>script<span class="w"> </span>database.
+<span class="w">  </span>--script-help<span class="o">=</span>:<span class="w"> </span>Show<span class="w"> </span><span class="nb">help</span><span class="w"> </span>about<span class="w"> </span>scripts.
+<span class="w">            </span>is<span class="w"> </span>a<span class="w"> </span>comma<span class="w"> </span>separted<span class="w"> </span>list<span class="w"> </span>of<span class="w"> </span>script-files<span class="w"> </span>or
+<span class="w">           </span>script-categories.
+OS<span class="w"> </span>DETECTION:
+<span class="w">  </span>-O:<span class="w"> </span>Enable<span class="w"> </span>OS<span class="w"> </span>detection
+<span class="w">  </span>--osscan-limit:<span class="w"> </span>Limit<span class="w"> </span>OS<span class="w"> </span>detection<span class="w"> </span>to<span class="w"> </span>promising<span class="w"> </span>targets
+<span class="w">  </span>--osscan-guess:<span class="w"> </span>Guess<span class="w"> </span>OS<span class="w"> </span>more<span class="w"> </span>aggressively
+TIMING<span class="w"> </span>AND<span class="w"> </span>PERFORMANCE:
+<span class="w">  </span>Options<span class="w"> </span>which<span class="w"> </span>take<span class="w">  </span>are<span class="w"> </span><span class="k">in</span><span class="w"> </span>seconds,<span class="w"> </span>or<span class="w"> </span>append<span class="w"> </span><span class="s1">&#39;ms&#39;</span><span class="w"> </span><span class="o">(</span>milliseconds<span class="o">)</span>,
+<span class="w">  </span><span class="s1">&#39;s&#39;</span><span class="w"> </span><span class="o">(</span>seconds<span class="o">)</span>,<span class="w"> </span><span class="s1">&#39;m&#39;</span><span class="w"> </span><span class="o">(</span>minutes<span class="o">)</span>,<span class="w"> </span>or<span class="w"> </span><span class="s1">&#39;h&#39;</span><span class="w"> </span><span class="o">(</span>hours<span class="o">)</span><span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>value<span class="w"> </span><span class="o">(</span>e.g.<span class="w"> </span>30m<span class="o">)</span>.
+<span class="w">  </span>-T&lt;<span class="m">0</span>-5&gt;:<span class="w"> </span>Set<span class="w"> </span>timing<span class="w"> </span>template<span class="w"> </span><span class="o">(</span>higher<span class="w"> </span>is<span class="w"> </span>faster<span class="o">)</span>
+<span class="w">  </span>--min-hostgroup/max-hostgroup<span class="w"> </span>:<span class="w"> </span>Parallel<span class="w"> </span>host<span class="w"> </span>scan<span class="w"> </span>group<span class="w"> </span>sizes
+<span class="w">  </span>--min-parallelism/max-parallelism<span class="w"> </span>:<span class="w"> </span>Probe<span class="w"> </span>parallelization
+<span class="w">  </span>--min-rtt-timeout/max-rtt-timeout/initial-rtt-timeout<span class="w"> </span>:<span class="w"> </span>Specifies
+<span class="w">      </span>probe<span class="w"> </span>round<span class="w"> </span>trip<span class="w"> </span>time.
+<span class="w">  </span>--max-retries<span class="w"> </span>:<span class="w"> </span>Caps<span class="w"> </span>number<span class="w"> </span>of<span class="w"> </span>port<span class="w"> </span>scan<span class="w"> </span>probe<span class="w"> </span>retransmissions.
+<span class="w">  </span>--host-timeout<span class="w"> </span>:<span class="w"> </span>Give<span class="w"> </span>up<span class="w"> </span>on<span class="w"> </span>target<span class="w"> </span>after<span class="w"> </span>this<span class="w"> </span>long
+<span class="w">  </span>--scan-delay/--max-scan-delay<span class="w"> </span>:<span class="w"> </span>Adjust<span class="w"> </span>delay<span class="w"> </span>between<span class="w"> </span>probes
+<span class="w">  </span>--min-rate<span class="w"> </span>:<span class="w"> </span>Send<span class="w"> </span>packets<span class="w"> </span>no<span class="w"> </span>slower<span class="w"> </span>than<span class="w">  </span>per<span class="w"> </span>second
+<span class="w">  </span>--max-rate<span class="w"> </span>:<span class="w"> </span>Send<span class="w"> </span>packets<span class="w"> </span>no<span class="w"> </span>faster<span class="w"> </span>than<span class="w">  </span>per<span class="w"> </span>second
+FIREWALL/IDS<span class="w"> </span>EVASION<span class="w"> </span>AND<span class="w"> </span>SPOOFING:
+<span class="w">  </span>-f<span class="p">;</span><span class="w"> </span>--mtu<span class="w"> </span>:<span class="w"> </span>fragment<span class="w"> </span>packets<span class="w"> </span><span class="o">(</span>optionally<span class="w"> </span>w/given<span class="w"> </span>MTU<span class="o">)</span>
+<span class="w">  </span>-D<span class="w"> </span>:<span class="w"> </span>Cloak<span class="w"> </span>a<span class="w"> </span>scan<span class="w"> </span>with<span class="w"> </span>decoys
+<span class="w">  </span>-S<span class="w"> </span>:<span class="w"> </span>Spoof<span class="w"> </span><span class="nb">source</span><span class="w"> </span>address
+<span class="w">  </span>-e<span class="w"> </span>:<span class="w"> </span>Use<span class="w"> </span>specified<span class="w"> </span>interface
+<span class="w">  </span>-g/--source-port<span class="w"> </span>:<span class="w"> </span>Use<span class="w"> </span>given<span class="w"> </span>port<span class="w"> </span>number
+<span class="w">  </span>--data-length<span class="w"> </span>:<span class="w"> </span>Append<span class="w"> </span>random<span class="w"> </span>data<span class="w"> </span>to<span class="w"> </span>sent<span class="w"> </span>packets
+<span class="w">  </span>--ip-options<span class="w"> </span>:<span class="w"> </span>Send<span class="w"> </span>packets<span class="w"> </span>with<span class="w"> </span>specified<span class="w"> </span>ip<span class="w"> </span>options
+<span class="w">  </span>--ttl<span class="w"> </span>:<span class="w"> </span>Set<span class="w"> </span>IP<span class="w"> </span>time-to-live<span class="w"> </span>field
+<span class="w">  </span>--spoof-mac<span class="w"> </span>:<span class="w"> </span>Spoof<span class="w"> </span>your<span class="w"> </span>MAC<span class="w"> </span>address
+<span class="w">  </span>--badsum:<span class="w"> </span>Send<span class="w"> </span>packets<span class="w"> </span>with<span class="w"> </span>a<span class="w"> </span>bogus<span class="w"> </span>TCP/UDP/SCTP<span class="w"> </span>checksum
+OUTPUT:
+<span class="w">  </span>-oN/-oX/-oS/-oG<span class="w"> </span>:<span class="w"> </span>Output<span class="w"> </span>scan<span class="w"> </span><span class="k">in</span><span class="w"> </span>normal,<span class="w"> </span>XML,<span class="w"> </span>s<span class="p">|</span>:<span class="w"> </span>Output<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>three<span class="w"> </span>major<span class="w"> </span>formats<span class="w"> </span>at<span class="w"> </span>once
+<span class="w">  </span>-v:<span class="w"> </span>Increase<span class="w"> </span>verbosity<span class="w"> </span>level<span class="w"> </span><span class="o">(</span>use<span class="w"> </span>-vv<span class="w"> </span>or<span class="w"> </span>more<span class="w"> </span><span class="k">for</span><span class="w"> </span>greater<span class="w"> </span>effect<span class="o">)</span>
+<span class="w">  </span>-d:<span class="w"> </span>Increase<span class="w"> </span>debugging<span class="w"> </span>level<span class="w"> </span><span class="o">(</span>use<span class="w"> </span>-dd<span class="w"> </span>or<span class="w"> </span>more<span class="w"> </span><span class="k">for</span><span class="w"> </span>greater<span class="w"> </span>effect<span class="o">)</span>
+<span class="w">  </span>--reason:<span class="w"> </span>Display<span class="w"> </span>the<span class="w"> </span>reason<span class="w"> </span>a<span class="w"> </span>port<span class="w"> </span>is<span class="w"> </span><span class="k">in</span><span class="w"> </span>a<span class="w"> </span>particular<span class="w"> </span>state
+<span class="w">  </span>--open:<span class="w"> </span>Only<span class="w"> </span>show<span class="w"> </span>open<span class="w"> </span><span class="o">(</span>or<span class="w"> </span>possibly<span class="w"> </span>open<span class="o">)</span><span class="w"> </span>ports
+<span class="w">  </span>--packet-trace:<span class="w"> </span>Show<span class="w"> </span>all<span class="w"> </span>packets<span class="w"> </span>sent<span class="w"> </span>and<span class="w"> </span>received
+<span class="w">  </span>--iflist:<span class="w"> </span>Print<span class="w"> </span>host<span class="w"> </span>interfaces<span class="w"> </span>and<span class="w"> </span>routes<span class="w"> </span><span class="o">(</span><span class="k">for</span><span class="w"> </span>debugging<span class="o">)</span>
+<span class="w">  </span>--log-errors:<span class="w"> </span>Log<span class="w"> </span>errors/warnings<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>normal-format<span class="w"> </span>output<span class="w"> </span>file
+<span class="w">  </span>--append-output:<span class="w"> </span>Append<span class="w"> </span>to<span class="w"> </span>rather<span class="w"> </span>than<span class="w"> </span>clobber<span class="w"> </span>specified<span class="w"> </span>output<span class="w"> </span>files
+<span class="w">  </span>--resume<span class="w"> </span>:<span class="w"> </span>Resume<span class="w"> </span>an<span class="w"> </span>aborted<span class="w"> </span>scan
+<span class="w">  </span>--stylesheet<span class="w"> </span>:<span class="w"> </span>XSL<span class="w"> </span>stylesheet<span class="w"> </span>to<span class="w"> </span>transform<span class="w"> </span>XML<span class="w"> </span>output<span class="w"> </span>to<span class="w"> </span>HTML
+<span class="w">  </span>--webxml:<span class="w"> </span>Reference<span class="w"> </span>stylesheet<span class="w"> </span>from<span class="w"> </span>Nmap.Org<span class="w"> </span><span class="k">for</span><span class="w"> </span>more<span class="w"> </span>portable<span class="w"> </span>XML
+<span class="w">  </span>--no-stylesheet:<span class="w"> </span>Prevent<span class="w"> </span>associating<span class="w"> </span>of<span class="w"> </span>XSL<span class="w"> </span>stylesheet<span class="w"> </span>w/XML<span class="w"> </span>output
+MISC:
+<span class="w">  </span>-6:<span class="w"> </span>Enable<span class="w"> </span>IPv6<span class="w"> </span>scanning
+<span class="w">  </span>-A:<span class="w"> </span>Enable<span class="w"> </span>OS<span class="w"> </span>detection,<span class="w"> </span>version<span class="w"> </span>detection,<span class="w"> </span>script<span class="w"> </span>scanning,<span class="w"> </span>and<span class="w"> </span>traceroute
+<span class="w">  </span>--datadir<span class="w"> </span>:<span class="w"> </span>Specify<span class="w"> </span>custom<span class="w"> </span>Nmap<span class="w"> </span>data<span class="w"> </span>file<span class="w"> </span>location
+<span class="w">  </span>--send-eth/--send-ip:<span class="w"> </span>Send<span class="w"> </span>using<span class="w"> </span>raw<span class="w"> </span>ethernet<span class="w"> </span>frames<span class="w"> </span>or<span class="w"> </span>IP<span class="w"> </span>packets
+<span class="w">  </span>--privileged:<span class="w"> </span>Assume<span class="w"> </span>that<span class="w"> </span>the<span class="w"> </span>user<span class="w"> </span>is<span class="w"> </span>fully<span class="w"> </span>privileged
+<span class="w">  </span>--unprivileged:<span class="w"> </span>Assume<span class="w"> </span>the<span class="w"> </span>user<span class="w"> </span>lacks<span class="w"> </span>raw<span class="w"> </span>socket<span class="w"> </span>privileges
+<span class="w">  </span>-V:<span class="w"> </span>Print<span class="w"> </span>version<span class="w"> </span>number
+<span class="w">  </span>-h:<span class="w"> </span>Print<span class="w"> </span>this<span class="w"> </span><span class="nb">help</span><span class="w"> </span>summary<span class="w"> </span>page.
+EXAMPLES:
+<span class="w">  </span>nmap<span class="w"> </span>-v<span class="w"> </span>-A<span class="w"> </span>scanme.nmap.org
+<span class="w">  </span>nmap<span class="w"> </span>-v<span class="w"> </span>-sn<span class="w"> </span><span class="m">192</span>.168.0.0/16<span class="w"> </span><span class="m">10</span>.0.0.0/8
+<span class="w">  </span>nmap<span class="w"> </span>-v<span class="w"> </span>-iR<span class="w"> </span><span class="m">10000</span><span class="w"> </span>-Pn<span class="w"> </span>-p<span class="w"> </span><span class="m">80</span>
+SEE<span class="w"> </span>THE<span class="w"> </span>MAN<span class="w"> </span>PAGE<span class="w"> </span><span class="o">(</span>https://nmap.org/book/man.html<span class="o">)</span><span class="w"> </span>FOR<span class="w"> </span>MORE<span class="w"> </span>OPTIONS<span class="w"> </span>AND<span class="w"> </span>EXAMPLES
+</code></pre></div>
+<h3 id="tipos-de-escaneos">Tipos de escaneos</h3>
+<h4 id="antes-de-nada-recordatorio-del-3-way-handshake">Antes de nada: recordatorio del 3-way-handshake</h4>
+<p>Primero, un poco de antecedentes. Durante la comunicación con un servicio TCP, se establece una única conexión con el protocolo de enlace de 3 vías de TCP. Esto implica un <code>SYN</code> enviado a un puerto abierto TCP que tiene un servicio vinculado a él, ejemplos típicos son HTTP (puerto 80), SMTP (puerto 25), POP3 (puerto 110) o SSH (puerto 22).</p>
+<p>En el lado del servidor ser verá un <code>SYN</code> y se responderá con <code>SYN ACK</code>, y el cliente responderá <code>SYN ACK</code> con un <code>ACK</code>. Esto completa la configuración y ahora se puede realizar el intercambio de datos.</p>
+<p><img alt="" src="../img/3way.png" /></p>
+<p>En este ejemplo, el firewall pasa el tráfico al servidor web (HTTP -&gt; 80) y el servidor web responde con el acuse de recibo.</p>
+<p>En todos estos ejemplos, un firewall podría ser un dispositivo de hardware independiente o podría ser un firewall de software local en la computadora host.</p>
+<h4 id="escaneo-tcp-syn-ss">Escaneo TCP SYN (-sS)</h4>
+<p>El análisis SYN es la opción de análisis predeterminada y más popular, por buenas razones. Se puede realizar rápidamente, escaneando miles de puertos por segundo en una red rápida no obstaculizada por firewalls restrictivos.</p>
+<p>También es relativamente discreto y sigiloso, ya que nunca completa las conexiones TCP.</p>
+<p>Características:</p>
+<ul>
+<li>Rápido</li>
+<li>Relativamente sigiloso</li>
+<li>Requiere privilegios </li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nv">$nmap</span><span class="w"> </span>-sS<span class="w"> </span>objetivo
+</code></pre></div>
+<h4 id="escaneo-tcp-connect-st">Escaneo TCP connect (-sT)</h4>
+<p>El escaneo de conexión TCP es el tipo de escaneo TCP predeterminado cuando el escaneo SYN no es una opción. Este es el caso cuando un usuario no tiene privilegios para fabricar mensajes a medida con los flags necesarios.</p>
+<p>En lugar de escribir paquetes sin procesar como hacen la mayoría de los otros tipos de escaneo, Nmap le pide al sistema operativo subyacente que establezca una conexión con la máquina y el puerto de destino emitiendo la llamada al sistema de conexión.</p>
+<p><div class="highlight"><pre><span></span><code><span class="nv">$nmap</span><span class="w"> </span>-sT<span class="w"> </span>objetivo
+</code></pre></div>
+Características: </p>
+<ul>
+<li>Confía en el sistema operativo</li>
+<li>Más lento que TCP-SYN-Scan</li>
+</ul>
+<h4 id="escaneos-udp-su">Escaneos UDP (-sU)</h4>
+<p>Si bien los servicios más populares en Internet se ejecutan sobre el protocolo TCP, los servicios UDP se implementan ampliamente. DNS, SNMP y DHCP (puertos registrados 53, 161/162 y 67/68) son tres de los más comunes. </p>
+<p>Debido a que el escaneo UDP es generalmente más lento y más difícil que TCP, algunos auditores de seguridad ignoran estos puertos. Esto es un error, ya que los servicios UDP explotables son bastante comunes y los atacantes ciertamente no ignoran todo el protocolo.</p>
+<p><div class="highlight"><pre><span></span><code><span class="nv">$nmap</span><span class="w"> </span>-sU<span class="w"> </span>objetivo
+</code></pre></div>
+Características:</p>
+<ul>
+<li>Lento</li>
+<li>Poco fiable</li>
+</ul>
+<h4 id="tcp-null-scan-sn">TCP Null scan (-sN)</h4>
+<p>En los TCP Null Scans, los paquetes TCP enviados no tienen ninguna de las flags TCP establecidas.</p>
+<p>Según el RFC, ante tal circunstancia, el objetivo debe responder con un RST si el puerto está cerrado</p>
+<div class="highlight"><pre><span></span><code><span class="nv">$nmap</span><span class="w"> </span>-sN<span class="w"> </span>objetivo
+</code></pre></div>
+<h4 id="tcp-fin-scan-sf">TCP FIN scan (-sF)</h4>
+<p>Esto es muy similar al anterior, excepto por el hecho de que en lugar de enviar un paquete TCP completamente vacío, envía un paquete con el flag FIN establecido que se usa para cerrar una conexión ordenadamente.</p>
+<p>En consecuencia, el objetivo debe responder con un RST para puertos cerrados según RFC.</p>
+<div class="highlight"><pre><span></span><code><span class="nv">$nmap</span><span class="w"> </span>-sF<span class="w"> </span>objetivo
+</code></pre></div>
+<h4 id="tcp-xmas-scan-sx">TCP Xmas scan (-sX)</h4>
+<p>TCP Xmas Scans también es muy similar a las dos últimas técnicas de escaneo, excepto por el hecho de que utilizan paquetes TCP con los flags PSH, URG y FIN configurados.</p>
+<p>Como los dos últimos tipos de escaneo, esto también espera paquetes RST para puertos cerrados bajo RFC.</p>
+<div class="highlight"><pre><span></span><code><span class="nv">$nmap</span><span class="w"> </span>-sX<span class="w"> </span>objetivo
+</code></pre></div>
+<h3 id="estados-de-los-puertos-escaneados">Estados de los puertos escaneados</h3>
+<p>Tras realizar el escaneo de puertos, se nos pueden reportar cuatro posibles estados de los mismos:</p>
+<ul>
+<li>
+<p><strong>open</strong>: El puerto responde activamente a las conexiones entrantes</p>
+</li>
+<li>
+<p><strong>open | filtered</strong>: cuando no se recibe respuesta, el puerto se clasifica así porque "ninguna respuesta" puede significar sólo dos cosas:</p>
+<ul>
+<li>El puerto esta abierto (en algunos tipos de escaneos no se recibe respuesta al SYN)</li>
+<li>El puerto está protegido detrás de un firewall, por lo que se filtra</li>
+</ul>
+</li>
+<li>
+<p><strong>filtered</strong>: cuando el puerto está protegido detrás de un firewall que envía un ping ICMP de vuelta </p>
+</li>
+<li>
+<p><strong>closed</strong>: cuando se recibe un paquete RST</p>
+</li>
+</ul>
+<h4 id="puertos-filtrados-o-bloqueados">Puertos filtrados o bloqueados</h4>
+<p>El trabajo de un firewall es proteger un sistema de paquetes no deseados que podrían dañarlo. En este ejemplo simple, el escaneo de puertos se realiza en el puerto 81, ya que no hay ningún servicio ejecutándose en este puerto, por lo que la mejor práctica es usar un firewall para bloquear el acceso.</p>
+<p>Un <code>filtered</code> port como resultado de Nmap indica que el puerto no ha respondido en absoluto. El SYN simplemente ha sido descartado por el firewall. </p>
+<p><img alt="" src="../img/firewall-filtered-port.png" /></p>
+<h4 id="puertos-cerrados-o-cuando-falla-el-firewall">Puertos cerrados o cuando falla el Firewall</h4>
+<p>En este caso, el resultado <code>closed</code> más común indica que no hay ningún servicio ejecutándose en el puerto, pero el firewall ha permitido que la conexión pase al servidor. También puede significar que no hay ningún firewall presente.</p>
+<p>Se debe tener en cuenta que aunque se presentan los escenarios más comunes, es posible configurar un firewall para rechazar paquetes en lugar de descartarlos. Esto significaría que los paquetes que lleguen al firewall se verán cerrados (el firewall responde con RST ACK).</p>
+<p>A continuación se muestra un caso en el que una regla de firewall permite el paso del paquete en el puerto 81 aunque no haya ningún servicio escuchando en el puerto. Lo más probable es que esto se deba a que el firewall está mal configurado.</p>
+<p><img alt="" src="../img/firewall-closed-port.png" /></p>
+<h4 id="puertos-abiertos">Puertos abiertos</h4>
+<p>Cuando de algún puerto se indica el resultado <code>Open</code> en principio se trata de algún servicio expuesto al público que está accesible.</p>
+<p>Un detalle interesante a notar es el <code>RST</code>  enviado después de aceptar el <code>SYN ACK</code> desde el servidor web. El <code>RST</code> es enviado por Nmap ya que el estado del puerto (abierto) ha sido determinado por el <code>SYN ACK</code>. Si estuviéramos buscando más información como la versión del servicio HTTP o para obtener la página, el RST no se enviaría. Se establecería una conexión completa.</p>
+<p><img alt="" src="../img/syn_open.gif" /></p>
+<h4 id="opciones-para-los-escaneos-switches-de-nmap">Opciones para los escaneos (switches de Nmap)</h4>
+<p>Es imposible comentar todas las opciones que se pueden usar con Nmap, pero algunas de las más notorias serían:</p>
+<ul>
+<li><code>-T(0-5)</code>:  Esta es una opción para establecer la velocidad del escaneo. Los números van de 0 a 5, donde 5 es el más rápido y 0 es el más lento.</li>
+</ul>
+<p><img alt="" src="../img/opcionTnmap.png" /></p>
+<ul>
+<li>
+<p><code>-A</code>: Esta opción hace que Nmap se esfuerce en identificar el sistema operativo, los servicios y las versiones de destino. También hace traceroute y <strong>aplica scripts NSE para detectar información adicional</strong>. Este es un escaneo bastante ruidoso ya que aplica muchos escaneos diferentes. Los scripts NSE aplicados son los de la configuración por defecto.</p>
+</li>
+<li>
+<p><code>-v</code>: Mayor detalle. Esto nos dará información adicional en los datos generados por Nmap.</p>
+</li>
+<li>
+<p><code>-sV</code>: Se utiliza para sondear activamente los puertos abiertos para intentar determinar qué servicio y versión están ejecutando. </p>
+</li>
+<li>
+<p><code>-p</code>: Lista separada por comas de los puertos que se desean analizar. Una forma sencilla de definir solo unos pocos puertos para escanear o aumentar el alcance del escaneo a, por ejemplo, todos los puertos TCP disponibles.</p>
+</li>
+<li>
+<p><code>-O</code>: Hacer que Nmap intente decidir qué tipo de sistema operativo es. El proceso de detección del sistema operativo puede ser bastante complejo, pero también bastante simple. Un factor simple para intentar decidir si se trata de un sistema operativo Windows o Unix es mirar el campo TTL (Tiempo de vida) en los paquetes que se envían desde el sistema operativo. Por lo general, Windows tiene un valor predeterminado de 128, mientras que Unix tiene un valor predeterminado de 64.</p>
+</li>
+<li>
+<p><code>-Pn</code>: Fuerza la suposición de que el host está activo, omitiendo así la fase de descubrimiento del host.</p>
+</li>
+<li>
+<p><code>-oA</code>: Guarda el resultado de salida de Nmap en formatos "normal", XML y grepable. No obstante, se puede concretar de forma específica el formato del archivo de salida:</p>
+<ul>
+<li>
+<p><code>-oN</code>: redirige la salida normal a un nombre de archivo determinado</p>
+</li>
+<li>
+<p><code>-oX</code>: Produce resultados en un formato XML limpio y guárdalos en un archivo determinado.</p>
+</li>
+<li>
+<p><code>-oG</code>: Produce una salida "grepable" y la almacena en un archivo. Formato obsoleto ya que los usuarios ahora se están moviendo hacia salidas XML.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="scripts-en-nmap">Scripts en Nmap</h3>
+<p>Nmap incorpora un potente sistema de scripts conocido como NSE (Nmap Scripting Engine) que permite a los usuarios extender las capacidades de Nmap usando los diversos scripts que incorpora (actualmente hay más de 500 disponibles) que permiten desde la detección avanzada de versiones a la explotación de vulnerabilidades, o creando nuevos scripts que podemos compartir con el resto de usuarios (para los script se utiliza el <a href="https://www.lua.org/">lenguaje de programación LUA</a>).</p>
+<p>Para habilitar el uso de script en Nmap usamos la opción <code>-sC (nmap -sC &lt;objetivo&gt;)</code>. Con esta opción se seleccionarán todos los scripts NSE que pertenecen a la categoría predeterminada (<em>default</em>) y se ejecutarán contra los objetivos que indiquemos en el comando, por ejemplo:</p>
+<p><div class="highlight"><pre><span></span><code>$<span class="w"> </span>nmap<span class="w"> </span>-sC<span class="w"> </span>scanme.nmap.org
+</code></pre></div>
+En este caso le estamos indicando que habilite el uso de scripts de la categoría predeterminada y Nmap selecciona los script a usar teniendo en cuenta los puertos que encuentra. En este caso se ejecutan los scripts <code>ssh-hostkey</code> y <code>http-title</code> como podemos ver en los resultados reportados:</p>
+<div class="highlight"><pre><span></span><code>Starting<span class="w"> </span>Nmap<span class="w"> </span><span class="m">7</span>.80<span class="w"> </span><span class="o">(</span><span class="w"> </span>https://nmap.org<span class="w"> </span><span class="o">)</span><span class="w"> </span>at<span class="w"> </span><span class="m">2021</span>-02-22<span class="w"> </span><span class="m">13</span>:01<span class="w"> </span>CET
+Nmap<span class="w"> </span>scan<span class="w"> </span>report<span class="w"> </span><span class="k">for</span><span class="w"> </span>scanme.nmap.org<span class="w"> </span><span class="o">(</span><span class="m">45</span>.33.32.156<span class="o">)</span>
+Host<span class="w"> </span>is<span class="w"> </span>up<span class="w"> </span><span class="o">(</span><span class="m">0</span>.26s<span class="w"> </span>latency<span class="o">)</span>.
+Other<span class="w"> </span>addresses<span class="w"> </span><span class="k">for</span><span class="w"> </span>scanme.nmap.org<span class="w"> </span><span class="o">(</span>not<span class="w"> </span>scanned<span class="o">)</span>:<span class="w"> </span><span class="m">2600</span>:3c01::f03c:91ff:fe18:bb2f
+Not<span class="w"> </span>shown:<span class="w"> </span><span class="m">996</span><span class="w"> </span>closed<span class="w"> </span>ports
+PORT<span class="w">      </span>STATE<span class="w"> </span>SERVICE
+<span class="m">22</span>/tcp<span class="w">    </span>open<span class="w">  </span>ssh
+<span class="p">|</span><span class="w"> </span>ssh-hostkey:<span class="w"> </span>
+<span class="p">|</span><span class="w">   </span><span class="m">1024</span><span class="w"> </span>ac:00:a0:1a:82:ff:cc:55:99:dc:67:2b:34:97:6b:75<span class="w"> </span><span class="o">(</span>DSA<span class="o">)</span>
+<span class="p">|</span><span class="w">   </span><span class="m">2048</span><span class="w"> </span><span class="m">20</span>:3d:2d:44:62:2a:b0:5a:9d:b5:b3:05:14:c2:a6:b2<span class="w"> </span><span class="o">(</span>RSA<span class="o">)</span>
+<span class="p">|</span><span class="w">   </span><span class="m">256</span><span class="w"> </span><span class="m">96</span>:02:bb:5e:57:54:1c:4e:45:2f:56:4c:4a:24:b2:57<span class="w"> </span><span class="o">(</span>ECDSA<span class="o">)</span>
+<span class="p">|</span>_<span class="w">  </span><span class="m">256</span><span class="w"> </span><span class="m">33</span>:fa:91:0f:e0:e1:7b:1f:6d:05:a2:b0:f1:54:41:56<span class="w"> </span><span class="o">(</span>ED25519<span class="o">)</span>
+<span class="m">80</span>/tcp<span class="w">    </span>open<span class="w">  </span>http
+<span class="p">|</span>_http-title:<span class="w"> </span>Go<span class="w"> </span>ahead<span class="w"> </span>and<span class="w"> </span>ScanMe!
+<span class="m">9929</span>/tcp<span class="w">  </span>open<span class="w">  </span>nping-echo
+<span class="m">31337</span>/tcp<span class="w"> </span>open<span class="w">  </span>Elite
+
+Nmap<span class="w"> </span><span class="k">done</span>:<span class="w"> </span><span class="m">1</span><span class="w"> </span>IP<span class="w"> </span>address<span class="w"> </span><span class="o">(</span><span class="m">1</span><span class="w"> </span>host<span class="w"> </span>up<span class="o">)</span><span class="w"> </span>scanned<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">11</span>.64<span class="w"> </span>seconds
+</code></pre></div>
+<p>Los scripts en NSE se dividen en las siguientes categorías:</p>
+<ul>
+<li>
+<p><code>auth</code>: Este tipo de Scripts permiten determinar credenciales de autenticación en el sistema objetivo, frecuentemente realizando ataques de fuerza bruta sencillos, algunos ejemplos de este tipo de scripts son ftp-anon, snmp-brute, http-auth, etc.</p>
+</li>
+<li>
+<p><code>broadcast</code>: Este tipo de Scripts permiten determinar credenciales de autenticación en el sistema objetivo, frecuentemente realizando ataques de fuerza bruta sencillos, algunos ejemplos de este tipo de scripts son ftp-anon, snmp-brute, http-auth, etc.</p>
+</li>
+<li>
+<p><code>brute</code>: esta categoría es para scripts que utilizan el sistema de fuerza bruta para averiguar las credenciales de usuario en un determinado servicio</p>
+</li>
+<li>
+<p><code>default</code>: estos son los scripts que se ejecutan cuando se ejecuta la opción -sC. Se trata de un conjunto de scripts que ejecutan operaciones concretas tratando de capturar la mayor cantidad de información contra un objetivo, se trata de una categoría que debe ser evitada, ya que puede hacer mucho ruido contra un sistema remoto que tenga un IDS/IPS instalado, utilizando esta categoría, probablemente el escaneo no sea tan discreto como se espera.</p>
+</li>
+<li>
+<p><code>discovery</code>: Estos scripts tratan de descubrir de forma activa servicios en el segmento de red tales como registros públicos, dispositivos SNMP, servicios de directorio, etc.</p>
+</li>
+<li>
+<p><code>dos</code>: Intentan causar denegación de servicio sobre un servicio determinado.</p>
+</li>
+<li>
+<p><code>exploit</code>: Tratan de detectar y explotar algún tipo de vulnerabilidad sobre el objetivo.</p>
+</li>
+<li>
+<p><code>external</code>: Registran la información de un escaneo determinado en un recurso externo como por ejemplo un servicio de almacenamiento en internet, sin embargo es necesario ser cauteloso con este tipo de scripts ya que pueden enviar a una fuente externa la dirección IP del objetivo y del atacante.</p>
+</li>
+<li>
+<p><code>fuzzer</code>: Estos Scripts envían información al servidor que es inesperada, incompleta o aleatoria, con el fin de detectar una posible vulnerabilidad en el servicio, sin embargo es costoso en términos de rendimiento del escaneo.</p>
+</li>
+<li>
+<p><code>intrusive</code>: Son Scripts con un alto grado de ser perjudiciales para el sistema objetivo, ya que intenta utilizar recursos del sistema objetivo tales como proxys HTTP o dispositivos con SNMP habilitado.</p>
+</li>
+<li>
+<p><code>malware</code>: Intentan determinar si el objetivo se encuentra infectado con malware o backdoors, algunos ejemplos de esta categoría de Scripts son: <code>smtp-strangeport</code> y <code>auth-spoof</code></p>
+</li>
+<li>
+<p><code>safe</code>: Están diseñados para no afectar ni dañar el objetivo, simplemente tratan de capturar información que pueda ser sensible sin afectar el rendimiento u otros factores de la ejecución del servicio, ejemplos de este tipo de scripts pueden ser: ssh-hostkey o html-title </p>
+</li>
+<li>
+<p><code>version</code>: Se trata de scripts que extienden el proceso de detección de versiones de servicios, están diseñados para ejecutarse solamente si el escaneo tiene la opción (Scan Version -sV)</p>
+</li>
+<li>
+<p><code>vuln</code>: Chequean vulnerabilidades especificas de software y generan resultados solamente si dichas vulnerabilidades son encontradas, ejemplos de este tipo de scripts son: <code>realvnc-auth-bypass</code> y <code>afp-path-vuln</code></p>
+</li>
+</ul>
+<p>Si la instalación de Nmap se ha realizado desde apt-get o dpkg, probablemente la ubicación de todos los scripts se encuentre en <code>/usr/share/nmap/scripts</code></p>
+<h4 id="seleccion-de-scripts">Selección de scripts</h4>
+<p>Podemos seleccionar el script que queremos ejecutar directamente indicando el fichero o podemos seleccionar todos los de una categoría o categorías.</p>
+<h5 id="seleccionar-categorias">Seleccionar categorías</h5>
+<div class="highlight"><pre><span></span><code>nmap<span class="w"> </span>-sV<span class="w"> </span>--script<span class="w"> </span>&lt;categoria&gt;<span class="w"> </span>&lt;objetivo&gt;
+</code></pre></div>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>nmap<span class="w"> </span>-sV<span class="w"> </span>--script<span class="w"> </span>version<span class="w"> </span>scanme.nmap.org
+</code></pre></div>
+<p>Ejecutamos los script de la categoría version contra el objetivo scanme.nmap.org:</p>
+<div class="highlight"><pre><span></span><code>nmap<span class="w"> </span>-sV<span class="w"> </span>--script<span class="o">=</span><span class="s2">&quot;version,discovery&quot;</span><span class="w"> </span>scanme.nmap.org
+</code></pre></div>
+<p>Además de los script de la categoría version también se usarán los de la categoría discovery.</p>
+<div class="highlight"><pre><span></span><code>nmap<span class="w"> </span>-sV<span class="w"> </span>--script<span class="w"> </span><span class="s2">&quot;not intrusive&quot;</span><span class="w"> </span>scanme.nmap.org
+</code></pre></div>
+<p>En este caso se ejecutarían todos los script excepto los de la categoría intrusive.</p>
+<div class="highlight"><pre><span></span><code>nmap<span class="w"> </span>-sV<span class="w"> </span>--script<span class="w"> </span><span class="s2">&quot;(http-*) and not http-brute&quot;</span><span class="w"> </span>scanme.nmap.org
+</code></pre></div>
+<p>En este caso se ejecutarían todos los script http excepto http-brute.</p>
+<h5 id="seleccion-de-script-especifico">Selección de script específico</h5>
+<div class="highlight"><pre><span></span><code>nmap<span class="w"> </span>--script<span class="w"> </span>&lt;nombre<span class="w"> </span>de<span class="w"> </span>fichero&gt;<span class="w"> </span>&lt;objetivo&gt;
+</code></pre></div>
+<p>Por ejemplo:</p>
+<div class="highlight"><pre><span></span><code>nmap<span class="w"> </span>--script<span class="w"> </span>http-title<span class="w"> </span>scanme.nmap.org
+</code></pre></div>
+<p>Se ejecucuta el script http-title contra el objetivo scanme.nmap.org (es posible indicar varios scripts separandolos por comas).</p>
+<h4 id="actualizar-la-base-de-datos-de-scripts">Actualizar la base de datos de scripts</h4>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>nmap<span class="w"> </span>--script-updatedb
+</code></pre></div>
+<p>Se actualizarán los script contra la base de datos de Nmap y los script nuevos se guardaran en la ruta por defecto de nuestra instalación.</p>
+<h4 id="demostracion-de-algunos-scripts">Demostración de algunos scripts</h4>
+<ol>
+<li>
+<p>Comprobar las versiones de los servicios en los puertos abiertos</p>
+<p><img alt="" src="../img/scripts1.png" /></p>
+</li>
+<li>
+<p>A continuación se utiliza el script <code>ftp-anon</code> de la categoría <code>auth</code>. Este script nos permitirá saber si el acceso anónimo al servidor ftp está permitido.</p>
+<p><img alt="" src="../img/scripts2.png" /></p>
+</li>
+<li>
+<p>Con el script <code>http-defaults-accounts</code> se intenta determinar si el acceso con credenciales por defecto está habilitado en algunas aplicaciones web.</p>
+<p><img alt="" src="../img/scripts3.png" /></p>
+</li>
+<li>
+<p>El script <code>ftp-vsftpd-backdoor</code> corresponde a las categorías: exploit, intrusive, malware, vuln; este script busca la existencia de la puerta trasera (backdoor) reportada en <a href="https://www.incibe-cert.es/alerta-temprana/vulnerabilidades/cve-2011-2523">CVE-2011-2523</a> (una vulnerabilidad antigua pero con fines ilustrativos)</p>
+<p><img alt="" src="../img/scripts4.png" /></p>
+</li>
+<li>
+<p>Utilizando los scripts de la categoría <code>vuln</code> para descubrir la vlnerabilidad <a href="https://www.csirt-epn.edu.ec/servicios/vulnerabilidades/58-ms17-010">MS17-010 (Eternalblue)</a>, la que utilizó <em>Wannacry</em> en su día.</p>
+<p><img alt="" src="../img/scripts5.jpg" /></p>
+<p>Para haber buscado vulnerabilidad específicas de SMB, podíamos haber utilizado también:</p>
+<div class="highlight"><pre><span></span><code>nmap<span class="w"> </span>-sV<span class="w"> </span>--script<span class="w"> </span>smb*<span class="w"> </span>&lt;Objetivo&gt;
+</code></pre></div>
+</li>
+</ol>
+<h2 id="evasion-de-firewall-con-nmap">Evasión de firewall con Nmap</h2>
+<p>Como ya hemos visto, Nmap permite escaneos con diferentes parámetros del protocolo TCP, un pequeño resumen que tendremos en cuenta para esta sección es:</p>
+<table>
+<thead>
+<tr>
+<th>Escaneo</th>
+<th>Flags TCP</th>
+<th>Tamaño (Bytes)</th>
+<th>TTL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-sT</td>
+<td>SYN</td>
+<td>60</td>
+<td>64</td>
+</tr>
+<tr>
+<td>-sS (Stealth)</td>
+<td>SYN</td>
+<td>44</td>
+<td>&lt;64</td>
+</tr>
+<tr>
+<td>-sF (Fin)</td>
+<td>FIN</td>
+<td>40</td>
+<td>&lt;64</td>
+</tr>
+<tr>
+<td>-sN (Null)</td>
+<td>NULL</td>
+<td>40</td>
+<td>&lt;64</td>
+</tr>
+<tr>
+<td>-sX (Xmas)</td>
+<td>FIN, PSH, URG</td>
+<td>40</td>
+<td>&lt;64</td>
+</tr>
+</tbody>
+</table>
+<h3 id="que-es-un-firewall-o-cortafuegos">¿Qué es un firewall o cortafuegos?</h3>
+<p>Un cortafuegos es una medida de seguridad contra intentos de conexión no autorizados desde redes externas. Todo sistema de seguridad de cortafuegos se basa en un componente de software que supervisa el tráfico de red entre el cortafuegos y las conexiones de datos entrantes y decide cómo gestionar la conexión en función de las reglas establecidas.</p>
+<p>Comprueba si los paquetes de red individuales se pasan, se ignoran o se bloquean. Este mecanismo está diseñado para evitar conexiones no deseadas que podrían ser 
+potencialmente peligrosas.</p>
+<h4 id="determinar-los-cortafuegos-y-sus-reglas">Determinar los cortafuegos y sus reglas</h4>
+<p>Ya sabemos que cuando un puerto aparece como filtrado, puede deberse a varias razones. En la mayoría de los casos, los cortafuegos tienen ciertas reglas establecidas para manejar conexiones específicas. Los paquetes pueden ser descartados o rechazados. Los paquetes rechazados son ignorados y no se devuelve ninguna respuesta desde el host.</p>
+<p>Esto es diferente para los paquetes rechazados que se devuelven con una bandera RST. Estos paquetes contienen diferentes tipos de códigos de error ICMP o no contienen nada en absoluto.</p>
+<p>Tales errores pueden ser:</p>
+<ul>
+<li>Net Unreachable</li>
+<li>Net Prohibited</li>
+<li>Host Unreachable</li>
+<li>Host Prohibited</li>
+<li>Port Unreachable</li>
+<li>Proto Unreachable</li>
+</ul>
+<p>El método de sondeo TCP ACK (-sA) de Nmap es mucho más difícil de filtrar para los cortafuegos y sistemas IDS/IPS que los sondeos regulares SYN (-sS) o Connect (-sT) porque sólo envían un paquete TCP con la bandera ACK. </p>
+<p>Cuando un puerto está cerrado o abierto, el host debe responder con una bandera <code>RST</code>. A diferencia de las conexiones salientes, todos los intentos de conexión (con la bandera SYN ) procedentes de redes externas suelen ser bloqueados por los cortafuegos. Sin embargo, los paquetes con la bandera ACK a menudo pasan a través del cortafuegos porque éste no puede determinar si la conexión se estableció primero desde la red externa o desde la red interna.</p>
+<h3 id="dockerfile">Dockerfile</h3>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">ubuntu:latest</span>
+
+<span class="k">ENV</span><span class="w"> </span><span class="nv">DEBIAN_FRONTEND</span><span class="o">=</span>noninteractive
+
+<span class="c"># Install necessary packages, including iproute2</span>
+<span class="k">RUN</span><span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>iproute2<span class="w"> </span>iputils-ping<span class="w"> </span>curl<span class="w"> </span>tcpdump<span class="w"> </span>iptables<span class="w"> </span>nginx<span class="w"> </span>openssh-server<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>rm<span class="w"> </span>-rf<span class="w"> </span>/var/lib/apt/lists/*<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;PermitRootLogin yes&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/etc/ssh/sshd_config
+
+<span class="k">RUN</span><span class="w"> </span>mkdir<span class="w"> </span>/var/run/sshd
+
+
+<span class="k">RUN</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;root:root&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>chpasswd
+
+<span class="k">EXPOSE</span><span class="w"> </span><span class="s">80 22</span>
+
+<span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;sh&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;-c&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;service nginx start &amp;&amp; /usr/sbin/sshd -D&quot;</span><span class="p">]</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>nmap-demo<span class="w"> </span>.
+
+docker<span class="w"> </span>run<span class="w"> </span>--privileged<span class="w"> </span>-d<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>:80<span class="w"> </span>-p<span class="w"> </span><span class="m">2220</span>:22<span class="w"> </span>--name<span class="w"> </span>nmap-demo-c<span class="w"> </span>nmap-demo
+</code></pre></div>
+<h3 id="bypass-del-bloqueo-de-paquetes-syn">Bypass del bloqueo de paquetes SYN</h3>
+<div class="highlight"><pre><span></span><code>iptables<span class="w"> </span>-I<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--tcp-flags<span class="w"> </span>ALL<span class="w"> </span>SYN<span class="w"> </span>-j<span class="w"> </span>REJECT<span class="w"> </span>--reject-with<span class="w"> </span>tcp-reset
+
+nmap<span class="w"> </span>-p22,80<span class="w"> </span>-sT
+
+sudo<span class="w"> </span>nmap<span class="w"> </span>-p22,80<span class="w"> </span>-sS
+
+sudo<span class="w"> </span>nmap<span class="w"> </span>-p22,80<span class="w"> </span>-sX
+</code></pre></div>
+<h3 id="bypass-del-bloqueo-por-tamano-de-paquete-con-stealth-scan">Bypass del bloqueo por tamaño de paquete con Stealth scan</h3>
+<div class="highlight"><pre><span></span><code>iptables<span class="w"> </span>-F<span class="w"> </span>INPUT
+
+iptables<span class="w"> </span>-I<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>-m<span class="w"> </span>length<span class="w"> </span>--length<span class="w"> </span><span class="m">60</span><span class="w"> </span>-j<span class="w"> </span>REJECT<span class="w"> </span>--reject-with<span class="w"> </span>tcp-reset
+
+nmap<span class="w"> </span>-p22,80<span class="w"> </span>-sT
+
+sudo<span class="w"> </span>nmap<span class="w"> </span>-p22,80<span class="w"> </span>-sS
+
+iptables<span class="w"> </span>-nvL<span class="w"> </span>INPUT
+
+iptables<span class="w"> </span>-I<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>-m<span class="w"> </span>length<span class="w"> </span>--length<span class="w"> </span><span class="m">44</span><span class="w"> </span>-j<span class="w"> </span>REJECT<span class="w"> </span>--reject-with<span class="w"> </span>tcp-reset
+iptables<span class="w"> </span>-I<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>-m<span class="w"> </span>length<span class="w"> </span>--length<span class="w"> </span><span class="m">40</span><span class="w"> </span>-j<span class="w"> </span>REJECT<span class="w"> </span>--reject-with<span class="w"> </span>tcp-reset
+
+nmap<span class="w"> </span>-p22,80<span class="w"> </span>-sT
+
+sudo<span class="w"> </span>nmap<span class="w"> </span>-p22,80<span class="w"> </span>-sX
+
+sudo<span class="w"> </span>nmap<span class="w"> </span>-p22,80<span class="w"> </span>--data-length<span class="w"> </span><span class="m">41</span><span class="w"> </span>
+
+iptables<span class="w"> </span>-I<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>-m<span class="w"> </span>length<span class="w"> </span>--length<span class="w"> </span><span class="m">1</span>:150<span class="w"> </span>-j<span class="w"> </span>REJECT<span class="w"> </span>--reject-with<span class="w"> </span>tcp-reset
+</code></pre></div>
+<h3 id="bypass-de-bloqueo-por-filtrado-de-puerto-de-origen">Bypass de bloqueo por filtrado de puerto de origen</h3>
+<div class="highlight"><pre><span></span><code>iptables<span class="w"> </span>-I<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--sport<span class="w"> </span><span class="m">11222</span><span class="w"> </span>-j<span class="w"> </span>ACCEPT
+iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>-j<span class="w"> </span>REJECT<span class="w"> </span>--reject-with<span class="w"> </span>tcp-reset
+
+sudo<span class="w"> </span>nmap<span class="w"> </span>-p22,80<span class="w"> </span>-g<span class="w"> </span><span class="m">11222</span>
+</code></pre></div>
+<h3 id="bypass-de-bloqueo-por-filtrado-de-direcciones-mac-mac-spoofing">Bypass de bloqueo por filtrado de direcciones MAC (MAC spoofing)</h3>
+<div class="highlight"><pre><span></span><code>iptables<span class="w"> </span>-I<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>-m<span class="w"> </span>mac<span class="w"> </span>--mac-source<span class="w"> </span><span class="s2">&quot;73:3b:3a:98:fc:4d&quot;</span><span class="w"> </span>-j<span class="w"> </span>ACCEPT
+iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>-j<span class="w"> </span>REJECT<span class="w"> </span>--reject-with<span class="w"> </span>tcp-reset
+
+sudo<span class="w"> </span>nmap<span class="w"> </span>-p22,80<span class="w"> </span>--spoof-mac<span class="w"> </span><span class="m">73</span>:3b:3a:98:fc:4d
+</code></pre></div>
+<h3 id="bypass-de-bloqueo-por-filtrado-de-direcciones-ip-ip-spoofing">Bypass de bloqueo por filtrado de direcciones IP (IP spoofing)</h3>
+<div class="highlight"><pre><span></span><code>.2
+
+sudo<span class="w"> </span>nmap<span class="w"> </span>-p22,80<span class="w"> </span>-e<span class="w"> </span>eth0<span class="w"> </span>-S<span class="w"> </span>x.x.x.x<span class="w"> </span>-sS<span class="w"> </span>x.x.x.x
+</code></pre></div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "toc.integrate", "navigation.expand", "navigation.top", "navigation.indexes", "content.tabs.link", "content.code.annotate", "content.code.copy", "navigation.footer"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>
