@@ -682,7 +682,7 @@ ls > salida.txt
 No se imprimirá nada por pantalla puesto que hemos redirigido la salida del comando al archivo salida.txt. En todo caso, podemos utilizar el comando "cat" para ver el contenido del archivo:
 
 ```sh
-cat output.txt
+cat salida.txt
 ```
 
 Otro ejemplo de redirección podríamos llevarlo a cabo utilizando el comando "echo", el cual simplemente imprime por pantalla los argumentos que recibe. Sin embargo, podríamos redirigir la salida a un archivo y crear ficheros nuevos:
@@ -761,8 +761,7 @@ mv combinado.txt dir1
 ```
 Para confirmar que el comando se ha ejecutado con éxito podemos utilizar el comando ```ls``` para ver que el fichero ya no está en el directorio de trabajo, luego con  ```cd dir1``` cambiar a ese directorio, hacer  ```ls``` para ver que ahora el fichero está allí, y luego ```cd ..``` para movernos al directorio de trabajo nuevamente. 
 
-**Los dos puntos nos permiten indicarle a un comando el directorio inmediatamente superior al que estamos.
-**
+**Los dos puntos nos permiten indicarle a un comando el directorio inmediatamente superior al que estamos.**
 O también podemos ahorrarnos la mayor parte de este trabajo de escritura pasando una ruta directamente al comando ```ls``` consultar directamente el contenido de ese directorio:
 
 ```sh
