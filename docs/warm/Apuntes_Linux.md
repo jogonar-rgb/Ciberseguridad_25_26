@@ -771,7 +771,7 @@ Si ahora quisiéramos devolver el archivo combinado.txt al directorio padre, ten
 
 * Entrar en ```dir1``` con ```cd``` y usar ```mv combinado.txt ..```. 
   
-* **De la misma manera que dos puntos ( ..) representan el directorio padre, por lo que .se puede usar un solo punto ( ) para representar el directorio de trabajo actual** Como sabemos que solo hay un archivo en ```dir1``` , podemos usar “*” para que coincida con cualquier nombre de archivo en ese directorio, ahorrándonos escribir más comandos. Nuestro comando para mover el archivo de nuevo al directorio de trabajo se convierte en esto (se debe tener en cuenta el espacio antes del punto, ya que hay dos parámetros que se pasan a ```mv```):
+* **De la misma manera que dos puntos ( ..) representan el directorio padre, por lo que .se puede usar un solo punto ( .) para representar el directorio de trabajo actual** Como sabemos que solo hay un archivo en ```dir1``` , podemos usar “*” para que coincida con cualquier nombre de archivo en ese directorio, ahorrándonos escribir más comandos. Nuestro comando para mover el archivo de nuevo al directorio de trabajo se convierte en esto (se debe tener en cuenta el espacio antes del punto, ya que hay dos parámetros que se pasan a ```mv```):
   
 ```sh
 mv dir1/* .

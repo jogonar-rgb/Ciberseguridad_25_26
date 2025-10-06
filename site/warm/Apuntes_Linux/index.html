@@ -1574,7 +1574,7 @@ Todos estos comandos crearán carpetas independientes y con espacios en los nomb
 <p><div class="highlight"><pre><span></span><code>ls<span class="w"> </span>&gt;<span class="w"> </span>salida.txt
 </code></pre></div>
 No se imprimirá nada por pantalla puesto que hemos redirigido la salida del comando al archivo salida.txt. En todo caso, podemos utilizar el comando "cat" para ver el contenido del archivo:</p>
-<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>output.txt
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>salida.txt
 </code></pre></div>
 <p>Otro ejemplo de redirección podríamos llevarlo a cabo utilizando el comando "echo", el cual simplemente imprime por pantalla los argumentos que recibe. Sin embargo, podríamos redirigir la salida a un archivo y crear ficheros nuevos:</p>
 <p><div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Esto es una prueba&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>test_1.txt
@@ -1626,8 +1626,7 @@ Se debe tener precaución con esto puesto que Windows es "case insensitive" y no
 <p><div class="highlight"><pre><span></span><code>mv<span class="w"> </span>combinado.txt<span class="w"> </span>dir1
 </code></pre></div>
 Para confirmar que el comando se ha ejecutado con éxito podemos utilizar el comando <code>ls</code> para ver que el fichero ya no está en el directorio de trabajo, luego con  <code>cd dir1</code> cambiar a ese directorio, hacer  <code>ls</code> para ver que ahora el fichero está allí, y luego <code>cd ..</code> para movernos al directorio de trabajo nuevamente. </p>
-<p>**Los dos puntos nos permiten indicarle a un comando el directorio inmediatamente superior al que estamos.
-**
+<p><strong>Los dos puntos nos permiten indicarle a un comando el directorio inmediatamente superior al que estamos.</strong>
 O también podemos ahorrarnos la mayor parte de este trabajo de escritura pasando una ruta directamente al comando <code>ls</code> consultar directamente el contenido de ese directorio:</p>
 <p><div class="highlight"><pre><span></span><code>ls<span class="w"> </span>dir1
 </code></pre></div>
