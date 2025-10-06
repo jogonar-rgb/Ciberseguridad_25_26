@@ -832,7 +832,7 @@ Además de archivos, se podría intentar eliminar directorios que no hagan falta
 
 ![](./img/comandos3.png)
 
-A pesar que las carpetas de la 1 a la 5 se han eliminado, las 6 nos ha dado un error. Esto es porque el comando ```mkdir```, una vez más por motivos de precacución, exige que la carpeta esté vacía para eliminarla.
+A pesar que las carpetas de la 1 a la 5 se han eliminado, las 6 nos ha dado un error. Esto es porque el comando ```rmdir```, una vez más por motivos de precacución, exige que la carpeta esté vacía para eliminarla.
 
 No obstante, la tarea más habitual cuando **realmente se está seguro** de que se desea eliminar un directorio y todo lo que contiene, es utilizar el comando ```rm``` de forma recursiva, usando el switch u opción ```-r```:
 
@@ -842,7 +842,7 @@ No obstante, la tarea más habitual cuando **realmente se está seguro** de que 
 ^^Recordatorio^^: aunque ```rm -r``` es rápido y eficaz, también es peligroso. Es más seguro eliminar archivos explícitamente para borrar un directorio, luego ```cd ..``` al padre antes de usar ```rmdir``` para eliminarlo.
 
 !!!Warning "¡Peligro!"
-    A diferencia de las interfaces gráficas, ```rm``` no mueve archivos a ninguna carpeta llamada "papelera" o similar. En cambio, los elimina total e irrevocablemente. Se debe tener mucho cuidado con los parámetros que usa con ```rm``` para asegurarno de que solo están eliminando los archivos deseados. Y se debe tener especial cuidado al usar comodines, ya que es fácil eliminar accidentalmente más archivos de los que se pretendía. Un carácter "espacio" equivocado en el comando puede cambiarlo por completo: ```rm t*``` significa "eliminar todos los archivos que comienzan con t", mientras que ```rm t *``` significa "eliminar el archivo t así como cualquier archivo cuyo nombre conste de cero o más caracteres, que sería todo en el ¡directorio! Si no se está seguro, se puede usar la opción ```-i(interactive opcional)``` del ```rm``` que pedirá que se confirme la eliminación de cada archivo.
+    A diferencia de las interfaces gráficas, ```rm``` no mueve archivos a ninguna carpeta llamada "papelera" o similar. En cambio, los elimina total e irrevocablemente. Se debe tener mucho cuidado con los parámetros que usa con ```rm``` para asegurarnos de que solo están eliminando los archivos deseados. Y se debe tener especial cuidado al usar comodines, ya que es fácil eliminar accidentalmente más archivos de los que se pretendía. Un carácter "espacio" equivocado en el comando puede cambiarlo por completo: ```rm t*``` significa "eliminar todos los archivos que comienzan con t", mientras que ```rm t *``` significa "eliminar el archivo t así como cualquier archivo cuyo nombre conste de cero o más caracteres, que sería todo en el ¡directorio! Si no se está seguro, se puede usar la opción ```-i(interactive opcional)``` del ```rm``` que pedirá que se confirme la eliminación de cada archivo.
 
 ### Un poco de fontanería (tuberías)
 
