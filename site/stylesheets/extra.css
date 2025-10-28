@@ -1,0 +1,41 @@
+img[alt$=">"] {
+    float: right;
+  }
+  
+  img[alt$="<"] {
+    float: left;
+  }
+  
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: auto;
+    float: none !important;
+  }
+
+/* Change the background color of table headers */
+table thead th {
+  #text-align: center !important;
+  vertical-align: middle !important;
+  background-color: #40434E;  /* Example color, replace with your own */
+  color: white;  /* Text color in the header */
+  text-align: center;
+}
+
+/* Optional: Add styling for border and padding */
+table th, table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+  
+  :root {
+    --md-primary-fg-color: #60102f;
+    --md-primary-fg-color--light: rgb(123, 136, 204);
+    --md-primary-fg-color--dark: #34091a;
+  }
+
+  .md-typeset pre code {
+  white-space: pre-wrap;   /* Permite saltos de línea */
+  word-break: break-word;  /* Rompe palabras largas */
+}

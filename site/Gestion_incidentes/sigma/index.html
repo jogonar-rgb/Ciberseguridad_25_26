@@ -1,0 +1,1336 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://jogonar-rgb.github.io/Ciberseguridad_25_26/Gestion_incidentes/sigma/">
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.20">
+    
+    
+      
+        <title>Reglas Sigma y su relación con Incident Response/Incident Management - Seguridad en sistemas del curso de especialista en ciberseguridad</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.e53b48f4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-green" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#reglas-sigma-y-su-relacion-con-incident-responseincident-management" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Seguridad en sistemas del curso de especialista en ciberseguridad" class="md-header__button md-logo" aria-label="Seguridad en sistemas del curso de especialista en ciberseguridad" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Seguridad en sistemas del curso de especialista en ciberseguridad
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Reglas Sigma y su relación con Incident Response/Incident Management
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="light-green" data-md-color-accent="indigo"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="indigo"  aria-label="Cambiar a modo normal"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo normal" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Introducción
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../warm/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Warm up
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Seguridad_ofensiva/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Seguridad ofensiva
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Seguridad en sistemas del curso de especialista en ciberseguridad" class="md-nav__button md-logo" aria-label="Seguridad en sistemas del curso de especialista en ciberseguridad" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Seguridad en sistemas del curso de especialista en ciberseguridad
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introducción
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../warm/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Warm up
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Warm up
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Apuntes_Linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Entornos Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Ejercicios_Linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ejercicios propuestos Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Apuntes_Windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Entornos Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Ejercicios_Windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ejercicios propuestos Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/webgrafia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Webgrafía
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../Seguridad_ofensiva/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Seguridad ofensiva
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Seguridad ofensiva
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/Intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introducción
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/nmap101/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introducción a Nmap
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/enumeracion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Enumeración de servicios
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/servicios_desact/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Causas de vulnerabilidades en sistemas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/exploit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Explotación de vulnerabilidades
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/metasploit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Metasploit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/privesc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Escalada de privilegios
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/ad_enumeration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Enumeración en entornos AD (Active Directory)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/passw_manag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Gestión y almacenamiento de credenciales en Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/phising/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Spoofing & phising
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/HackingAD1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ataques en entornos Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/webgrafia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Webgrafía
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="reglas-sigma-y-su-relacion-con-incident-responseincident-management">Reglas Sigma y su relación con Incident Response/Incident Management</h1>
+<p>Las <strong>reglas Sigma</strong> son un estándar abierto para la definición de reglas de detección de amenazas en formato YAML/JSON, independiente de la plataforma de SIEM (Security Information and Event Management) o herramienta de análisis de logs. Estas reglas permiten describir patrones de comportamiento sospechosos o maliciosos en los registros de eventos, facilitando la detección de posibles incidentes de seguridad.</p>
+<p><a href="https://github.com/SigmaHQ/sigma">Según su propia definición</a>:</p>
+<div class="admonition quote">
+<p class="admonition-title">Cita</p>
+<p>Sigma es un formato de firma genérico y abierto que permite describir de forma sencilla eventos de logs relevantes. El formato de reglas es muy flexible, fácil de escribir y aplicable a cualquier tipo de archivo de registro.</p>
+<p>El objetivo principal de este proyecto es proporcionar una forma estructurada en la que los investigadores o analistas puedan describir los métodos de detección que han desarrollado y hacerlos compartibles con otros.</p>
+<p>Sigma es para los archivos de registro lo que Snort es para el tráfico de red y YARA para los archivos.</p>
+</div>
+<h2 id="caracteristicas-principales-de-sigma">Características principales de Sigma</h2>
+<ol>
+<li><strong>Independencia de plataforma</strong>: Las reglas pueden ser convertidas a formatos nativos de diferentes SIEMs (como Splunk, Elasticsearch, QRadar, etc.) mediante herramientas como <strong>Sigma Converter</strong>.</li>
+<li><strong>Sintaxis estandarizada</strong>: Usan un esquema basado en YAML/JSON para definir condiciones de búsqueda en logs.</li>
+<li><strong>Comunidad colaborativa</strong>: Existe un repositorio público (<a href="https://github.com/SigmaHQ/sigma">SigmaHQ</a>) con reglas predefinidas para detectar TTPs (Tácticas, Técnicas y Procedimientos) de frameworks como MITRE ATT&amp;CK.</li>
+</ol>
+<h2 id="casos-de-uso-de-sigma">Casos de uso de Sigma</h2>
+<p>Sigma se desarrolló con la mente puesta en los siguientes usos:</p>
+<ul>
+<li>Para que los métodos de detección y las firmas se puedan compartir junto con los IOC y las reglas de Yara.</li>
+<li>Para escribir búsquedas SIEM que eviten la dependencia de un proveedor.</li>
+<li>Para compartir firmas con comunidades de inteligencia de amenazas.</li>
+<li>Escribir reglas de detección personalizadas para comportamientos maliciosos basados en condiciones específicas.</li>
+</ul>
+<h2 id="relacion-con-incident-response-ir-y-incident-management-im">Relación con Incident Response (IR) y Incident Management (IM)</h2>
+<p>Las reglas Sigma mejoran la capacidad de respuesta ante incidentes de varias formas:</p>
+<h3 id="1-deteccion-temprana-de-amenazas">1. <strong>Detección temprana de amenazas</strong></h3>
+<ul>
+<li>Permiten identificar indicadores de compromiso (IOCs) y comportamientos anómalos (IOAs) en logs.</li>
+<li>Ejemplo: Detección de ejecución de PowerShell malicioso, movimiento lateral, exfiltración de datos.</li>
+</ul>
+<h3 id="2-automatizacion-de-alertas">2. <strong>Automatización de alertas</strong></h3>
+<ul>
+<li>Al integrarse con un SIEM, generan alertas que pueden disparar flujos de IR (como notificaciones a equipos SOC o automatización con SOAR).</li>
+</ul>
+<h3 id="3-consistencia-en-la-respuesta">3. <strong>Consistencia en la respuesta</strong></h3>
+<ul>
+<li>Al estandarizar las reglas, se reduce la dependencia de soluciones propietarias y se facilita la colaboración entre equipos.</li>
+</ul>
+<h3 id="4-integracion-con-mitre-attck">4. <strong>Integración con MITRE ATT&amp;CK</strong></h3>
+<ul>
+<li>Muchas reglas Sigma están mapeadas a técnicas de ATT&amp;CK, lo que ayuda en la clasificación y priorización de incidentes.</li>
+</ul>
+<h3 id="5-mejora-en-la-investigacion-forense">5. <strong>Mejora en la investigación forense</strong></h3>
+<ul>
+<li>Proporcionan búsquedas predefinidas para analizar logs durante la contención y erradicación de un incidente.</li>
+</ul>
+<hr />
+<h2 id="ejemplo-de-una-regla-sigma-yaml">Ejemplo de una regla Sigma (YAML)</h2>
+<div class="highlight"><pre><span></span><code><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Suspicious PowerShell Execution</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Detects suspicious PowerShell command lines often used in attacks</span>
+<span class="nt">status</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">experimental</span>
+<span class="nt">author</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Florian Roth</span>
+<span class="nt">logsource</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">product</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">windows</span>
+<span class="w">    </span><span class="nt">service</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">powershell</span>
+<span class="nt">detection</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">selection</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">CommandLine|contains</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;Invoke-Expression&#39;</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;IEX&#39;</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;DownloadString&#39;</span>
+<span class="w">    </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">selection</span>
+<span class="nt">falsepositives</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Legitimate PowerShell scripts using these commands</span>
+<span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">high</span>
+<span class="nt">tags</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">attack.execution</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">attack.t1059.001</span><span class="w">  </span><span class="c1"># MITRE ATT&amp;CK: Command-Line Interface - PowerShell</span>
+</code></pre></div>
+<p>Beneficios para Incident Management</p>
+<ul>
+<li>
+<p><strong>Estandarización</strong>: Facilita la documentación y el sharing de reglas entre organizaciones.</p>
+</li>
+<li>
+<p><strong>Escalabilidad</strong>: Permite adaptar detecciones a múltiples entornos sin reescribir reglas.</p>
+</li>
+<li>
+<p><strong>Respuesta más rápida</strong>: Reduce el tiempo de detección (MTTD) y respuesta (MTTR).</p>
+</li>
+</ul>
+<p>En resumen, las reglas Sigma son una herramienta clave para mejorar la detección proactiva y la eficiencia en la gestión de incidentes, alineándose con mejores prácticas de ciberseguridad.</p>
+<h1 id="sintaxis-de-las-reglas-sigma">Sintaxis de las reglas Sigma</h1>
+<p>Como se mencionaba antes, las reglas Sigma están escritas en YAML Ain't Markup Language (YAML), un lenguaje de serialización de datos legible por humanos y útil para la gestión de datos. A menudo se utiliza como formato para archivos de configuración, pero sus capacidades de serialización de objetos lo convierten en un sustituto de lenguajes como JSON.</p>
+<p>Los factores comunes a tener en cuenta sobre los archivos YAML son:</p>
+<ul>
+<li>YAML distingue entre mayúsculas y minúsculas</li>
+<li>Los archivos deben tener la extensión .yml</li>
+<li>Se utilizan espacios para la sangría y no tabuladores</li>
+<li>Los comentarios se especifician con el carácter #</li>
+<li>Los pares clave-valor se indican con dos puntos :</li>
+<li>Los elementos de arrays se indican con el carácter -</li>
+</ul>
+<p>Plantilla de sintaxis de Sigma</p>
+<p>Siguiendo con la forma de uso de YAML para reglas Sigma, la sintaxis define varios campos obligatorios y opcionales que van en cada regla. Esto se puede resaltar utilizando la imagen:</p>
+<p><img alt="" src="../img/sigma1.png" /></p>
+<p>Utilicemos <a href="https://github.com/SigmaHQ/sigma/blob/master/rules/windows/wmi_event/sysmon_wmi_event_subscription.yml">un ejemplo de regla</a> de Suscripción a Eventos <a href="https://pandorafms.com/blog/es/que-es-wmi/">WMI</a> para definir los diferentes elementos de la sintaxis. </p>
+<div class="highlight"><pre><span></span><code><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="c1">#Title of your rule</span>
+<span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="c1">#Universally Unique Identifier (UUID) Generate one from https://www.uuidgenerator.net</span>
+<span class="nt">status</span><span class="p">:</span><span class="w"> </span><span class="c1">#stage of your rule testing </span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="c1">#Details about the detection intensions of the rule.</span>
+<span class="nt">author</span><span class="p">:</span><span class="w"> </span><span class="c1">#Who wrote the rule.</span>
+<span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="c1">#When was the rule written.</span>
+<span class="nt">modified</span><span class="p">:</span><span class="w"> </span><span class="c1">#When was it updated</span>
+<span class="nt">logsource</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="c1">#Classification of the log data for detection</span>
+<span class="w">  </span><span class="nt">product</span><span class="p">:</span><span class="w"> </span><span class="c1">#Source of the log data</span>
+<span class="nt">detection</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">selection</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">FieldName1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Value</span><span class="w"> </span><span class="c1">#Search identifiers for the detection</span>
+<span class="w">    </span><span class="nt">FieldName2</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Value</span>
+<span class="w">  </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">selection</span><span class="w"> </span><span class="c1">#Action to be taken.</span>
+<span class="nt">fields</span><span class="p">:</span><span class="w"> </span><span class="c1">#List of associated fields that are important for the detection</span>
+
+<span class="nt">falsepositives</span><span class="p">:</span><span class="w"> </span><span class="c1">#Any possible false positives that could trigger the rule.</span>
+
+<span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">medium</span><span class="w"> </span><span class="c1">#Severity level of the detection rule.</span>
+<span class="nt">tags</span><span class="p">:</span><span class="w"> </span><span class="c1">#Associated TTPs from MITRE ATT&amp;CK</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">attack.credential_access</span><span class="w"> </span><span class="c1">#MITRE Tactic</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">attack.t1110</span><span class="w"> </span><span class="c1">#MITRE Technique</span>
+</code></pre></div>
+<ol>
+<li>
+<p><strong>Title:</strong> Nombra la regla en función de lo que se supone que debe detectar. Debe ser corto y claro.</p>
+</li>
+<li>
+<p><strong>ID:</strong> Identificador único global utilizado principalmente por los desarrolladores de Sigma para mantener el orden de identificación de las reglas enviadas al repositorio público, se encuentra en formato UUID. </p>
+<p>También puede añadir referencias a ID de reglas relacionadas utilizando el atributo related, lo que facilita la formación de relaciones entre detecciones. Estas relaciones serían de los siguientes tipos</p>
+<ul>
+<li>Derived: Describirá que la regla ha surgido de otra regla, que puede estar aún activa.</li>
+<li>Obsolete: Indicará que la regla listada ya no se utiliza.</li>
+<li>Merged: Indica que la regla combina reglas vinculadas.</li>
+<li>Renamed: Indica que la regla se identificaba anteriormente con un ID diferente, pero que ahora se ha modificado debido a cambios en los esquemas de nomenclatura o para evitar colisiones. </li>
+<li>Similar: Este atributo señala reglas correspondientes, por ejemplo, indica el mismo contenido de detección aplicado a diferentes fuentes de logs.</li>
+</ul>
+</li>
+<li>
+<p><strong>Status:</strong> Describe la fase en la que se encuentra la madurez de la regla mientras está en uso. Hay cinco estados declarados que se pueden utilizar:</p>
+<ul>
+<li>Stable: La regla puede utilizarse en entornos de producción y dashboards.</li>
+<li>Test: Se están haciendo pruebas a la regla y podría requerir un ajuste fino.</li>
+<li>Experimental: La regla es muy genérica y se está probando. Podría dar lugar a resultados falsos, ser ruidosa e/o identificar eventos interesantes.</li>
+<li>Deprecated: La regla ha sido sustituida y ya no produciría resultados precisos. El campo <em>«related»</em> se utiliza para crear asociaciones entre la regla actual y una que ha sido obsoleta.</li>
+<li>Unsupported: La regla no es utilizable en su estado actual (registro de correlación único, campos ad-hoc).</li>
+</ul>
+</li>
+<li>
+<p><strong>Description:</strong> Proporciona más contexto sobre la regla y su propósito previsto. Se ha de ser lo más verborreico posible sobre la actividad maliciosa que se pretende detectar.</p>
+<div class="highlight"><span class="filename">WMI_Event_Suscription.yml</span><pre><span></span><code><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WMI Event Subscription</span>
+<span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0f06a3a5-6a09-413f-8743-e6cf35561297</span>
+<span class="nt">status</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Detects creation of WMI event subscription persistence method.</span>
+</code></pre></div>
+</li>
+<li>
+<p><strong>Logsource:</strong> Describe los datos de logs que se utilizarán para la detección. Consta de otros atributos opcionales:</p>
+<ul>
+<li>Product: Selecciona todas los logs de un producto concreto. Algunos ejemplos son Windows, Apache.</li>
+<li>Category: El campo category describe el tipo de datos o eventos, sin importar el sistema operativo o la tecnología específica. Sirve para abstraer la fuente de log a un nivel más general, permitiendo portabilidad entre diferentes plataformas. (p.ej.: <code>process_creation</code>o <code>file_access</code>)</li>
+<li>Service: Selecciona sólo un subconjunto de los logs del producto seleccionado (Sysmon, Security, SSH, etc.)</li>
+<li>
+<p>Definition: En lugar de definir directamente product, service o category en cada regla, puedes referenciar una definición externa preestablecida, como si fuese una plantilla. Esto es especialmente útil en organizaciones grandes o en repositorios compartidos.</p>
+<p>Ejemplo de uso:</p>
+<p>Supón que tienes una definición común de logs de Sysmon que quieres usar en muchas reglas:</p>
+<p>🔸 Archivo de definición (<code>logsource-definitions.yml</code> o similar):</p>
+<div class="highlight"><pre><span></span><code><span class="nt">sysmon_process_creation</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">product</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">windows</span>
+<span class="w">  </span><span class="nt">service</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sysmon</span>
+<span class="w">  </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">process_creation</span>
+</code></pre></div>
+<p>🔸 Regla Sigma que usa esa definición:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Suspicious Command Line</span>
+<span class="nt">logsource</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">definition</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sysmon_process_creation</span>
+<span class="nt">detection</span><span class="p">:</span>
+</code></pre></div>
+<div class="highlight"><span class="filename">WMI_Event_Suscription.yml</span><pre><span></span><code><span class="nt">logsource</span><span class="p">:</span>
+<span class="nt">product</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">windows</span><span class="w">    </span>
+<span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">wmi_event</span><span class="w"> </span>
+</code></pre></div>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Detection:</strong> Un campo obligatorio en la regla de detección describe los parámetros de la actividad maliciosa para la que necesitamos una alerta. Los parámetros se dividen en dos partes principales: los identificadores de búsqueda - los campos y valores que la detección debe buscar - y la expresión de la condición - que establece la acción a tomar en la detección, como la selección o el filtrado. Lo veremos más adelante.</p>
+<p>Esta regla tiene un modificador de detección que busca registros con uno de los Windows Event IDs 19, 20 o 21. La condición informa al motor de detección para que busque y seleccione los registros identificados.</p>
+<div class="highlight"><span class="filename">WMI_Event_Suscription.yml</span><pre><span></span><code><span class="w">    </span><span class="nt">detection</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">selection</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">EventID</span><span class="p">:</span><span class="w">  </span><span class="c1"># This shows the search identifier value</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">19</span><span class="w">    </span><span class="c1"># This shows the search&#39;s list value</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">21</span>
+<span class="w">      </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">selection</span>
+</code></pre></div>
+</li>
+<li>
+<p><strong>FalsePositives:</strong> Una lista de falsos positivos conocidos que pueden ocurrir, basados en los datos de los logs</p>
+</li>
+<li><strong>Level:</strong> Severidad de la actividad detectada: Informational --&gt; Low --&gt; Medium --&gt; High --&gt; Critical</li>
+<li>
+<p><strong>Tags:</strong> Añaden información que puede usarse para categorizar la regla. Pueden incluir valores de CVE y TTP del framework MITRE ATT&amp;CK. Los desarrolladores de Sigma tiene una <a href="https://github.com/SigmaHQ/sigma-specification/blob/main/appendix/sigma-tags-appendix.md">lista</a> de tags predefinidos.</p>
+<div class="highlight"><span class="filename">WMI_Event_Suscription.yml</span><pre><span></span><code><span class="nt">falsepositives</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Exclude legitimate (vetted) use of WMI event subscription in your network</span>
+
+<span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">medium</span>
+
+<span class="nt">tags</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">attack.persistence</span><span class="w"> </span><span class="c1"># Points to the MITRE tactic.</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">attack.t1546.003</span><span class="w">   </span><span class="c1"># Points to the MITRE technique.    </span>
+</code></pre></div>
+</li>
+</ol>
+<h2 id="identificadores-de-busqueda-y-expresiones-condicionales">Identificadores de búsqueda y expresiones condicionales</h2>
+<p>Como ya se ha mencionado, la sección de detection de la regla describe lo que se pretende buscar dentro de los datos de registro y cómo se van a evaluar la selección y los filtros. La definición de los identificadores de búsqueda puede comprender dos estructuras de datos -listas y mapas- que dictan el orden en que se procesará la detección.</p>
+<p>Cuando los identificadores se proporcionan mediante listas, se presentarán mediante cadenas enlazadas con una operación lógica <em>«OR»</em>. Principalmente, se enumerarán utilizando guiones (-). </p>
+<p>Por ejemplo, a continuación, podemos ver un extracto de la regla Netcat Powershell Version donde la detección se escribe para que coincida en el campo <code>HostApplication</code> que contiene <em>“powercat”</em> o <em>“powercat.ps1”</em> como valor.</p>
+<div class="highlight"><span class="filename">Posh_PC_Powercat.yml</span><pre><span></span><code><span class="nt">detection</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">selection</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">HostApplication|contains</span><span class="p">:</span>
+<span class="w">         </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;powercat&#39;</span>
+<span class="w">         </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;powercat.ps1&#39;</span>
+<span class="w">  </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">selection</span><span class="w">     </span>
+</code></pre></div>
+<p>Por otro lado, los mapas comprenden pares clave/valor en los que la clave coincide con un campo de los datos del registro, mientras que el valor presentado es una cadena o un valor numérico que debe buscarse en el registro. Los mapas siguen una operación lógica <em>«AND»</em>.</p>
+<p>Como ejemplo, podemos ver la regla de registro Clear Linux donde el término de <code>selection</code> forma el mapa, y la regla intenta buscar en <code>Image|endswith</code> cualquiera de los valores listados, y <code>CommandLine</code> contiene cualquiera de los valores listados. Este ejemplo muestra cómo los mapas y las listas pueden usarse juntos cuando se desarrollan detecciones. Debe tenerse en cuenta que <code>endswith</code> y <code>contains</code> son modificadores de valor, y que se utilizan dos listas para los valores de búsqueda, donde uno de cada grupo tiene que coincidir para que la regla inicie una alerta.</p>
+<div class="highlight"><span class="filename">Process_Creation_Lnx_Clear_Logs.yml</span><pre><span></span><code><span class="nt">detection</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">selection</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">Image|endswith</span><span class="p">:</span>
+<span class="w">         </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;/rm&#39;</span><span class="w"> </span><span class="c1"># covers /rmdir as well</span>
+<span class="w">         </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;/shred&#39;</span>
+<span class="w">    </span><span class="nt">CommandLine|contains</span><span class="p">:</span>
+<span class="w">         </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;/var/log&#39;</span>
+<span class="w">         </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;/var/spool/mail&#39;</span>
+<span class="w">  </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">selection</span>
+</code></pre></div>
+<p>Ya que hemos mencionado el modificador de valor, vale la pena señalar que se añaden después del nombre del campo con un carácter de tubería <code>|</code>, y hay dos tipos de modificadores de valor:</p>
+<ul>
+<li>
+<p><strong>Modificadores de transformación</strong>: Se aplican directamente al nombre del campo e indican cómo debe compararse ese campo con el valor. Incluyen:</p>
+<ul>
+<li>contains: El valor coincidiría en cualquier parte del campo.</li>
+<li>all: Cambia la operación OR de las listas por una operación AND. Esto significa que las condiciones de búsqueda tienen que coincidir con todos los valores de la lista.</li>
+<li>base64: Busca valores codificados con Base64.</li>
+<li>endswith: Con este modificador, se espera que el valor esté al final del campo. Por ejemplo, esto es representativo de <code>*\cmd.exe</code></li>
+<li>startswith: Este modificador coincidirá con el valor al principio del campo. Por ejemplo, <code>power*</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Modificadores de tipo</strong>: Transforman el valor o el campo antes de la comparación. También se añaden con |, y pueden combinarse con los de tipo (p.ej.: lower, upper, cidr). Actualmente, el único modificador de tipo utilizable es <code>re</code>, que es compatible con las consultas de Elasticsearch para manejar el valor como una expresión regular.</p>
+<p>Para las condition, esto se basa en los nombres establecidos para las detection, tal como selection y filter, y determinará la especificación de la regla basada en una expresión seleccionada. Algunas de las expresiones admitidas son</p>
+<ul>
+<li>AND/OR lógico</li>
+<li>1/todos de búsqueda-identificador</li>
+<li>1/todos</li>
+<li>not</li>
+</ul>
+</li>
+</ul>
+<p>Un ejemplo de estos valores condicionales puede verse en el siguiente extracto de la regla Copia remota de archivos, donde la detección busca cualquier de estas herramientas: <code>scp</code>, <code>rsync</code> o <code>sftp</code> y con cualquier de estos filtros <code>@</code>o <code>:</code>.</p>
+<p><div class="highlight"><span class="filename">Remote_File_Copy.yml</span><pre><span></span><code><span class="nt">detection</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">tools</span><span class="p">:</span>
+<span class="w">         </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;scp&#39;</span>
+<span class="w">         </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;rsync&#39;</span>
+<span class="w">         </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;sftp&#39;</span>
+<span class="w">  </span><span class="nt">filter</span><span class="p">:</span>
+<span class="w">         </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;@&#39;</span>
+<span class="w">         </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;:&#39;</span>
+<span class="w">  </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tools and filter</span>
+</code></pre></div>
+Esto podría detectar comandos que usen SCP, RSYNC o SFTP y que contengan caracteres típicos en rutas o direcciones remotas, como user@host: que es común en SCP o RSYNC.</p>
+<p>Ejemplo de línea de comando detectada:</p>
+<div class="highlight"><pre><span></span><code><span class="go">scp user@remotehost:/path/to/file /local/dir</span>
+</code></pre></div>
+<p>Otro ejemplo para mostrar una combinación de las expresiones condicionales se puede ver en el siguiente extracto de la regla Run Once Persistence Registry Event, donde la detección trata de buscar valores en el mapa que empiecen y terminen con varios valores del registro, a la vez que filtra las entradas de Google Chrome y Microsoft Edge que levantarían alertas de falsos positivos.</p>
+<p><div class="highlight"><span class="filename">Registry_Event_RunOnce_Persistence.yml</span><pre><span></span><code><span class="nt">detection</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">selection</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">TargetObject|startswith</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;HKLM\SOFTWARE\Microsoft\Active</span><span class="nv"> </span><span class="s">Setup\Installed</span><span class="nv"> </span><span class="s">Components&#39;</span>
+<span class="w">    </span><span class="nt">TargetObject|endswith</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;\StubPath&#39;</span>
+<span class="w">  </span><span class="nt">filter_chrome</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">Details|startswith</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;&quot;C:\Program</span><span class="nv"> </span><span class="s">Files\Google\Chrome\Application\&#39;</span>
+<span class="w">    </span><span class="nt">Details|endswith</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;\Installer\chrmstp.exe&quot;</span><span class="nv"> </span><span class="s">--configure-user-settings</span><span class="nv"> </span><span class="s">--verbose-logging</span><span class="nv"> </span><span class="s">--system-level&#39;</span>
+<span class="w">  </span><span class="nt">filter_edge</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">Details|startswith</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;&quot;C:\Program</span><span class="nv"> </span><span class="s">Files</span><span class="nv"> </span><span class="s">(x86)\Microsoft\Edge\Application\&#39;</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;&quot;C:\Program</span><span class="nv"> </span><span class="s">Files\Microsoft\Edge\Application\&#39;</span>
+<span class="w">    </span><span class="nt">Details|endswith</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;\Installer\setup.exe&quot;</span><span class="nv"> </span><span class="s">--configure-user-settings</span><span class="nv"> </span><span class="s">--verbose-logging</span><span class="nv"> </span><span class="s">--system-level</span><span class="nv"> </span><span class="s">--msedge</span><span class="w"> </span>
+<span class="w">    </span><span class="s">--channel=stable&#39;</span>
+<span class="w">  </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">selection and not 1 of filter_*</span>
+</code></pre></div>
+Esta regla busca detectar modificaciones en claves específicas del registro de Windows que puedan indicar cambios en la configuración de programas instalados, pero excluye intencionadamente los eventos legítimos generados por instaladores oficiales de Chrome o Edge (porque esos también modifican esas claves pero no son maliciosos).</p>
+<div class="admonition task">
+<p class="admonition-title">Responde a las preguntas</p>
+<ol>
+<li>¿Qué nivel de estado puede llevar a falsos resultados o ser <em>ruidoso</em> pero también puede identificar eventos interesantes?</li>
+<li>Las reglas de detección poseen dos elementos principales: ____ y las expresiones condicionales.</li>
+<li>¿Qué dos estructuras de datos se usan para los identificadores de búsqueda?</li>
+</ol>
+</div>
+<h2 id="escritura-de-reglas-y-conversion">Escritura de reglas y conversión</h2>
+<p>Después de repasar la sintaxis básica de las reglas Sigma, es crucial entender cómo escribirlas basándose en una investigación de amenazas. Como analista SOC, se debe pasar por el proceso de reflexión de desarrollar la detección y escribir las reglas apropiadas para nuestro entorno. </p>
+<h3 id="escenario">Escenario</h3>
+<p>Los administradores confían en las herramientas remotas para asegurarse de que los dispositivos están configurados, parcheados y mantenidos. Sin embargo, el SOC Manager acaba de recibir y compartir información sobre cómo AnyDesk, una herramienta remota legítima, puede descargarse e instalarse silenciosamente en la máquina de un usuario utilizando la el archivo descirot en la imagen de abajo. (Fuente: <a href="https://twitter.com/TheDFIRReport/status/1423361127472377860?s=20&amp;t=mHiJFnlfWH3cO3XdXEQo_Q">TheDFIRReport</a>).</p>
+<p><img alt="" src="../img/sigma23.png" /></p>
+<p>Como analista SOC, se nos ha encargado que analice la información y escribamos una regla Sigma para detectar la instalación de AnyDesk en dispositivos Windows.</p>
+<h4 id="paso-1-analisis-de-intel">Paso 1: Análisis de Intel</h4>
+<p>La intel compartida nos muestra mucha información y comandos para descargar e instalar AnyDesk. Un adversario podría empaquetar esto en un ejecutable malicioso enviado a un usuario desprevenido a través de un correo electrónico de phishing. Podemos empezar a seleccionar valores que serían importantes para detectar cualquier caso de instalación.</p>
+<ul>
+<li>URL de origen: Marca la fuente de descarga del software, especificada por la variable $url.</li>
+<li>Archivo de destino: El adversario buscaría identificar un directorio de destino para la descarga. Esto está marcado por la variable $file.</li>
+<li>Comando de instalación: De la inteligencia, podemos ver que varias instancias de CMD.exe están siendo usadas para instalar y establecer una contraseña de usuario por el script. A partir de esto, podemos elegir los atributos de instalación como <code>--install</code>, <code>--start-with-win</code> y <code>--silent</code>.</li>
+</ul>
+<p>Otros datos esenciales de la inteligencia serían:</p>
+<ul>
+<li>Persistencia del adversario: El adversario trataría de mantener el acceso a la máquina de la víctima. En este caso, crearía una cuenta de usuario <code>oldadministrator</code> y le daría privilegios elevados para ejecutar otras tareas.</li>
+<li>Edición del registro: También podemos identificar la edición del registro, donde el usuario añadido se añade a una lista de usuarios <code>SpecialAccounts</code>.</li>
+</ul>
+<p>Con esta información, podemos evaluar la creación de una regla que ayude a detectar cuándo se ha producido una instalación.</p>
+<h4 id="paso-2-identificacion-de-regla">Paso 2: Identificación de regla</h4>
+<p>Podemos empezar a construir nuestra regla rellenando las secciones Title y Description, dada la información de que estamos buscando una instalación de la herramienta remota AnyDesk. Establezcamos también el estado como <code>experimental</code>, ya que esta regla se probará internamente.</p>
+<div class="highlight"><span class="filename">Process_Creation_AnyDesk_Installation.yml</span><pre><span></span><code><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AnyDesk Installation</span>
+<span class="nt">status</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">experimental</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AnyDesk Remote Desktop installation can be used by attacker to gain remote access.</span>
+</code></pre></div>
+<h4 id="paso-3-fuente-de-logs">Paso 3: Fuente de logs</h4>
+<p>Según nuestra información, los dispositivos Windows serían nuestro objetivo víctima. Windows Eventlog y Sysmon proporcionan eventos como la creación de procesos y la creación de archivos. Nuestro caso se centra en la creación de un proceso de instalación, por lo que nuestra categoría logsource es <code>process_creation</code>.</p>
+<div class="highlight"><span class="filename">Process_Creation_AnyDesk_Installation.yml</span><pre><span></span><code><span class="nt">logsource</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">process_creation</span>
+<span class="w">    </span><span class="nt">product</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">windows</span>
+</code></pre></div>
+<h4 id="paso-4-detection-description">Paso 4: Detection Description</h4>
+<p>La sección <em>detection</em> de nuestra regla es la parte esencial. La información derivada de la inteligencia definirá lo que necesitamos detectar en nuestro entorno. Para la instalación de AnyDesk, anotamos los comandos de instalación que usaría el adversario que contiene las cadenas: <code>install</code>, y <code>start-with-win</code>. Por lo tanto, podemos escribir nuestros identificadores de búsqueda como se indica a continuación con los modificadores <code>contains</code> y <code>all</code> para indicar que la regla coincidirá con todos esos valores.</p>
+<p>Además, podemos incluir la búsqueda del directorio actual desde el que se ejecutarán los comandos, <code>C:\ProgramData\AnyDesk.exe</code></p>
+<p>Para nuestra expresión de condición, esto evalúa la selección de nuestra detección.</p>
+<div class="highlight"><span class="filename">Process_Creation_AnyDesk_Installation.yml</span><pre><span></span><code><span class="nt">detection</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">selection</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">CommandLine|contains|all</span><span class="p">:</span><span class="w"> </span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;--install&#39;</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;--start-with-win&#39;</span>
+<span class="w">        </span><span class="nt">CurrentDirectory|contains</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;C:\ProgramData\AnyDesk.exe&#39;</span>
+<span class="w">    </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">selection</span>
+</code></pre></div>
+<h4 id="paso-5-metadatos-de-la-regla">Paso 5: Metadatos de la regla</h4>
+<p>Después de añadir los pedazos de información necesarios y vitales a nuestra regla, podemos añadir otra información útil a bajo nivel, etiquetas, referencias y falsos positivos. Podemos hacer referencia a la táctica MITRE ATT&amp;CK Command and Control y su correspondiente técnica <a href="https://attack.mitre.org/techniques/T1219/">T1219</a> para las etiquetas.</p>
+<p>Con esto, tenemos nuestra regla, que ahora podemos convertir a la consulta SIEM de nuestra elección y probar la detección.</p>
+<div class="highlight"><span class="filename">Process_Creation_AnyDesk_Installation.yml</span><pre><span></span><code><span class="nt">falsepositives</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Legitimate deployment of AnyDesk</span>
+<span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">high</span>
+<span class="nt">references</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://twitter.com/TheDFIRReport/status/1423361119926816776?s=20</span>
+<span class="nt">tags</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">attack.command_and_control</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">attack.t1219</span>
+</code></pre></div>
+<h3 id="conversion-de-regla">Conversión de regla</h3>
+<p>Las reglas Sigma necesitan ser convertidas al SIEM apropiado que esté siendo utilizado para almacenar todos los logs. Usando la regla que hemos escrito anteriormente, ahora vamos a aprender a utilizar las herramientas sigmac y uncoder.io para convertirlas en consultas ElasticSearch y Splunk.</p>
+<h4 id="sigmac">Sigmac</h4>
+<p><a href="https://github.com/SigmaHQ/sigma/tree/8bb3379b6807610d61d29db1d76f5af4840b8208/tools">Sigmac</a> es una herramienta escrita en Python que convierte las reglas Sigma comparando los valores de los campos de origen del registro de detección con los campos apropiados del backend SIEM. Como parte del repositorio de Sigma (se recomienda clonar el repositorio para obtener la herramienta y todas las reglas disponibles publicadas por el equipo de Sigma), esta herramienta permite una conversión rápida y sencilla de las reglas Sigma desde la línea de comandos. A continuación se muestra un fragmento de cómo utilizar la herramienta a través de su comando de ayuda, y mostraremos la sintaxis básica de uso de la herramienta convirtiendo la regla AnyDesk que hemos escrito a la consulta Splunk.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Sigmac quedó obsoleto a finales de 2022, y sus creadores se han centrado en <code>sigma-cli</code> que también es capaz de realizar conversión de reglas entre otras cosas.</p>
+</div>
+<p><img alt="" src="../img/sigma3.png" /></p>
+<p>Las principales opciones que se pueden utilizar son:</p>
+<ul>
+<li>-t: Establece el backend SIEM objetivo para el que desea obtener consultas (Elasticsearch, Splunk, QRadar, ElastAlert).</li>
+<li>-c: Establece el archivo de configuración utilizado para la conversión. El archivo gestiona las asignaciones de campos entre la regla y el entorno SIEM de destino, garantizando que los campos necesarios sean correctos para realizar investigaciones en su entorno.</li>
+<li>--opción backend: Permite pasar un archivo de configuración de backend o modificaciones individuales que dictan las opciones de alerta para el entorno SIEM de destino. Por ejemplo, en ElasticSearch, podemos especificar propiedades de campo específicas para que sean nuestro keyword_field primario en el que buscar, como los campos que terminan en <code>.keyword</code> o <code>.security</code> a continuación:</li>
+</ul>
+<p><div class="highlight"><span class="filename">Sigmac ElasticSearch Conversion</span><pre><span></span><code>python3.9<span class="w"> </span>sigmac<span class="w"> </span>-t<span class="w"> </span>es-qs<span class="w"> </span>-c<span class="w"> </span>tools/config/winlogbeat.yml<span class="w"> </span>--backend-option<span class="w"> </span><span class="nv">keyword_field</span><span class="o">=</span><span class="s2">&quot;.keyword&quot;</span><span class="w"> </span>--backend-option<span class="w"> </span><span class="nv">analyzed_sub_field_name</span><span class="o">=</span><span class="s2">&quot;.security&quot;</span><span class="w"> </span>../rules/windows/sysmon/sysmon_accessing_winapi_in_powershell_credentials_dumping.yml
+</code></pre></div>
+Puede encontrar más información en la documentación de Sigmac. Podemos convertir nuestra regla de instalación de AnyDesk en una alerta de Splunk como se muestra a continuación:</p>
+<p><div class="highlight"><span class="filename">Sigmac Splunk Conversion</span><pre><span></span><code>python3.9<span class="w"> </span>sigmac<span class="w"> </span>-t<span class="w"> </span>splunk<span class="w"> </span>-c<span class="w"> </span>splunk-windows<span class="w"> </span>Process_Creation_AnyDesk_Installation.yml
+</code></pre></div>
+Existe una biblioteca de Python que hace las veces de reemplazo de Sigmac, <a href="https://github.com/SigmaHQ/pySigma">pySigma</a></p>
+<h4 id="uncoderio">Uncoder.io</h4>
+<p><a href="http://uncoder.io">Uncoder.io</a> es un conversor Sigma en línea para numerosas plataformas SIEM y EDR. Es fácil de usar, ya que le permite copiar su regla Sigma en la plataforma y seleccionar su aplicación backend preferida para la traducción. Tenga en cuenta que, con las últimas actualizaciones, es necesario crear una cuenta gratuita en el sitio web uncoder.io.</p>
+<p>Podemos copiar nuestra regla y convertirla en diferentes consultas de nuestra elección.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "toc.integrate", "navigation.expand", "navigation.top", "navigation.indexes", "content.tabs.link", "content.code.annotate", "content.code.copy", "navigation.footer"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

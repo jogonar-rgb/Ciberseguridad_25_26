@@ -1,0 +1,1203 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Apuntes, teoría, prácticas, ejercicio del curso de especialización de ciberseguridad. IES severo ochoa Elche. Hacking ético. incidentes de seguridad, puesta en producción segura. En este caso vamos a ver qué son los logs de un sistema, para qué sirven y cómo se pueden o deben analizar para realizar una correcta respuesta a incidentes, investigando los índices de compromiso, formando parte de la seguridad defensiva. Aquí hablaremos del Elastic Stack, es decir, ElasticSearch + Logstash + Kibana + Beats.">
+      
+      
+      
+        <link rel="canonical" href="https://jogonar-rgb.github.io/Ciberseguridad_25_26/Seguridad_defensiva/logs/">
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.20">
+    
+    
+      
+        <title>Análisis de logs en seguridad defensiva y respuesta a incidentes - Seguridad en sistemas del curso de especialista en ciberseguridad</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.e53b48f4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-green" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#introduccion" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Seguridad en sistemas del curso de especialista en ciberseguridad" class="md-header__button md-logo" aria-label="Seguridad en sistemas del curso de especialista en ciberseguridad" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Seguridad en sistemas del curso de especialista en ciberseguridad
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Análisis de logs en seguridad defensiva y respuesta a incidentes
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="light-green" data-md-color-accent="indigo"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="indigo"  aria-label="Cambiar a modo normal"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo normal" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Introducción
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../warm/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Warm up
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Seguridad_ofensiva/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Seguridad ofensiva
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Seguridad en sistemas del curso de especialista en ciberseguridad" class="md-nav__button md-logo" aria-label="Seguridad en sistemas del curso de especialista en ciberseguridad" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Seguridad en sistemas del curso de especialista en ciberseguridad
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introducción
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../warm/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Warm up
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Warm up
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Apuntes_Linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Entornos Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Ejercicios_Linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ejercicios propuestos Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Apuntes_Windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Entornos Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Ejercicios_Windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ejercicios propuestos Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/webgrafia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Webgrafía
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../Seguridad_ofensiva/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Seguridad ofensiva
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Seguridad ofensiva
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/Intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introducción
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/nmap101/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introducción a Nmap
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/enumeracion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Enumeración de servicios
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/servicios_desact/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Causas de vulnerabilidades en sistemas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/exploit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Explotación de vulnerabilidades
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/metasploit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Metasploit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/privesc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Escalada de privilegios
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/ad_enumeration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Enumeración en entornos AD (Active Directory)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/passw_manag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Gestión y almacenamiento de credenciales en Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/phising/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Spoofing & phising
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/HackingAD1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ataques en entornos Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_ofensiva/webgrafia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Webgrafía
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Análisis de logs en seguridad defensiva y respuesta a incidentes</h1>
+
+<h2 id="introduccion">Introducción</h2>
+<p>El análisis de logs es el proceso de revisar logs de eventos generados por un computador para, de esta forma, identificar de forma proactiva bugs, amenazas de seguridad u otros riesgos. El análisis de logs puede usarse en un espectro más amplio, como por ejemplo el cumplimiento de determinadas normativas o revisar comportamientos de los usuarios.</p>
+<p>Un log es un archivo que captura toda actividad dentro del sistema operativo, aplicación software o dispositivo. Estos archivos documentan automáticamente cualquier información designada por los administradores de sistemas, incluyendo:</p>
+<ul>
+<li>Mensajes</li>
+<li>Reportes de error</li>
+<li>Peticiones de archivo</li>
+<li>Transferencia de archivos</li>
+<li>Peticiones login/logout</li>
+</ul>
+<p>De igual manera la actividad viene marcada con fecha y hora, lo que ayuda a los profesionales a mantener una traza del evento en cuestión.</p>
+<h2 id="por-que-es-importante-el-analisis-de-los-logs">¿Por qué es importante el análisis de los logs?</h2>
+<p>En muchos casos, por una cuestión legal. Las organizaciones se deben adherir a una regulación específica que dicta como se almacena y analizan los datos.</p>
+<p>Mas allá de los requerimientos legales, el análisis de los logs, cuando se hace de forma eficaz, puede proporcionar difrenetes beneficios para el negocio. A continuación vemos algunos.</p>
+<h3 id="un-mejor-troubleshooting">Un mejor troubleshooting</h3>
+<p>Las organizaciones que revisan y analizan regularmente los logs suelen ser capaces de identificar errores con mayor rapidez. Con una herramienta avanzada de análisis de logs, la empresa puede incluso ser capaz de localizar los problemas antes de que se produzcan, lo que reduce en gran medida el tiempo y el coste de remediación.</p>
+<p>El log también ayuda al analizador de logs a revisar los eventos que llevan al error, lo que puede hacer que el problema sea más fácil de solucionar (troubleshooting), así como de prevenir en el futuro.</p>
+<h3 id="mejora-de-la-seguridad">Mejora de la seguridad</h3>
+<p>Un análisis eficaz de los logs refuerza considerablemente las capacidades de ciberseguridad de la organización. La revisión y el análisis periódicos de los logs ayudan a las organizaciones a detectar con mayor rapidez las anomalías, contener las amenazas y priorizar las respuestas.</p>
+<h3 id="experiencia-de-usuario-mejorada">Experiencia de usuario mejorada</h3>
+<p>El análisis de logs ayuda a las empresas a garantizar que todas las aplicaciones y herramientas orientadas al cliente estén plenamente operativas y seguras. La revisión coherente y proactiva de los eventos de logs ayuda a la organización a identificar rápidamente las interrupciones o incluso a prevenir dichos problemas, mejorando la satisfacción y reduciendo la rotación de personal.</p>
+<h2 id="por-que-es-importante-el-analisis-de-los-logs-en-ciberseguridad">¿Por qué es importante el análisis de los logs... <u>en ciberseguridad</u>?</h2>
+<p>El <strong>análisis de logs</strong> es fundamental en <strong>ciberseguridad</strong> porque permite detectar, investigar y responder a incidentes de seguridad en tiempo real. Los logs registran <strong>todas las actividades</strong> en sistemas, redes y aplicaciones, lo que los convierte en una fuente clave de información para identificar amenazas y vulnerabilidades.  </p>
+<hr />
+<h3 id="1-deteccion-de-amenazas-en-tiempo-real">① Detección de amenazas en tiempo real</h3>
+<p>📌 <strong>Ejemplo:</strong> Un SIEM analiza los logs y detecta múltiples intentos de autenticación fallidos desde una misma IP en pocos segundos → Posible ataque de <strong>fuerza bruta</strong>.  </p>
+<p>✔ <strong>Previene accesos no autorizados y permite activar alertas tempranas.</strong>  </p>
+<hr />
+<h3 id="2-respuesta-rapida-a-incidentes">② Respuesta rápida a incidentes</h3>
+<p>📌 <strong>Ejemplo:</strong> Un firewall bloquea un tráfico sospechoso y genera un log con la IP de origen. Los analistas pueden correlacionar estos eventos con otros logs para determinar si es parte de un ataque mayor.  </p>
+<p>✔ <strong>Ayuda a investigar y mitigar ataques rápidamente.</strong>  </p>
+<hr />
+<h3 id="3-analisis-forense-y-auditoria">③ Análisis forense y auditoría</h3>
+<p>📌 <strong>Ejemplo:</strong> Después de una intrusión, los logs pueden revelar cómo se produjo el acceso, qué archivos se modificaron y qué comandos ejecutó el atacante.  </p>
+<p>✔ <strong>Permite reconstruir eventos y fortalecer la seguridad para evitar incidentes futuros.</strong>  </p>
+<hr />
+<h3 id="4-cumplimiento-de-normativas-y-regulaciones">④ Cumplimiento de normativas y regulaciones</h3>
+<p>📌 <strong>Ejemplo:</strong> Normativas como <strong>GDPR, ISO 27001 o PCI-DSS</strong> exigen la retención y análisis de logs para garantizar la seguridad de los datos.  </p>
+<p>✔ <strong>Evita sanciones legales y demuestra cumplimiento en auditorías.</strong>  </p>
+<hr />
+<h3 id="5-deteccion-de-comportamiento-anomalo">⑤ Detección de comportamiento anómalo</h3>
+<p>📌 <strong>Ejemplo:</strong> Un usuario accede a la red desde una ubicación geográfica inusual y a horarios fuera de su rutina → Posible cuenta comprometida (<strong>TTPs de MITRE ATT&amp;CK</strong>).  </p>
+<p>✔ <strong>Ayuda a identificar ataques avanzados como APTs o movimientos laterales.</strong>  </p>
+<hr />
+<h3 id="6-correlacion-de-eventos-y-caza-de-amenazas">⑥ Correlación de eventos y caza de amenazas</h3>
+<p>📌 <strong>Ejemplo:</strong> Un SIEM correlaciona logs de firewalls, servidores y endpoints para detectar patrones de ataque, como la combinación de un escaneo de red seguido de intentos de explotación.  </p>
+<p>✔ <strong>Permite anticiparse a ataques antes de que causen daño.</strong>  </p>
+<hr />
+<h2 id="como-se-realiza-el-analisis-de-logs">¿Cómo se realiza el análisis de logs?</h2>
+<p>El análisis de logs suele realizarse en un sistema de gestión de logs, una solución de software que recopila, clasifica y almacena datos de log y logs de eventos de diversas fuentes.</p>
+<p><img alt="" src="../img/log_analysis.png" /></p>
+<p>La plataforma de gestión de logs permite al equipo informático y a los profesionales de la seguridad establecer un único punto desde el que acceder a todos los datos relevantes de puntos finales, redes y aplicaciones. Normalmente, este archivo de log está totalmente indexado y permite realizar búsquedas, lo que significa que el analizador de logs puede acceder fácilmente a los datos que necesita para tomar decisiones sobre la salud de la red, la asignación de recursos o la seguridad.</p>
+<p>La actividad suele incluir:</p>
+<p><strong>Ingestión:</strong> Instalación de un recolector de logs para recopilar datos de diversas fuentes, como el sistema operativo, las aplicaciones, los servidores, los hosts y cada punto final, en toda la infraestructura de red.</p>
+<p><strong>Centralización:</strong> Agregación de todos los datos de log en una única ubicación, así como en un formato estandarizado independientemente de la fuente de log. Esto ayuda a simplificar el proceso de análisis y a aumentar la velocidad a la que se pueden aplicar los datos en toda la empresa.</p>
+<p><strong>Búsqueda y análisis:</strong> Aprovechamiento de una combinación de análisis de logs habilitados por IA/ML y recursos humanos para revisar y analizar errores conocidos, actividades sospechosas u otras anomalías dentro del sistema. Dada la gran cantidad de datos disponibles en el log, es importante automatizar tanto como sea posible el proceso de análisis del archivo de log. También se recomienda crear una representación gráfica de los datos, mediante gráficos de conocimiento u otra técnica, para ayudar al equipo de TI a visualizar cada entrada del log, su cronología e interrelaciones.</p>
+<p><strong>Supervisión y alertas:</strong> El sistema de gestión de logs debe aprovechar el análisis avanzado de logs para supervisar continuamente el log de cualquier evento de log que requiera atención o intervención humana. El sistema puede programarse para que emita alertas automáticamente cuando se produzcan determinados eventos o no se cumplan determinadas condiciones.</p>
+<p><strong>Informes:</strong> Por último, el LMS debe proporcionar un informe racionalizado de todos los eventos, así como una interfaz intuitiva que el analizador de logs pueda aprovechar para obtener información adicional del log.</p>
+<h2 id="las-limitaciones-de-la-indexacion">Las limitaciones de la indexación</h2>
+<p>La indexación de logs tiene varias limitaciones, especialmente cuando se manejan grandes volúmenes de datos en entornos de seguridad defensiva. Algunos de los principales límites son:</p>
+<ol>
+<li>
+<p>Espacio de almacenamiento</p>
+<p>Los índices ocupan mucho espacio, a veces más que los propios logs sin procesar.
+Puede ser costoso almacenar y mantener grandes volúmenes de datos indexados.</p>
+</li>
+<li>
+<p>Rendimiento y escalabilidad</p>
+<p>A medida que crece el volumen de logs, las búsquedas pueden volverse más lentas.
+La indexación en tiempo real requiere recursos considerables (CPU, RAM y disco).
+Sistemas mal diseñados pueden sufrir cuellos de botella en el procesamiento.</p>
+</li>
+<li>
+<p>Latencia en la ingesta</p>
+<p>En entornos de alta velocidad, como redes corporativas grandes, puede haber retrasos en la indexación, afectando la detección en tiempo real.</p>
+</li>
+<li>
+<p>Complejidad en la consulta</p>
+<p>Consultas mal optimizadas pueden afectar el rendimiento de la plataforma.
+La correlación de eventos entre distintos tipos de logs puede requerir un diseño avanzado de los índices.</p>
+</li>
+<li>
+<p>Integridad y pérdida de datos</p>
+<p>Si los índices se corrompen o no se replican correctamente, la búsqueda de eventos clave puede fallar.
+Algunas herramientas pueden descartar logs si hay problemas de capacidad o errores de procesamiento.</p>
+</li>
+<li>
+<p>Costos operativos</p>
+<p>Plataformas comerciales como Splunk pueden ser costosas, especialmente si se indexan terabytes de datos al día.
+Se requiere personal capacitado para administrar y optimizar la indexación.</p>
+</li>
+</ol>
+<p><img alt="" src="../img/log_analysis2.png" /></p>
+<p>En entornos de seguridad defensiva, es clave encontrar un equilibrio entre qué logs indexar, por cuánto tiempo almacenarlos y cómo optimizar la infraestructura para evitar estos problemas. </p>
+<p>Muchas soluciones de software de gestión de logs se basan en la indexación para organizar el log. Aunque en el pasado se consideraba una solución eficaz, la indexación puede ser una actividad muy costosa desde el punto de vista informático, lo que provoca latencia entre los datos que entran en un sistema y los que se incluyen en los resultados de búsqueda y las visualizaciones. A medida que aumenta la velocidad a la que se producen y consumen los datos, ésta es una limitación que podría tener consecuencias devastadoras para las organizaciones que necesitan una visión en tiempo real del rendimiento y los eventos del sistema.</p>
+<p>Además, con las soluciones basadas en índices, los patrones de búsqueda también se definen en función de lo que se ha indexado. Esta es otra limitación crítica, sobre todo cuando se necesita una investigación y no se pueden buscar los datos disponibles porque no se han indexado correctamente.</p>
+<p>Las soluciones líderes ofrecen búsqueda de texto libre, que permite al equipo de TI buscar en cualquier campo de cualquier log. Esta capacidad ayuda a mejorar la velocidad a la que el equipo puede trabajar sin comprometer el rendimiento.</p>
+<h3 id="como-superar-estas-limitaciones">¿Cómo superar estas limitaciones?</h3>
+<p>Para mitigar las limitaciones de la indexación de logs en seguridad defensiva, se pueden aplicar varias estrategias según el problema específico. Algunas soluciones clave:</p>
+<ol>
+<li>
+<p><u><strong>Optimización del almacenamiento</strong></u></p>
+<p>🔹 Compresión de logs → Usar formatos eficientes como JSON compactado o formatos binarios (Parquet, Avro).</p>
+<p>🔹 Políticas de retención → Definir cuánto tiempo almacenar los logs indexados y archivar los más antiguos en almacenamiento más barato (ej. S3 Glacier, almacenamiento en frío en Elasticsearch).</p>
+<p>🔹 Indexación selectiva → No indexar todo, sino solo los campos relevantes para las búsquedas y análisis.</p>
+<p>➡ Ejemplo: En SIEMs como Splunk o Elastic, configurar hot-warm-cold storage para mover logs antiguos a almacenamiento menos costoso.</p>
+</li>
+<li>
+<p><u><strong>Mejora del rendimiento y escalabilidad</strong></u></p>
+<p>🔹 Sharding y clustering → Distribuir la carga entre varios nodos en herramientas como Elasticsearch o Splunk.</p>
+<p>🔹 Indexación por particiones → Crear índices por día/semana para evitar búsquedas en volúmenes masivos de datos.</p>
+<p>🔹 Uso de caché → Almacenar consultas frecuentes en memoria (Redis, Memcached) para acelerar búsquedas.</p>
+<p>🔹 Filtrar logs en la ingesta → Usar herramientas como Logstash, Fluentd o Vector para preprocesar datos antes de indexarlos.</p>
+<p>➡ Ejemplo: En un entorno de detección de amenazas, podrías indexar solo los eventos críticos y almacenar el resto en bruto para auditorías posteriores.</p>
+</li>
+<li>
+<p><u><strong>Reducción de latencia en la ingesta</strong></u></p>
+<p>🔹 Uso de pipelines eficientes → Procesar logs en paralelo usando herramientas como Apache Kafka para manejar grandes volúmenes.</p>
+<p>🔹 Carga balanceada → Distribuir la ingesta en múltiples servidores para evitar cuellos de botella.</p>
+<p>🔹 Eliminación de duplicados y ruido → Filtrar eventos irrelevantes o redundantes antes de indexar.</p>
+<p>➡ Ejemplo: Un SIEM con logs de firewall puede tener miles de eventos repetitivos (ej. tráfico permitido), los cuales pueden descartarse antes de indexar.</p>
+</li>
+<li>
+<p><u><strong>Optimización de consultas</strong></u></p>
+<p>🔹 Uso de alias y templates → Definir estructuras de datos eficientes en herramientas como Elasticsearch.</p>
+<p>🔹 Indexación inversa → Solo indexar términos clave en lugar de todo el contenido del log.</p>
+<p>🔹 Límites en el número de documentos por búsqueda → Evitar consultas que devuelvan demasiados resultados sin filtros adecuados.</p>
+<p>➡ Ejemplo: En Splunk, optimizar búsquedas con tstats en lugar de search, lo que reduce el uso de recursos.</p>
+</li>
+<li>
+<p><u><strong>Prevención de pérdida de datos e integridad</strong></u></p>
+<p>🔹 Replica de índices → Usar configuraciones de alta disponibilidad (ej. Elasticsearch replica shards).</p>
+<p>🔹 Alertas en fallos de ingesta → Monitorear pipelines con Prometheus, Grafana o herramientas de observabilidad.</p>
+<p>🔹 Backup y restauración → Configurar copias de seguridad automáticas en almacenamiento externo.</p>
+<p>➡ Ejemplo: Configurar backups automáticos en un clúster de Elasticsearch para evitar pérdida de logs en caso de fallo del sistema.</p>
+</li>
+<li>
+<p><u><strong>Reducción de costos operativos</strong></u></p>
+<p>🔹 Usar alternativas open-source → SIEMs como Wazuh o Elastic Stack en lugar de herramientas comerciales costosas.</p>
+<p>🔹 Modelo híbrido (on-prem + nube) → Almacenar logs recientes en servidores rápidos y logs antiguos en almacenamiento en la nube.</p>
+<p>🔹 Uso de logs sin indexar → Herramientas como AWS Athena permiten hacer consultas sin necesidad de indexar, reduciendo costos.</p>
+<p>➡ Ejemplo: En vez de indexar todos los logs en tiempo real, procesar solo los eventos críticos y almacenar el resto en S3 con consultas bajo demanda.</p>
+</li>
+</ol>
+<h4 id="conclusion">Conclusión</h4>
+<p>La clave es encontrar un equilibrio entre rendimiento, costos y relevancia de los datos. Con un diseño inteligente de la infraestructura de logs, puedes mejorar la eficiencia sin comprometer la detección de amenazas.</p>
+<h2 id="metodos-de-analisis-de-logs">Métodos de análisis de logs</h2>
+<p>Dada la enorme cantidad de datos que se crean en el mundo digital actual, a los profesionales de TI les resulta imposible gestionar y analizar manualmente los logs de un entorno tecnológico en expansión. Por ello, necesitan un sistema avanzado de gestión de logs y técnicas que automaticen los aspectos clave de los procesos de recopilación, formateo y análisis de datos.</p>
+<p>Estas técnicas incluyen:</p>
+<p><strong>Normalización</strong></p>
+<p>La normalización es una técnica de gestión de datos que garantiza que todos los datos y atributos del log de transacciones, como direcciones IP y marcas de tiempo, tengan un formato coherente.</p>
+<p><strong>Reconocimiento de patrones</strong></p>
+<p>El reconocimiento de patrones se refiere al filtrado de eventos basado en un libro de patrones con el fin de separar los eventos rutinarios de las anomalías.</p>
+<p><strong>Clasificación y etiquetado</strong></p>
+<p>La clasificación y el etiquetado es el proceso de etiquetar los eventos con palabras clave y clasificarlos por grupos para poder revisar juntos los eventos similares o relacionados.</p>
+<p><strong>Análisis de correlación</strong></p>
+<p>El análisis de correlación es una técnica que recopila datos de log de varias fuentes diferentes y revisa la información en su conjunto mediante el análisis de logs.</p>
+<p><strong>Ignorancia artificial</strong></p>
+<p>La ignorancia artificial se refiere a la desatención activa de entradas que no son materiales para la salud o el rendimiento del sistema.</p>
+<h2 id="elk-stack">ELK Stack</h2>
+<p>La pila ELK (ELK stack) es una colección de tres productos de código abierto: Elasticsearch, Logstash y Kibana. La pila ELK proporciona logs centralizados para identificar problemas con servidores o aplicaciones. Permite buscar todos los logs en un único lugar. También ayuda a encontrar problemas en varios servidores mediante la conexión de logs durante un período de tiempo específico.</p>
+<ul>
+<li>E de ElasticSearch: Es un motor de búsqueda y almacenamiento, se utiliza para almacenar logs, permitiendo su ingesta así como las nombradas búsquedas e indexación. </li>
+<li>L significa LogStash: se utiliza tanto para el envío como para el procesamiento y almacenamiento de logs. Ofrece unificación de datos de diferentes fuentes, extrayéndolos, filtrándolos y normalizándolos.</li>
+<li>K significa Kibana: es una herramienta de visualización (una interfaz web) que se aloja a través de Nginx o Apache. Está especializado en grandes volúmenes de datos, así como datos en tiempo real.</li>
+</ul>
+<p>Posteriormente un cuarto producto se ha añadido, <a href="https://www.elastic.co/es/beats/"><strong>Beats</strong></a>, que gestiona los agentes que recopila y envían sus logs a ELK desde cada máquina.</p>
+<p>ElasticSearch, LogStash y Kibana son desarrollados, gestionados y mantenidos por la empresa Elastic.</p>
+<p>ELK Stack está diseñado para permitir a los usuarios tomar datos de cualquier fuente, en cualquier formato, y buscar, analizar y visualizar esos datos en tiempo real.</p>
+<h3 id="arquitectura-de-elk">Arquitectura de ELK</h3>
+<p>Una arquitectura típica de ELK:</p>
+<p><img alt="" src="../img/Arquitectura.ELK.webp" /></p>
+<h2 id="que-es-elasticsearch">¿Qué es Elasticsearch?</h2>
+<p>Elasticsearch es una base de datos NoSQL. Está basada en el motor de búsqueda Lucene, y está construida con RESTful APIS. Ofrece un despliegue sencillo, máxima fiabilidad y fácil gestión. También ofrece consultas avanzadas para realizar análisis detallados y almacena todos los datos de forma centralizada. Es útil para ejecutar una búsqueda rápida de los documentos.</p>
+<p>Elasticsearch también permite almacenar, buscar y analizar grandes volúmenes de datos. Se utiliza sobre todo como motor subyacente para potenciar aplicaciones que completan los requisitos de búsqueda. Se ha adoptado en plataformas de motores de búsqueda para aplicaciones web y móviles modernas. Además de una búsqueda rápida, la herramienta también ofrece análisis complejos y muchas funciones avanzadas.</p>
+<h3 id="terminos-utilizados-en-elastic-search">Términos utilizados en Elastic Search</h3>
+<table>
+<thead>
+<tr>
+<th>Término</th>
+<th>Uso</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cluster</td>
+<td>Un cluster es una colección de nodos que juntos almacenan datos y proveen capacidades de indexación y búsqueda.</td>
+</tr>
+<tr>
+<td>Nodo</td>
+<td>Un nodo es una instancia de elasticsearch. Se crea cuando se inicia una instancia de elasticsearch.</td>
+</tr>
+<tr>
+<td>Índice</td>
+<td>Un índice es una colección de documentos que tienen características similares, por ejemplo, datos de clientes, catálogo de productos. Es muy útil cuando se realizan operaciones de indexación, búsqueda, actualización y borrado. Permite definir tantos índices en un mismo cluster.</td>
+</tr>
+<tr>
+<td>Documento</td>
+<td>Es la unidad básica de información que se puede indexar. Se expresa en un par JSON (clave: valor). '{"usuario": "nullcon"}'. Cada Documento está asociado a un tipo y a un id único.</td>
+</tr>
+<tr>
+<td>Shard</td>
+<td>Cada índice puede dividirse en varios shards para poder distribuir los datos. El shard es la parte atómica de un índice, que se puede distribuir por el cluster si se quieren añadir más nodos.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="que-es-logstash">¿Qué es Logstash?</h2>
+<p>Logstash es la herramienta de canalización de recopilación de datos. Recoge entradas de datos y las alimenta hacia Elasticsearch. Reúne todo tipo de datos de diferentes fuentes y los pone a disposición para su uso posterior.</p>
+<p>Logstash puede unificar datos de fuentes dispares y normalizar los datos en los destinos deseados. Permite limpiar y democratizar todos los datos para la analítica y la visualización de casos de uso.</p>
+<p>Consta de tres componentes:</p>
+<ul>
+<li><strong>Entrada:</strong> pasar los logs para procesarlos a un formato comprensible para la máquina.</li>
+<li><strong>Filtros:</strong> Es un conjunto de condiciones para realizar una determinada acción o evento</li>
+<li><strong>Salida:</strong> Toma de decisiones para el evento o registro procesado</li>
+</ul>
+<h2 id="que-es-kibana">¿Qué es Kibana?</h2>
+<p>Kibana, como comentábamos, es un visualizador de datos que completa la pila ELK. El panel de control de Kibana ofrece varios diagramas interactivos, datos geoespaciales y gráficos para visualizar consultas complejas.</p>
+<p>Se puede utilizar para buscar, ver e interactuar con los datos almacenados en los directorios de Elasticsearch. Kibana le ayuda a realizar análisis de datos avanzados y visualizar sus datos en una variedad de tablas, gráficos y mapas.</p>
+<h3 id="para-que-es-adecuado-elk">¿Para qué es adecuado ELK?</h3>
+<h4 id="cuando-existe-una-falta-de-consistencia">Cuando existe una falta de consistencia</h4>
+<p>Tenemos muchos dispositivos con logs, y dentro de nuestros servidores, por ejemplo, tenemos distintos servicios funcionando y cada servicio tiene un tipo de log distinto. Los administradores de sistemas y DevOps genéricamente, o administradores web o desarrolladores, necesitan acceder a dichos logs para comprobarlos, para lo que hay una gran dificultad, ya que los formatos varían y son difíciles de entender.</p>
+<h4 id="existen-diferentes-formatos-de-tiempo">Existen diferentes formatos de tiempo</h4>
+<p>Cada log puede venir con un formato de tiempo distinto.</p>
+<p>En algunos logs se incluye la fecha, otros vienen con timestamp, otros con la hora al finalizar, etc.</p>
+<p>Ejemplo:</p>
+<div class="highlight"><pre><span></span><code>Oct 04 12:15:21, 020289 07:23:24, 150260505
+</code></pre></div>
+<h4 id="descentralizado">Descentralizado</h4>
+<p>Los logs se encuentran repartidos en todos los servidores que tengamos, cada servidor puede tener un tipo de log y dentro de un servidor puede haber diferentes rutas donde encontrarlos. Un administrador de sistemas, si tiene pocos servidores que administrar, puede acceder a ellos por “ssh + grep”, pero si tiene muchos más, esta opción no es escalable.</p>
+<h4 id="falta-de-conocimientos">Falta de conocimientos</h4>
+<p>Falta de conocimientos o que no se implementan bien las políticas. Pueden deberse a varios motivos, por ejemplo: Las personas que tienen que acceder a un log no tienen permiso para acceder al mismo, por políticas de empresa.</p>
+<p>Estas personas no tienen experiencia para entender una línea de log. Algunos logs que tienen mucha información incluida en campos y cuando la información es tanta, a veces es complicado saber a qué representa cada número o cadena de texto.</p>
+<p>Desconocen dónde se encuentran los logs, cómo se actualizan, cómo se van repartiendo, si se van borrando cada día…</p>
+<h2 id="referencias">Referencias</h2>
+<p><a href="https://www.techtarget.com/searchitoperations/definition/Elastic-Stack">Elastic Stack (ELK Stack) </a></p>
+<p><a href="https://www.guru99.com/elk-stack-tutorial.html">ELK Stack Tutorial: What is Kibana, Logstash &amp; Elasticsearch?</a></p>
+<p><a href="https://aws.amazon.com/es/what-is/elk-stack/">¿Qué es la pila ELK?</a></p>
+<p><a href="https://openwebinars.net/blog/que-es-elk-elasticsearch-logstash-y-kibana/">¿QUÉ ES ELK? ElasticSearch, Logstash y Kibana</a></p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "toc.integrate", "navigation.expand", "navigation.top", "navigation.indexes", "content.tabs.link", "content.code.annotate", "content.code.copy", "navigation.footer"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>
