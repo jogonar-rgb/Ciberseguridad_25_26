@@ -68,7 +68,7 @@ nav:
     - Explotación de vulnerabilidades: Seguridad_ofensiva/exploit.md
     - Metasploit: Seguridad_ofensiva/metasploit.md
   #  - Ejercicio práctico - Explotación de EternalBlue: Seguridad_ofensiva/EternalBlue.md
-    - Shells: Seguridad_ofensiva/rev_shell.md
+  #  - Shells: Seguridad_ofensiva/rev_shell.md
     - Escalada de privilegios: Seguridad_ofensiva/privesc.md
     - Enumeración en entornos AD (Active Directory): Seguridad_ofensiva/ad_enumeration.md
     - Gestión y almacenamiento de credenciales en Windows: Seguridad_ofensiva/passw_manag.md
