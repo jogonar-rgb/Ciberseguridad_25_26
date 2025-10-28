@@ -13,6 +13,10 @@
         <link rel="canonical" href="https://jogonar-rgb.github.io/Ciberseguridad_25_26/Seguridad_ofensiva/nmap101/">
       
       
+        <link rel="prev" href="../Intro/">
+      
+      
+        <link rel="next" href="../enumeracion/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -235,6 +239,30 @@
     
   
   Warm up
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Seguridad ofensiva
 
         </a>
       </li>
@@ -489,6 +517,860 @@
   
 
     
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Seguridad ofensiva
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Seguridad ofensiva
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introducción
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Introducción a Nmap
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introducción a Nmap
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#que-son-los-puertos" class="md-nav__link">
+    <span class="md-ellipsis">
+      ¿Qué son los puertos?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#que-es-un-escaner-de-puertos" class="md-nav__link">
+    <span class="md-ellipsis">
+      ¿Qué es un escáner de puertos?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-o-linux" class="md-nav__link">
+    <span class="md-ellipsis">
+      Windows o Linux
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#como-es-una-cabecera-tcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      ¿Cómo es una cabecera TCP?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#que-es-el-3-way-handshake" class="md-nav__link">
+    <span class="md-ellipsis">
+      ¿Qué es el 3-way-handshake?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="¿Qué es el 3-way-handshake?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#proceso-del-3-way-handshake" class="md-nav__link">
+    <span class="md-ellipsis">
+      Proceso del 3-way handshake:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explicacion-grafica" class="md-nav__link">
+    <span class="md-ellipsis">
+      Explicación gráfica
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Explicación gráfica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-1-cliente-envia-syn" class="md-nav__link">
+    <span class="md-ellipsis">
+      Paso 1: Cliente envía SYN
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-2-servidor-responde-con-syn-ack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Paso 2: Servidor responde con SYN-ACK
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-3-cliente-responde-con-ack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Paso 3: Cliente responde con ACK
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resumen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resumen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concepto-clave" class="md-nav__link">
+    <span class="md-ellipsis">
+      Concepto clave
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uso-de-nmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      Uso de Nmap
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Uso de Nmap">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tipos-de-escaneos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tipos de escaneos
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tipos de escaneos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#antes-de-nada-recordatorio-del-3-way-handshake" class="md-nav__link">
+    <span class="md-ellipsis">
+      Antes de nada: recordatorio del 3-way-handshake
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#escaneo-tcp-syn-ss" class="md-nav__link">
+    <span class="md-ellipsis">
+      Escaneo TCP SYN (-sS)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#escaneo-tcp-connect-st" class="md-nav__link">
+    <span class="md-ellipsis">
+      Escaneo TCP connect (-sT)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#escaneos-udp-su" class="md-nav__link">
+    <span class="md-ellipsis">
+      Escaneos UDP (-sU)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tcp-null-scan-sn" class="md-nav__link">
+    <span class="md-ellipsis">
+      TCP Null scan (-sN)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tcp-fin-scan-sf" class="md-nav__link">
+    <span class="md-ellipsis">
+      TCP FIN scan (-sF)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tcp-xmas-scan-sx" class="md-nav__link">
+    <span class="md-ellipsis">
+      TCP Xmas scan (-sX)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estados-de-los-puertos-escaneados" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estados de los puertos escaneados
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Estados de los puertos escaneados">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#puertos-filtrados-o-bloqueados" class="md-nav__link">
+    <span class="md-ellipsis">
+      Puertos filtrados o bloqueados
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#puertos-cerrados-o-cuando-falla-el-firewall" class="md-nav__link">
+    <span class="md-ellipsis">
+      Puertos cerrados o cuando falla el Firewall
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#puertos-abiertos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Puertos abiertos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opciones-para-los-escaneos-switches-de-nmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      Opciones para los escaneos (switches de Nmap)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scripts-en-nmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scripts en Nmap
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Scripts en Nmap">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#seleccion-de-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Selección de scripts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Selección de scripts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#seleccionar-categorias" class="md-nav__link">
+    <span class="md-ellipsis">
+      Seleccionar categorías
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#seleccion-de-script-especifico" class="md-nav__link">
+    <span class="md-ellipsis">
+      Selección de script específico
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#actualizar-la-base-de-datos-de-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Actualizar la base de datos de scripts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#demostracion-de-algunos-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Demostración de algunos scripts
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evasion-de-firewall-con-nmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      Evasión de firewall con Nmap
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Evasión de firewall con Nmap">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#que-es-un-firewall-o-cortafuegos" class="md-nav__link">
+    <span class="md-ellipsis">
+      ¿Qué es un firewall o cortafuegos?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="¿Qué es un firewall o cortafuegos?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#determinar-los-cortafuegos-y-sus-reglas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Determinar los cortafuegos y sus reglas
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dockerfile" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dockerfile
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bypass-del-bloqueo-de-paquetes-syn" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bypass del bloqueo de paquetes SYN
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bypass-del-bloqueo-por-tamano-de-paquete-con-stealth-scan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bypass del bloqueo por tamaño de paquete con Stealth scan
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bypass-de-bloqueo-por-filtrado-de-puerto-de-origen" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bypass de bloqueo por filtrado de puerto de origen
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bypass-de-bloqueo-por-filtrado-de-direcciones-mac-mac-spoofing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bypass de bloqueo por filtrado de direcciones MAC (MAC spoofing)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bypass-de-bloqueo-por-filtrado-de-direcciones-ip-ip-spoofing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bypass de bloqueo por filtrado de direcciones IP (IP spoofing)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../enumeracion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Enumeración de servicios
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../servicios_desact/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Causas de vulnerabilidades en sistemas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../exploit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Explotación de vulnerabilidades
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metasploit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Metasploit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rev_shell.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Shells
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../privesc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Escalada de privilegios
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ad_enumeration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Enumeración en entornos AD (Active Directory)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../passw_manag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Gestión y almacenamiento de credenciales en Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phising/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Spoofing & phising
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../HackingAD1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ataques en entornos Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../webgrafia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Webgrafía
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -505,7 +1387,7 @@
 
 
 
-  <h1>Nmap básico</h1>
+  <h1>Introducción a Nmap</h1>
 
 <h2 id="que-son-los-puertos">¿Qué son los puertos?</h2>
 <p>Ya hemos comentado que Nmap es el estándar de facto a la hora de realizar un escáner de puertos pero... ¿qué entendemos por puertos?</p>
@@ -524,11 +1406,11 @@
 <li>Un administrador puede escanear/monitorear un solo host o miles de dispositivos conectados.</li>
 </ul>
 <p>Como se ha indicado al principio, Nmap es, con mucho, la herramienta de escaneo de red más utilizada. Es una herramienta de escaneo de puertos, lo que significa que recopila información de estos puertos. </p>
-<p>Nmap puede escucha las repsuestas de los sistemas y así determinar si un puerto está abierto, cerrado o filtrado de una forma u otra por el firewall (un sistema diseñado para denegar el acceso de usuarios no autorizados hacia o desde una red privada).</p>
+<p>Nmap puede escuchar las respuestas de los sistemas y así determinar si un puerto está abierto, cerrado o filtrado de una forma u otra por el firewall (un sistema diseñado para denegar el acceso de usuarios no autorizados hacia o desde una red privada).</p>
 <p>Es una herramienta flexible y versátil, lo que significa que puede adaptarse a diferentes actividades y funciones.</p>
 <div class="admonition note">
 <p class="admonition-title">Nota</p>
-<p>El escaneo de puertos también se puede denominar enumeración o descubrimiento de puertos. Usaremos estos términos indistintamente, mientras que significan lo mismo.</p>
+<p>El escaneo de puertos también se puede denominar enumeración o descubrimiento de puertos. Usaremos estos términos indistintamente, que significan lo mismo.</p>
 </div>
 <p>Tal y como podemos leer en el propio site de <a href="https://nmap.org/book/intro.html">Nmap</a>:</p>
 <div class="admonition quote">
@@ -626,15 +1508,15 @@
 <p><img alt="" src="../img/nmap_opciones.png" style="height:600px;width:500px" /></p>
 <p>Existen un <a href="https://nmap.org/book/scan-methods.html">sinfín de técnicas y algoritmos de escaneo en Nmap</a>, así como otras tantas opciones a aplicar a estos escaneos. Es imposible cubrirlo todo en este curso por lo que sólo nombraremos los aspectos más importantes y queda a discrección del alumno profundizar más.</p>
 <p>Output completo:</p>
-<div class="highlight"><pre><span></span><code>Nmap<span class="w"> </span><span class="m">5</span>.61TEST5<span class="w"> </span><span class="o">(</span><span class="w"> </span>https://nmap.org<span class="w"> </span><span class="o">)</span>
+<div class="highlight"><pre><span></span><code>map<span class="w"> </span><span class="m">7</span>.94SVN<span class="w"> </span><span class="o">(</span><span class="w"> </span>https://nmap.org<span class="w"> </span><span class="o">)</span>
 Usage:<span class="w"> </span>nmap<span class="w"> </span><span class="o">[</span>Scan<span class="w"> </span>Type<span class="o">(</span>s<span class="o">)]</span><span class="w"> </span><span class="o">[</span>Options<span class="o">]</span><span class="w"> </span><span class="o">{</span>target<span class="w"> </span>specification<span class="o">}</span>
 TARGET<span class="w"> </span>SPECIFICATION:
 <span class="w">  </span>Can<span class="w"> </span>pass<span class="w"> </span>hostnames,<span class="w"> </span>IP<span class="w"> </span>addresses,<span class="w"> </span>networks,<span class="w"> </span>etc.
 <span class="w">  </span>Ex:<span class="w"> </span>scanme.nmap.org,<span class="w"> </span>microsoft.com/24,<span class="w"> </span><span class="m">192</span>.168.0.1<span class="p">;</span><span class="w"> </span><span class="m">10</span>.0.0-255.1-254
-<span class="w">  </span>-iL<span class="w"> </span>:<span class="w"> </span>Input<span class="w"> </span>from<span class="w"> </span>list<span class="w"> </span>of<span class="w"> </span>hosts/networks
-<span class="w">  </span>-iR<span class="w"> </span>:<span class="w"> </span>Choose<span class="w"> </span>random<span class="w"> </span>targets
-<span class="w">  </span>--exclude<span class="w"> </span>:<span class="w"> </span>Exclude<span class="w"> </span>hosts/networks
-<span class="w">  </span>--excludefile<span class="w"> </span>:<span class="w"> </span>Exclude<span class="w"> </span>list<span class="w"> </span>from<span class="w"> </span>file
+<span class="w">  </span>-iL<span class="w"> </span>&lt;inputfilename&gt;:<span class="w"> </span>Input<span class="w"> </span>from<span class="w"> </span>list<span class="w"> </span>of<span class="w"> </span>hosts/networks
+<span class="w">  </span>-iR<span class="w"> </span>&lt;num<span class="w"> </span>hosts&gt;:<span class="w"> </span>Choose<span class="w"> </span>random<span class="w"> </span>targets
+<span class="w">  </span>--exclude<span class="w"> </span>&lt;host1<span class="o">[</span>,host2<span class="o">][</span>,host3<span class="o">]</span>,...&gt;:<span class="w"> </span>Exclude<span class="w"> </span>hosts/networks
+<span class="w">  </span>--excludefile<span class="w"> </span>&lt;exclude_file&gt;:<span class="w"> </span>Exclude<span class="w"> </span>list<span class="w"> </span>from<span class="w"> </span>file
 HOST<span class="w"> </span>DISCOVERY:
 <span class="w">  </span>-sL:<span class="w"> </span>List<span class="w"> </span>Scan<span class="w"> </span>-<span class="w"> </span>simply<span class="w"> </span>list<span class="w"> </span>targets<span class="w"> </span>to<span class="w"> </span>scan
 <span class="w">  </span>-sn:<span class="w"> </span>Ping<span class="w"> </span>Scan<span class="w"> </span>-<span class="w"> </span>disable<span class="w"> </span>port<span class="w"> </span>scan
@@ -643,88 +1525,94 @@ HOST<span class="w"> </span>DISCOVERY:
 <span class="w">  </span>-PE/PP/PM:<span class="w"> </span>ICMP<span class="w"> </span>echo,<span class="w"> </span>timestamp,<span class="w"> </span>and<span class="w"> </span>netmask<span class="w"> </span>request<span class="w"> </span>discovery<span class="w"> </span>probes
 <span class="w">  </span>-PO<span class="o">[</span>protocol<span class="w"> </span>list<span class="o">]</span>:<span class="w"> </span>IP<span class="w"> </span>Protocol<span class="w"> </span>Ping
 <span class="w">  </span>-n/-R:<span class="w"> </span>Never<span class="w"> </span><span class="k">do</span><span class="w"> </span>DNS<span class="w"> </span>resolution/Always<span class="w"> </span>resolve<span class="w"> </span><span class="o">[</span>default:<span class="w"> </span>sometimes<span class="o">]</span>
-<span class="w">  </span>--dns-servers<span class="w"> </span>:<span class="w"> </span>Specify<span class="w"> </span>custom<span class="w"> </span>DNS<span class="w"> </span>servers
+<span class="w">  </span>--dns-servers<span class="w"> </span>&lt;serv1<span class="o">[</span>,serv2<span class="o">]</span>,...&gt;:<span class="w"> </span>Specify<span class="w"> </span>custom<span class="w"> </span>DNS<span class="w"> </span>servers
 <span class="w">  </span>--system-dns:<span class="w"> </span>Use<span class="w"> </span>OS<span class="s1">&#39;s DNS resolver</span>
 <span class="s1">  --traceroute: Trace hop path to each host</span>
 <span class="s1">SCAN TECHNIQUES:</span>
 <span class="s1">  -sS/sT/sA/sW/sM: TCP SYN/Connect()/ACK/Window/Maimon scans</span>
 <span class="s1">  -sU: UDP Scan</span>
 <span class="s1">  -sN/sF/sX: TCP Null, FIN, and Xmas scans</span>
-<span class="s1">  --scanflags : Customize TCP scan flags</span>
-<span class="s1">  -sI : Idle scan</span>
+<span class="s1">  --scanflags &lt;flags&gt;: Customize TCP scan flags</span>
+<span class="s1">  -sI &lt;zombie host[:probeport]&gt;: Idle scan</span>
 <span class="s1">  -sY/sZ: SCTP INIT/COOKIE-ECHO scans</span>
 <span class="s1">  -sO: IP protocol scan</span>
-<span class="s1">  -b : FTP bounce scan</span>
+<span class="s1">  -b &lt;FTP relay host&gt;: FTP bounce scan</span>
 <span class="s1">PORT SPECIFICATION AND SCAN ORDER:</span>
-<span class="s1">  -p : Only scan specified ports</span>
+<span class="s1">  -p &lt;port ranges&gt;: Only scan specified ports</span>
 <span class="s1">    Ex: -p22; -p1-65535; -p U:53,111,137,T:21-25,80,139,8080,S:9</span>
+<span class="s1">  --exclude-ports &lt;port ranges&gt;: Exclude the specified ports from scanning</span>
 <span class="s1">  -F: Fast mode - Scan fewer ports than the default scan</span>
-<span class="s1">  -r: Scan ports consecutively - don&#39;</span>t<span class="w"> </span>randomize
-<span class="w">  </span>--top-ports<span class="w"> </span>:<span class="w"> </span>Scan<span class="w">  </span>most<span class="w"> </span>common<span class="w"> </span>ports
-<span class="w">  </span>--port-ratio<span class="w"> </span>:<span class="w"> </span>Scan<span class="w"> </span>ports<span class="w"> </span>more<span class="w"> </span>common<span class="w"> </span>than<span class="w"> </span>
+<span class="s1">  -r: Scan ports sequentially - don&#39;</span>t<span class="w"> </span>randomize
+<span class="w">  </span>--top-ports<span class="w"> </span>&lt;number&gt;:<span class="w"> </span>Scan<span class="w"> </span>&lt;number&gt;<span class="w"> </span>most<span class="w"> </span>common<span class="w"> </span>ports
+<span class="w">  </span>--port-ratio<span class="w"> </span>&lt;ratio&gt;:<span class="w"> </span>Scan<span class="w"> </span>ports<span class="w"> </span>more<span class="w"> </span>common<span class="w"> </span>than<span class="w"> </span>&lt;ratio&gt;
 SERVICE/VERSION<span class="w"> </span>DETECTION:
 <span class="w">  </span>-sV:<span class="w"> </span>Probe<span class="w"> </span>open<span class="w"> </span>ports<span class="w"> </span>to<span class="w"> </span>determine<span class="w"> </span>service/version<span class="w"> </span>info
-<span class="w">  </span>--version-intensity<span class="w"> </span>:<span class="w"> </span>Set<span class="w"> </span>from<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">(</span>light<span class="o">)</span><span class="w"> </span>to<span class="w"> </span><span class="m">9</span><span class="w"> </span><span class="o">(</span>try<span class="w"> </span>all<span class="w"> </span>probes<span class="o">)</span>
+<span class="w">  </span>--version-intensity<span class="w"> </span>&lt;level&gt;:<span class="w"> </span>Set<span class="w"> </span>from<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">(</span>light<span class="o">)</span><span class="w"> </span>to<span class="w"> </span><span class="m">9</span><span class="w"> </span><span class="o">(</span>try<span class="w"> </span>all<span class="w"> </span>probes<span class="o">)</span>
 <span class="w">  </span>--version-light:<span class="w"> </span>Limit<span class="w"> </span>to<span class="w"> </span>most<span class="w"> </span>likely<span class="w"> </span>probes<span class="w"> </span><span class="o">(</span>intensity<span class="w"> </span><span class="m">2</span><span class="o">)</span>
 <span class="w">  </span>--version-all:<span class="w"> </span>Try<span class="w"> </span>every<span class="w"> </span>single<span class="w"> </span>probe<span class="w"> </span><span class="o">(</span>intensity<span class="w"> </span><span class="m">9</span><span class="o">)</span>
 <span class="w">  </span>--version-trace:<span class="w"> </span>Show<span class="w"> </span>detailed<span class="w"> </span>version<span class="w"> </span>scan<span class="w"> </span>activity<span class="w"> </span><span class="o">(</span><span class="k">for</span><span class="w"> </span>debugging<span class="o">)</span>
 SCRIPT<span class="w"> </span>SCAN:
 <span class="w">  </span>-sC:<span class="w"> </span>equivalent<span class="w"> </span>to<span class="w"> </span>--script<span class="o">=</span>default
-<span class="w">  </span>--script<span class="o">=</span>:<span class="w">  </span>is<span class="w"> </span>a<span class="w"> </span>comma<span class="w"> </span>separated<span class="w"> </span>list<span class="w"> </span>of
+<span class="w">  </span>--script<span class="o">=</span>&lt;Lua<span class="w"> </span>scripts&gt;:<span class="w"> </span>&lt;Lua<span class="w"> </span>scripts&gt;<span class="w"> </span>is<span class="w"> </span>a<span class="w"> </span>comma<span class="w"> </span>separated<span class="w"> </span>list<span class="w"> </span>of
 <span class="w">           </span>directories,<span class="w"> </span>script-files<span class="w"> </span>or<span class="w"> </span>script-categories
-<span class="w">  </span>--script-args<span class="o">=</span>:<span class="w"> </span>provide<span class="w"> </span>arguments<span class="w"> </span>to<span class="w"> </span>scripts
+<span class="w">  </span>--script-args<span class="o">=</span>&lt;<span class="nv">n1</span><span class="o">=</span>v1,<span class="o">[</span><span class="nv">n2</span><span class="o">=</span>v2,...<span class="o">]</span>&gt;:<span class="w"> </span>provide<span class="w"> </span>arguments<span class="w"> </span>to<span class="w"> </span>scripts
 <span class="w">  </span>--script-args-file<span class="o">=</span>filename:<span class="w"> </span>provide<span class="w"> </span>NSE<span class="w"> </span>script<span class="w"> </span>args<span class="w"> </span><span class="k">in</span><span class="w"> </span>a<span class="w"> </span>file
 <span class="w">  </span>--script-trace:<span class="w"> </span>Show<span class="w"> </span>all<span class="w"> </span>data<span class="w"> </span>sent<span class="w"> </span>and<span class="w"> </span>received
 <span class="w">  </span>--script-updatedb:<span class="w"> </span>Update<span class="w"> </span>the<span class="w"> </span>script<span class="w"> </span>database.
-<span class="w">  </span>--script-help<span class="o">=</span>:<span class="w"> </span>Show<span class="w"> </span><span class="nb">help</span><span class="w"> </span>about<span class="w"> </span>scripts.
-<span class="w">            </span>is<span class="w"> </span>a<span class="w"> </span>comma<span class="w"> </span>separted<span class="w"> </span>list<span class="w"> </span>of<span class="w"> </span>script-files<span class="w"> </span>or
+<span class="w">  </span>--script-help<span class="o">=</span>&lt;Lua<span class="w"> </span>scripts&gt;:<span class="w"> </span>Show<span class="w"> </span><span class="nb">help</span><span class="w"> </span>about<span class="w"> </span>scripts.
+<span class="w">           </span>&lt;Lua<span class="w"> </span>scripts&gt;<span class="w"> </span>is<span class="w"> </span>a<span class="w"> </span>comma-separated<span class="w"> </span>list<span class="w"> </span>of<span class="w"> </span>script-files<span class="w"> </span>or
 <span class="w">           </span>script-categories.
 OS<span class="w"> </span>DETECTION:
 <span class="w">  </span>-O:<span class="w"> </span>Enable<span class="w"> </span>OS<span class="w"> </span>detection
 <span class="w">  </span>--osscan-limit:<span class="w"> </span>Limit<span class="w"> </span>OS<span class="w"> </span>detection<span class="w"> </span>to<span class="w"> </span>promising<span class="w"> </span>targets
 <span class="w">  </span>--osscan-guess:<span class="w"> </span>Guess<span class="w"> </span>OS<span class="w"> </span>more<span class="w"> </span>aggressively
 TIMING<span class="w"> </span>AND<span class="w"> </span>PERFORMANCE:
-<span class="w">  </span>Options<span class="w"> </span>which<span class="w"> </span>take<span class="w">  </span>are<span class="w"> </span><span class="k">in</span><span class="w"> </span>seconds,<span class="w"> </span>or<span class="w"> </span>append<span class="w"> </span><span class="s1">&#39;ms&#39;</span><span class="w"> </span><span class="o">(</span>milliseconds<span class="o">)</span>,
+<span class="w">  </span>Options<span class="w"> </span>which<span class="w"> </span>take<span class="w"> </span>&lt;time&gt;<span class="w"> </span>are<span class="w"> </span><span class="k">in</span><span class="w"> </span>seconds,<span class="w"> </span>or<span class="w"> </span>append<span class="w"> </span><span class="s1">&#39;ms&#39;</span><span class="w"> </span><span class="o">(</span>milliseconds<span class="o">)</span>,
 <span class="w">  </span><span class="s1">&#39;s&#39;</span><span class="w"> </span><span class="o">(</span>seconds<span class="o">)</span>,<span class="w"> </span><span class="s1">&#39;m&#39;</span><span class="w"> </span><span class="o">(</span>minutes<span class="o">)</span>,<span class="w"> </span>or<span class="w"> </span><span class="s1">&#39;h&#39;</span><span class="w"> </span><span class="o">(</span>hours<span class="o">)</span><span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>value<span class="w"> </span><span class="o">(</span>e.g.<span class="w"> </span>30m<span class="o">)</span>.
 <span class="w">  </span>-T&lt;<span class="m">0</span>-5&gt;:<span class="w"> </span>Set<span class="w"> </span>timing<span class="w"> </span>template<span class="w"> </span><span class="o">(</span>higher<span class="w"> </span>is<span class="w"> </span>faster<span class="o">)</span>
-<span class="w">  </span>--min-hostgroup/max-hostgroup<span class="w"> </span>:<span class="w"> </span>Parallel<span class="w"> </span>host<span class="w"> </span>scan<span class="w"> </span>group<span class="w"> </span>sizes
-<span class="w">  </span>--min-parallelism/max-parallelism<span class="w"> </span>:<span class="w"> </span>Probe<span class="w"> </span>parallelization
-<span class="w">  </span>--min-rtt-timeout/max-rtt-timeout/initial-rtt-timeout<span class="w"> </span>:<span class="w"> </span>Specifies
+<span class="w">  </span>--min-hostgroup/max-hostgroup<span class="w"> </span>&lt;size&gt;:<span class="w"> </span>Parallel<span class="w"> </span>host<span class="w"> </span>scan<span class="w"> </span>group<span class="w"> </span>sizes
+<span class="w">  </span>--min-parallelism/max-parallelism<span class="w"> </span>&lt;numprobes&gt;:<span class="w"> </span>Probe<span class="w"> </span>parallelization
+<span class="w">  </span>--min-rtt-timeout/max-rtt-timeout/initial-rtt-timeout<span class="w"> </span>&lt;time&gt;:<span class="w"> </span>Specifies
 <span class="w">      </span>probe<span class="w"> </span>round<span class="w"> </span>trip<span class="w"> </span>time.
-<span class="w">  </span>--max-retries<span class="w"> </span>:<span class="w"> </span>Caps<span class="w"> </span>number<span class="w"> </span>of<span class="w"> </span>port<span class="w"> </span>scan<span class="w"> </span>probe<span class="w"> </span>retransmissions.
-<span class="w">  </span>--host-timeout<span class="w"> </span>:<span class="w"> </span>Give<span class="w"> </span>up<span class="w"> </span>on<span class="w"> </span>target<span class="w"> </span>after<span class="w"> </span>this<span class="w"> </span>long
-<span class="w">  </span>--scan-delay/--max-scan-delay<span class="w"> </span>:<span class="w"> </span>Adjust<span class="w"> </span>delay<span class="w"> </span>between<span class="w"> </span>probes
-<span class="w">  </span>--min-rate<span class="w"> </span>:<span class="w"> </span>Send<span class="w"> </span>packets<span class="w"> </span>no<span class="w"> </span>slower<span class="w"> </span>than<span class="w">  </span>per<span class="w"> </span>second
-<span class="w">  </span>--max-rate<span class="w"> </span>:<span class="w"> </span>Send<span class="w"> </span>packets<span class="w"> </span>no<span class="w"> </span>faster<span class="w"> </span>than<span class="w">  </span>per<span class="w"> </span>second
+<span class="w">  </span>--max-retries<span class="w"> </span>&lt;tries&gt;:<span class="w"> </span>Caps<span class="w"> </span>number<span class="w"> </span>of<span class="w"> </span>port<span class="w"> </span>scan<span class="w"> </span>probe<span class="w"> </span>retransmissions.
+<span class="w">  </span>--host-timeout<span class="w"> </span>&lt;time&gt;:<span class="w"> </span>Give<span class="w"> </span>up<span class="w"> </span>on<span class="w"> </span>target<span class="w"> </span>after<span class="w"> </span>this<span class="w"> </span>long
+<span class="w">  </span>--scan-delay/--max-scan-delay<span class="w"> </span>&lt;time&gt;:<span class="w"> </span>Adjust<span class="w"> </span>delay<span class="w"> </span>between<span class="w"> </span>probes
+<span class="w">  </span>--min-rate<span class="w"> </span>&lt;number&gt;:<span class="w"> </span>Send<span class="w"> </span>packets<span class="w"> </span>no<span class="w"> </span>slower<span class="w"> </span>than<span class="w"> </span>&lt;number&gt;<span class="w"> </span>per<span class="w"> </span>second
+<span class="w">  </span>--max-rate<span class="w"> </span>&lt;number&gt;:<span class="w"> </span>Send<span class="w"> </span>packets<span class="w"> </span>no<span class="w"> </span>faster<span class="w"> </span>than<span class="w"> </span>&lt;number&gt;<span class="w"> </span>per<span class="w"> </span>second
 FIREWALL/IDS<span class="w"> </span>EVASION<span class="w"> </span>AND<span class="w"> </span>SPOOFING:
-<span class="w">  </span>-f<span class="p">;</span><span class="w"> </span>--mtu<span class="w"> </span>:<span class="w"> </span>fragment<span class="w"> </span>packets<span class="w"> </span><span class="o">(</span>optionally<span class="w"> </span>w/given<span class="w"> </span>MTU<span class="o">)</span>
-<span class="w">  </span>-D<span class="w"> </span>:<span class="w"> </span>Cloak<span class="w"> </span>a<span class="w"> </span>scan<span class="w"> </span>with<span class="w"> </span>decoys
-<span class="w">  </span>-S<span class="w"> </span>:<span class="w"> </span>Spoof<span class="w"> </span><span class="nb">source</span><span class="w"> </span>address
-<span class="w">  </span>-e<span class="w"> </span>:<span class="w"> </span>Use<span class="w"> </span>specified<span class="w"> </span>interface
-<span class="w">  </span>-g/--source-port<span class="w"> </span>:<span class="w"> </span>Use<span class="w"> </span>given<span class="w"> </span>port<span class="w"> </span>number
-<span class="w">  </span>--data-length<span class="w"> </span>:<span class="w"> </span>Append<span class="w"> </span>random<span class="w"> </span>data<span class="w"> </span>to<span class="w"> </span>sent<span class="w"> </span>packets
-<span class="w">  </span>--ip-options<span class="w"> </span>:<span class="w"> </span>Send<span class="w"> </span>packets<span class="w"> </span>with<span class="w"> </span>specified<span class="w"> </span>ip<span class="w"> </span>options
-<span class="w">  </span>--ttl<span class="w"> </span>:<span class="w"> </span>Set<span class="w"> </span>IP<span class="w"> </span>time-to-live<span class="w"> </span>field
-<span class="w">  </span>--spoof-mac<span class="w"> </span>:<span class="w"> </span>Spoof<span class="w"> </span>your<span class="w"> </span>MAC<span class="w"> </span>address
+<span class="w">  </span>-f<span class="p">;</span><span class="w"> </span>--mtu<span class="w"> </span>&lt;val&gt;:<span class="w"> </span>fragment<span class="w"> </span>packets<span class="w"> </span><span class="o">(</span>optionally<span class="w"> </span>w/given<span class="w"> </span>MTU<span class="o">)</span>
+<span class="w">  </span>-D<span class="w"> </span>&lt;decoy1,decoy2<span class="o">[</span>,ME<span class="o">]</span>,...&gt;:<span class="w"> </span>Cloak<span class="w"> </span>a<span class="w"> </span>scan<span class="w"> </span>with<span class="w"> </span>decoys
+<span class="w">  </span>-S<span class="w"> </span>&lt;IP_Address&gt;:<span class="w"> </span>Spoof<span class="w"> </span><span class="nb">source</span><span class="w"> </span>address
+<span class="w">  </span>-e<span class="w"> </span>&lt;iface&gt;:<span class="w"> </span>Use<span class="w"> </span>specified<span class="w"> </span>interface
+<span class="w">  </span>-g/--source-port<span class="w"> </span>&lt;portnum&gt;:<span class="w"> </span>Use<span class="w"> </span>given<span class="w"> </span>port<span class="w"> </span>number
+<span class="w">  </span>--proxies<span class="w"> </span>&lt;url1,<span class="o">[</span>url2<span class="o">]</span>,...&gt;:<span class="w"> </span>Relay<span class="w"> </span>connections<span class="w"> </span>through<span class="w"> </span>HTTP/SOCKS4<span class="w"> </span>proxies
+<span class="w">  </span>--data<span class="w"> </span>&lt;hex<span class="w"> </span>string&gt;:<span class="w"> </span>Append<span class="w"> </span>a<span class="w"> </span>custom<span class="w"> </span>payload<span class="w"> </span>to<span class="w"> </span>sent<span class="w"> </span>packets
+<span class="w">  </span>--data-string<span class="w"> </span>&lt;string&gt;:<span class="w"> </span>Append<span class="w"> </span>a<span class="w"> </span>custom<span class="w"> </span>ASCII<span class="w"> </span>string<span class="w"> </span>to<span class="w"> </span>sent<span class="w"> </span>packets
+<span class="w">  </span>--data-length<span class="w"> </span>&lt;num&gt;:<span class="w"> </span>Append<span class="w"> </span>random<span class="w"> </span>data<span class="w"> </span>to<span class="w"> </span>sent<span class="w"> </span>packets
+<span class="w">  </span>--ip-options<span class="w"> </span>&lt;options&gt;:<span class="w"> </span>Send<span class="w"> </span>packets<span class="w"> </span>with<span class="w"> </span>specified<span class="w"> </span>ip<span class="w"> </span>options
+<span class="w">  </span>--ttl<span class="w"> </span>&lt;val&gt;:<span class="w"> </span>Set<span class="w"> </span>IP<span class="w"> </span>time-to-live<span class="w"> </span>field
+<span class="w">  </span>--spoof-mac<span class="w"> </span>&lt;mac<span class="w"> </span>address/prefix/vendor<span class="w"> </span>name&gt;:<span class="w"> </span>Spoof<span class="w"> </span>your<span class="w"> </span>MAC<span class="w"> </span>address
 <span class="w">  </span>--badsum:<span class="w"> </span>Send<span class="w"> </span>packets<span class="w"> </span>with<span class="w"> </span>a<span class="w"> </span>bogus<span class="w"> </span>TCP/UDP/SCTP<span class="w"> </span>checksum
 OUTPUT:
-<span class="w">  </span>-oN/-oX/-oS/-oG<span class="w"> </span>:<span class="w"> </span>Output<span class="w"> </span>scan<span class="w"> </span><span class="k">in</span><span class="w"> </span>normal,<span class="w"> </span>XML,<span class="w"> </span>s<span class="p">|</span>:<span class="w"> </span>Output<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>three<span class="w"> </span>major<span class="w"> </span>formats<span class="w"> </span>at<span class="w"> </span>once
+<span class="w">  </span>-oN/-oX/-oS/-oG<span class="w"> </span>&lt;file&gt;:<span class="w"> </span>Output<span class="w"> </span>scan<span class="w"> </span><span class="k">in</span><span class="w"> </span>normal,<span class="w"> </span>XML,<span class="w"> </span>s<span class="p">|</span>&lt;rIpt<span class="w"> </span>kIddi3,
+<span class="w">     </span>and<span class="w"> </span>Grepable<span class="w"> </span>format,<span class="w"> </span>respectively,<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>given<span class="w"> </span>filename.
+<span class="w">  </span>-oA<span class="w"> </span>&lt;basename&gt;:<span class="w"> </span>Output<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>three<span class="w"> </span>major<span class="w"> </span>formats<span class="w"> </span>at<span class="w"> </span>once
 <span class="w">  </span>-v:<span class="w"> </span>Increase<span class="w"> </span>verbosity<span class="w"> </span>level<span class="w"> </span><span class="o">(</span>use<span class="w"> </span>-vv<span class="w"> </span>or<span class="w"> </span>more<span class="w"> </span><span class="k">for</span><span class="w"> </span>greater<span class="w"> </span>effect<span class="o">)</span>
 <span class="w">  </span>-d:<span class="w"> </span>Increase<span class="w"> </span>debugging<span class="w"> </span>level<span class="w"> </span><span class="o">(</span>use<span class="w"> </span>-dd<span class="w"> </span>or<span class="w"> </span>more<span class="w"> </span><span class="k">for</span><span class="w"> </span>greater<span class="w"> </span>effect<span class="o">)</span>
 <span class="w">  </span>--reason:<span class="w"> </span>Display<span class="w"> </span>the<span class="w"> </span>reason<span class="w"> </span>a<span class="w"> </span>port<span class="w"> </span>is<span class="w"> </span><span class="k">in</span><span class="w"> </span>a<span class="w"> </span>particular<span class="w"> </span>state
 <span class="w">  </span>--open:<span class="w"> </span>Only<span class="w"> </span>show<span class="w"> </span>open<span class="w"> </span><span class="o">(</span>or<span class="w"> </span>possibly<span class="w"> </span>open<span class="o">)</span><span class="w"> </span>ports
 <span class="w">  </span>--packet-trace:<span class="w"> </span>Show<span class="w"> </span>all<span class="w"> </span>packets<span class="w"> </span>sent<span class="w"> </span>and<span class="w"> </span>received
 <span class="w">  </span>--iflist:<span class="w"> </span>Print<span class="w"> </span>host<span class="w"> </span>interfaces<span class="w"> </span>and<span class="w"> </span>routes<span class="w"> </span><span class="o">(</span><span class="k">for</span><span class="w"> </span>debugging<span class="o">)</span>
-<span class="w">  </span>--log-errors:<span class="w"> </span>Log<span class="w"> </span>errors/warnings<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>normal-format<span class="w"> </span>output<span class="w"> </span>file
 <span class="w">  </span>--append-output:<span class="w"> </span>Append<span class="w"> </span>to<span class="w"> </span>rather<span class="w"> </span>than<span class="w"> </span>clobber<span class="w"> </span>specified<span class="w"> </span>output<span class="w"> </span>files
-<span class="w">  </span>--resume<span class="w"> </span>:<span class="w"> </span>Resume<span class="w"> </span>an<span class="w"> </span>aborted<span class="w"> </span>scan
-<span class="w">  </span>--stylesheet<span class="w"> </span>:<span class="w"> </span>XSL<span class="w"> </span>stylesheet<span class="w"> </span>to<span class="w"> </span>transform<span class="w"> </span>XML<span class="w"> </span>output<span class="w"> </span>to<span class="w"> </span>HTML
+<span class="w">  </span>--resume<span class="w"> </span>&lt;filename&gt;:<span class="w"> </span>Resume<span class="w"> </span>an<span class="w"> </span>aborted<span class="w"> </span>scan
+<span class="w">  </span>--noninteractive:<span class="w"> </span>Disable<span class="w"> </span>runtime<span class="w"> </span>interactions<span class="w"> </span>via<span class="w"> </span>keyboard
+<span class="w">  </span>--stylesheet<span class="w"> </span>&lt;path/URL&gt;:<span class="w"> </span>XSL<span class="w"> </span>stylesheet<span class="w"> </span>to<span class="w"> </span>transform<span class="w"> </span>XML<span class="w"> </span>output<span class="w"> </span>to<span class="w"> </span>HTML
 <span class="w">  </span>--webxml:<span class="w"> </span>Reference<span class="w"> </span>stylesheet<span class="w"> </span>from<span class="w"> </span>Nmap.Org<span class="w"> </span><span class="k">for</span><span class="w"> </span>more<span class="w"> </span>portable<span class="w"> </span>XML
 <span class="w">  </span>--no-stylesheet:<span class="w"> </span>Prevent<span class="w"> </span>associating<span class="w"> </span>of<span class="w"> </span>XSL<span class="w"> </span>stylesheet<span class="w"> </span>w/XML<span class="w"> </span>output
 MISC:
 <span class="w">  </span>-6:<span class="w"> </span>Enable<span class="w"> </span>IPv6<span class="w"> </span>scanning
 <span class="w">  </span>-A:<span class="w"> </span>Enable<span class="w"> </span>OS<span class="w"> </span>detection,<span class="w"> </span>version<span class="w"> </span>detection,<span class="w"> </span>script<span class="w"> </span>scanning,<span class="w"> </span>and<span class="w"> </span>traceroute
-<span class="w">  </span>--datadir<span class="w"> </span>:<span class="w"> </span>Specify<span class="w"> </span>custom<span class="w"> </span>Nmap<span class="w"> </span>data<span class="w"> </span>file<span class="w"> </span>location
+<span class="w">  </span>--datadir<span class="w"> </span>&lt;dirname&gt;:<span class="w"> </span>Specify<span class="w"> </span>custom<span class="w"> </span>Nmap<span class="w"> </span>data<span class="w"> </span>file<span class="w"> </span>location
 <span class="w">  </span>--send-eth/--send-ip:<span class="w"> </span>Send<span class="w"> </span>using<span class="w"> </span>raw<span class="w"> </span>ethernet<span class="w"> </span>frames<span class="w"> </span>or<span class="w"> </span>IP<span class="w"> </span>packets
 <span class="w">  </span>--privileged:<span class="w"> </span>Assume<span class="w"> </span>that<span class="w"> </span>the<span class="w"> </span>user<span class="w"> </span>is<span class="w"> </span>fully<span class="w"> </span>privileged
 <span class="w">  </span>--unprivileged:<span class="w"> </span>Assume<span class="w"> </span>the<span class="w"> </span>user<span class="w"> </span>lacks<span class="w"> </span>raw<span class="w"> </span>socket<span class="w"> </span>privileges
@@ -868,11 +1756,11 @@ Características:</p>
 <p><div class="highlight"><pre><span></span><code>$<span class="w"> </span>nmap<span class="w"> </span>-sC<span class="w"> </span>scanme.nmap.org
 </code></pre></div>
 En este caso le estamos indicando que habilite el uso de scripts de la categoría predeterminada y Nmap selecciona los script a usar teniendo en cuenta los puertos que encuentra. En este caso se ejecutan los scripts <code>ssh-hostkey</code> y <code>http-title</code> como podemos ver en los resultados reportados:</p>
-<div class="highlight"><pre><span></span><code>Starting<span class="w"> </span>Nmap<span class="w"> </span><span class="m">7</span>.80<span class="w"> </span><span class="o">(</span><span class="w"> </span>https://nmap.org<span class="w"> </span><span class="o">)</span><span class="w"> </span>at<span class="w"> </span><span class="m">2021</span>-02-22<span class="w"> </span><span class="m">13</span>:01<span class="w"> </span>CET
+<div class="highlight"><pre><span></span><code>Starting<span class="w"> </span>Nmap<span class="w"> </span><span class="m">7</span>.94SVN<span class="w"> </span><span class="o">(</span><span class="w"> </span>https://nmap.org<span class="w"> </span><span class="o">)</span><span class="w"> </span>at<span class="w"> </span><span class="m">2025</span>-10-08<span class="w"> </span><span class="m">16</span>:07<span class="w"> </span>CEST
 Nmap<span class="w"> </span>scan<span class="w"> </span>report<span class="w"> </span><span class="k">for</span><span class="w"> </span>scanme.nmap.org<span class="w"> </span><span class="o">(</span><span class="m">45</span>.33.32.156<span class="o">)</span>
-Host<span class="w"> </span>is<span class="w"> </span>up<span class="w"> </span><span class="o">(</span><span class="m">0</span>.26s<span class="w"> </span>latency<span class="o">)</span>.
+Host<span class="w"> </span>is<span class="w"> </span>up<span class="w"> </span><span class="o">(</span><span class="m">0</span>.21s<span class="w"> </span>latency<span class="o">)</span>.
 Other<span class="w"> </span>addresses<span class="w"> </span><span class="k">for</span><span class="w"> </span>scanme.nmap.org<span class="w"> </span><span class="o">(</span>not<span class="w"> </span>scanned<span class="o">)</span>:<span class="w"> </span><span class="m">2600</span>:3c01::f03c:91ff:fe18:bb2f
-Not<span class="w"> </span>shown:<span class="w"> </span><span class="m">996</span><span class="w"> </span>closed<span class="w"> </span>ports
+Not<span class="w"> </span>shown:<span class="w"> </span><span class="m">996</span><span class="w"> </span>filtered<span class="w"> </span>tcp<span class="w"> </span>ports<span class="w"> </span><span class="o">(</span>no-response<span class="o">)</span>
 PORT<span class="w">      </span>STATE<span class="w"> </span>SERVICE
 <span class="m">22</span>/tcp<span class="w">    </span>open<span class="w">  </span>ssh
 <span class="p">|</span><span class="w"> </span>ssh-hostkey:<span class="w"> </span>
@@ -881,11 +1769,12 @@ PORT<span class="w">      </span>STATE<span class="w"> </span>SERVICE
 <span class="p">|</span><span class="w">   </span><span class="m">256</span><span class="w"> </span><span class="m">96</span>:02:bb:5e:57:54:1c:4e:45:2f:56:4c:4a:24:b2:57<span class="w"> </span><span class="o">(</span>ECDSA<span class="o">)</span>
 <span class="p">|</span>_<span class="w">  </span><span class="m">256</span><span class="w"> </span><span class="m">33</span>:fa:91:0f:e0:e1:7b:1f:6d:05:a2:b0:f1:54:41:56<span class="w"> </span><span class="o">(</span>ED25519<span class="o">)</span>
 <span class="m">80</span>/tcp<span class="w">    </span>open<span class="w">  </span>http
+<span class="p">|</span>_http-favicon:<span class="w"> </span>Nmap<span class="w"> </span>Project
 <span class="p">|</span>_http-title:<span class="w"> </span>Go<span class="w"> </span>ahead<span class="w"> </span>and<span class="w"> </span>ScanMe!
 <span class="m">9929</span>/tcp<span class="w">  </span>open<span class="w">  </span>nping-echo
 <span class="m">31337</span>/tcp<span class="w"> </span>open<span class="w">  </span>Elite
 
-Nmap<span class="w"> </span><span class="k">done</span>:<span class="w"> </span><span class="m">1</span><span class="w"> </span>IP<span class="w"> </span>address<span class="w"> </span><span class="o">(</span><span class="m">1</span><span class="w"> </span>host<span class="w"> </span>up<span class="o">)</span><span class="w"> </span>scanned<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">11</span>.64<span class="w"> </span>seconds
+Nmap<span class="w"> </span><span class="k">done</span>:<span class="w"> </span><span class="m">1</span><span class="w"> </span>IP<span class="w"> </span>address<span class="w"> </span><span class="o">(</span><span class="m">1</span><span class="w"> </span>host<span class="w"> </span>up<span class="o">)</span><span class="w"> </span>scanned<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">23</span>.54<span class="w"> </span>seconds
 </code></pre></div>
 <p>Los scripts en NSE se dividen en las siguientes categorías:</p>
 <ul>
@@ -1157,6 +2046,44 @@ sudo<span class="w"> </span>nmap<span class="w"> </span>-p22,80<span class="w"> 
       
         <footer class="md-footer">
   
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pie" >
+        
+          
+          <a href="../Intro/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Introducción">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                Introducción
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../enumeracion/" class="md-footer__link md-footer__link--next" aria-label="Siguiente: Enumeración de servicios">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Siguiente
+              </span>
+              <div class="md-ellipsis">
+                Enumeración de servicios
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
     
   
   <div class="md-footer-meta md-typeset">

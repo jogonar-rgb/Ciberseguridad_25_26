@@ -13,6 +13,10 @@
         <link rel="canonical" href="https://jogonar-rgb.github.io/Ciberseguridad_25_26/Seguridad_ofensiva/enumeracion/">
       
       
+        <link rel="prev" href="../nmap101/">
+      
+      
+        <link rel="next" href="../servicios_desact/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -235,6 +239,30 @@
     
   
   Warm up
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Seguridad ofensiva
 
         </a>
       </li>
@@ -467,6 +495,620 @@
   
     <li class="md-nav__item">
       <a href="../../warm/webgrafia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Webgrafía
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Seguridad ofensiva
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Seguridad ofensiva
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introducción
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nmap101/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introducción a Nmap
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Enumeración de servicios
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Enumeración de servicios
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ftp" class="md-nav__link">
+    <span class="md-ellipsis">
+      FTP
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FTP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#uso-comun-de-ftp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Uso común de FTP:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tftp" class="md-nav__link">
+    <span class="md-ellipsis">
+      TFTP
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uso-comun-de-tftp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Uso común de TFTP
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tecnicas-de-enumeracion-ftp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Técnicas de enumeración FTP
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Técnicas de enumeración FTP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#obteniendo-la-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      Obteniendo la versión
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#smb" class="md-nav__link">
+    <span class="md-ellipsis">
+      SMB
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SMB">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usos-de-smb-en-la-seguridad-informatica" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usos de SMB en la seguridad informática
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tecnicas-de-enumeracion-smb" class="md-nav__link">
+    <span class="md-ellipsis">
+      Técnicas de enumeración SMB
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      NFS
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NFS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ejemplos-de-uso-de-nfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplos de uso de NFS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#como-funciona-nfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      ¿Cómo funciona NFS?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-de-enumeracion-de-nfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo de enumeración de NFS
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#smtp" class="md-nav__link">
+    <span class="md-ellipsis">
+      SMTP
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SMTP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#funcionamiento-basico-de-smtp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Funcionamiento básico de SMTP
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caracteristicas-clave-de-smtp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Características clave de SMTP
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enumeracion-smtp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enumeración SMTP
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../servicios_desact/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Causas de vulnerabilidades en sistemas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../exploit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Explotación de vulnerabilidades
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metasploit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Metasploit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rev_shell.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Shells
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../privesc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Escalada de privilegios
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ad_enumeration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Enumeración en entornos AD (Active Directory)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../passw_manag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Gestión y almacenamiento de credenciales en Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phising/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Spoofing & phising
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../HackingAD1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ataques en entornos Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../webgrafia/" class="md-nav__link">
         
   
   
@@ -783,6 +1425,44 @@ nmap<span class="w"> </span>-p25<span class="w"> </span>--script<span class="w">
       
         <footer class="md-footer">
   
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pie" >
+        
+          
+          <a href="../nmap101/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Introducción a Nmap">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                Introducción a Nmap
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../servicios_desact/" class="md-footer__link md-footer__link--next" aria-label="Siguiente: Causas de vulnerabilidades en sistemas">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Siguiente
+              </span>
+              <div class="md-ellipsis">
+                Causas de vulnerabilidades en sistemas
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
     
   
   <div class="md-footer-meta md-typeset">
