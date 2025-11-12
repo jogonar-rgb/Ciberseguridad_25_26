@@ -468,7 +468,7 @@ Los scripts en NSE se dividen en las siguientes categorías:
 
 + ```auth```: Este tipo de Scripts permiten determinar credenciales de autenticación en el sistema objetivo, frecuentemente realizando ataques de fuerza bruta sencillos, algunos ejemplos de este tipo de scripts son ftp-anon, snmp-brute, http-auth, etc.
 
-+ ```broadcast```: Este tipo de Scripts permiten determinar credenciales de autenticación en el sistema objetivo, frecuentemente realizando ataques de fuerza bruta sencillos, algunos ejemplos de este tipo de scripts son ftp-anon, snmp-brute, http-auth, etc.
++ ```broadcast```: Este tipo de Scripts están diseñados para descubrir servicios y hosts en una red mediante mensajes de difusión (broadcast). Esto significa que envían paquetes a direcciones de broadcast o multicast para obtener respuestas de múltiples dispositivos al mismo tiempo.
 
 + ```brute```: esta categoría es para scripts que utilizan el sistema de fuerza bruta para averiguar las credenciales de usuario en un determinado servicio
   
