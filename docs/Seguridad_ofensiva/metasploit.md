@@ -46,7 +46,7 @@ La biblioteca de extensión de Ruby (Ruby Extension Library) es el componente b�
 
 Se utiliza para manejar diversas funciones de bajo nivel dentro de la plataforma. Esta biblioteca es fundamental para el funcionamiento de Metasploit, ya que proporciona herramientas y métodos esenciales que permiten la interacción con redes, el manejo de sockets, la codificación de datos y otras tareas críticas. Algunas de las características principales de Rex incluyen:
 
-+** Manejo de Sockets**: Proporciona herramientas para crear y gestionar conexiones de red, incluyendo TCP, UDP y SSL, esenciales para realizar ataques y explotación de vulnerabilidades.
++ **Manejo de Sockets**: Proporciona herramientas para crear y gestionar conexiones de red, incluyendo TCP, UDP y SSL, esenciales para realizar ataques y explotación de vulnerabilidades.
 
 + **Codificación y Decodificación de Datos**: Incluye métodos para convertir datos a diferentes formatos como base64, hexadecimal, y otros, permitiendo que los exploits se transmitan de manera encubierta y compatible.
 
@@ -59,19 +59,19 @@ Se utiliza para manejar diversas funciones de bajo nivel dentro de la plataforma
 En resumen, Rex permite a los módulos de Metasploit realizar operaciones de red y manipulación de datos que serían muy complejas de implementar de forma individual en cada módulo.
 #### MSF-Core
 
-msf-core es el núcleo de Metasploit Framework, una colección de bibliotecas y módulos esenciales que forman la base sobre la cual se ejecutan todas las funcionalidades de Metasploit. Este núcleo facilita la gestión de todos los componentes de Metasploit, incluidos los módulos de exploits, payloads, auxiliares, y post-explotación. Algunas de sus principales características incluyen:
+NSF-Core es el núcleo de Metasploit Framework, una colección de bibliotecas y módulos esenciales que forman la base sobre la cual se ejecutan todas las funcionalidades de Metasploit. Este núcleo facilita la gestión de todos los componentes de Metasploit, incluidos los módulos de exploits, payloads, auxiliares, y post-explotación. Algunas de sus principales características incluyen:
 
-+ **Gestión de módulos**: msf-core organiza y carga módulos de manera estructurada, permitiendo que Metasploit tenga un catálogo organizado de exploits, payloads, encoders, y nops (no-operation).
++ **Gestión de módulos**: MSF-Core organiza y carga módulos de manera estructurada, permitiendo que Metasploit tenga un catálogo organizado de exploits, payloads, encoders, y nops (no-operation).
 
 + **Compatibilidad con múltiples plataformas**: Facilita la portabilidad de Metasploit, permitiendo que funcione en distintos sistemas operativos (Linux, Windows, macOS) sin problemas de compatibilidad.
 
-+ **Conexión con nibliotecas**: msf-core se comunica con otras bibliotecas como Rex y msf-lib para manejar la lógica de bajo nivel (manejo de sockets, encriptación, etc.), permitiendo que los desarrolladores de módulos se enfoquen en el desarrollo de exploits sin preocuparse de estos aspectos técnicos.
++ **Conexión con nibliotecas**: MSF-Core se comunica con otras bibliotecas como Rex y MSF-Lib para manejar la lógica de bajo nivel (manejo de sockets, encriptación, etc.), permitiendo que los desarrolladores de módulos se enfoquen en el desarrollo de exploits sin preocuparse de estos aspectos técnicos.
 
 + **Control de desiones y gestión de estado**: Ayuda a manejar sesiones, como las generadas por payloads como Meterpreter, permitiendo la interacción con sistemas comprometidos y la ejecución de comandos remotos.
 
-+ **Soporte para plugins y extensibilidad**: msf-core permite la inclusión de plugins que amplían sus funcionalidades, como integraciones con bases de datos y herramientas de gestión de vulnerabilidades, facilitando la extensibilidad de Metasploit.
++ **Soporte para plugins y extensibilidad**: MSF-Core permite la inclusión de plugins que amplían sus funcionalidades, como integraciones con bases de datos y herramientas de gestión de vulnerabilidades, facilitando la extensibilidad de Metasploit.
 
-En pocas palabras, msf-core es el esqueleto de Metasploit, sobre el cual se construyen y gestionan todas sus funcionalidades, asegurando una integración fluida de todos los componentes y módulos del framework
+En pocas palabras, MSF-Core es el esqueleto de Metasploit, sobre el cual se construyen y gestionan todas sus funcionalidades, asegurando una integración fluida de todos los componentes y módulos del framework
 
 
 #### Exploits
