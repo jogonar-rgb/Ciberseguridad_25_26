@@ -8,9 +8,9 @@ description: Explotación manual y automática de EternalBlue, Windows. Apuntes,
 
 Para este ejercicio vamos a hacer uso de una máquina de TryHackMe, especialmente diseñada para ser vulnerable a EternalBlue: [Sala de THM](https://tryhackme.com/room/blue)
 
-En este caso no vamos a completar la sala tal cual está escrita en THM, sino que el proceso lo realizaremos *manualmente*, sin utilizar la herramienta Metasploit. No obstante, nos aprovecharemos de esta máquina.
+En este caso vamos a completar la sala tal cual está escrita en THM, también lo realizaremos *manualmente*, sin utilizar la herramienta Metasploit. No obstante, nos aprovecharemos de esta máquina.
 
-Os detallo los apartados que debéis documentar a la hora de entregar el informe del proceso completo en Aules (explicación + capturas de pantalla)
+Os detallo los apartados que haremos:
 
 1. El primer paso será, como ya vimos en clases anteriores, realizar un escaneo de puertos con Nmap. Recordad los conceptos ya vistos.
    
@@ -50,4 +50,3 @@ En este caso, vamos a explotar EternalBlue haciendo uso de Metasploit.
 
 Debéis seguir el proceso que ya se ha comentado en la sección correspondiente; iniciar `msfconsole`, buscar un exploit para EternalBlue, configurar las opciones correspondientes y lanzar el exploit.
 
-Este proceso debe quedar reflejado con detalle, incluyendo capturas de pantalla, en un informe que se entregará en Aules.
