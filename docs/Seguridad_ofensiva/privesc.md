@@ -61,7 +61,7 @@ En Linux nuestro objetivo con la escalada de privilegios va a ser siempre obtene
 
 En muchos casos la escalada de privilegios no recaerá simplemente en una simple mala configuración, sino que requererirá combinar varios métodos, debilidades y malas configuraciones para conseguirla.
 
-Todas las escaladas de privilegios son ejemplos fehacientes de una violación de los controles de acceso. Puesto ques los controles de acceso y los permisos de usuario están estrechamente ligados, es crucial entender como funcionan los permisos en Linux, tal y como ya hemos visto con anterioridad.
+Todas las escaladas de privilegios son ejemplos fehacientes de una violación de los controles de acceso. Puesto que los controles de acceso y los permisos de usuario están estrechamente ligados, es crucial entender como funcionan los permisos en Linux, tal y como ya hemos visto con anterioridad.
 
 Pasemos ahora a ver algunas de las técnicas que permiten la escalada de privilegios en sistemas Linux..
 
