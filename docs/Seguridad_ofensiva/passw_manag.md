@@ -12,7 +12,7 @@ El sistema operativo Windows tiene muchos lugares diferentes donde almacena o *c
   
     La base de datos SAM es un archivo que está presente en ^^todos^^ los sistemas Windows en la ubicación `C:\Windows\System32\config\SAM`
     
-    Este archivo contiene todas las cuentas locales creadas, así como todas las cuentas locales integradas que se encuentran en un sistema operativo Windows (XP, Vista, Win7, 8.1 y 10). Las contraseñas se almacenan aquí como hashes. (hash de contraseña NT).
+    Este archivo contiene todas las cuentas locales creadas, así como todas las cuentas locales integradas que se encuentran en un sistema operativo Windows (XP, Vista, Win7, 8.1, 10 y 11). Las contraseñas se almacenan aquí como hashes. (hash de contraseña NT).
 
     Protección:
 
@@ -219,7 +219,7 @@ Un atacante puede obtener credenciales de diferentes áreas de un sistema. Con a
 
 Este es un protocolo heredado utilizado para autenticar usuarios en Windows. 
 
-CUando está habilitado, peermite la transmisión de credenciales en texto plano durante ciertos procesos de autenticación. Su lugar en el ecosistema de seguridad de Windows se relaciona con el manejo de contraseñas en memoria y su interacción con otros componentes de seguridad como LSASS, pero su uso ha sido desalentado debido a sus implicaciones de seguridad.
+Cuando está habilitado, permite la transmisión de credenciales en texto plano durante ciertos procesos de autenticación. Su lugar en el ecosistema de seguridad de Windows se relaciona con el manejo de contraseñas en memoria y su interacción con otros componentes de seguridad como LSASS, pero su uso ha sido desalentado debido a sus implicaciones de seguridad.
 
 Si bien el servicio está deshabilitado de forma predeterminada hoy en día, todavía existe en las últimas versiones de Windows y los atacantes a menudo lo habilitan para robar credenciales.
 

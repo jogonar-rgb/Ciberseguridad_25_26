@@ -240,7 +240,7 @@ objetos):
 + Entradas de registro
 + Servicios
   
-Si un usuario y/o grupo tiene permiso para realizar una determinada acción de un recurso dependerla de la lista de control de acceso (ACL) de ese recurso. 
+Si un usuario y/o grupo tiene permiso para realizar una determinada acción de un recurso dependerá de la lista de control de acceso (ACL) de ese recurso. 
 
 ##### ACL y ACE
 
@@ -300,7 +300,7 @@ Si podemos escribir en una ubicación que Windows compruebe antes del ejecutable
 
 Si el ejecutable del servicio original es modificable por nuestro usuario, podemos simplemente reemplazarlo con el ejecutable de nuestra shell inversa.
 
-¡Recordad crear una copia de seguridad del ejecutable original si se trata de en un sistema real! 
+¡Recordad crear una copia de seguridad del ejecutable original si se trata de un sistema real! 
 
 !!!Question "Task 6 de THM"
     Obtén una shell de Administrador haciendo uso de esta escalada de privilegios.
