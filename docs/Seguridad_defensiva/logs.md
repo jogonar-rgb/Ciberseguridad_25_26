@@ -23,7 +23,7 @@ De igual manera la actividad viene marcada con fecha y hora, lo que ayuda a los 
 
 En muchos casos, por una cuestión legal. Las organizaciones se deben adherir a una regulación específica que dicta como se almacena y analizan los datos.
 
-Mas allá de los requerimientos legales, el análisis de los logs, cuando se hace de forma eficaz, puede proporcionar difrenetes beneficios para el negocio. A continuación vemos algunos.
+Mas allá de los requerimientos legales, el análisis de los logs, cuando se hace de forma eficaz, puede proporcionar diferentes beneficios para el negocio. A continuación vemos algunos.
 
 ### Un mejor troubleshooting 
 

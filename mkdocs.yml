@@ -74,7 +74,7 @@ nav:
     - Gestión y almacenamiento de credenciales en Windows: Seguridad_ofensiva/passw_manag.md
     - Spoofing & phising: Seguridad_ofensiva/phising.md    
     - Ataques en entornos Active Directory: Seguridad_ofensiva/HackingAD1.md
-  #  - Laboratorio de pivoting: Seguridad_ofensiva/Pivoting.md
+    - Laboratorio de pivoting: Seguridad_ofensiva/Pivoting.md
     - Webgrafía: Seguridad_ofensiva/webgrafia.md
   #- Seguridad defensiva:
   #  - Seguridad_defensiva/index.md

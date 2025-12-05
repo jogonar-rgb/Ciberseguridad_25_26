@@ -95,7 +95,7 @@ networks:
 La sección `ipam` es un acrónimo de **IP Address Management** y es dónde indicamos las direcciones de red así como las puertas de enlace. Para este escenario el driver por defecto (bridge) es suficiente. 
 
 !!!info
-    Si tenéis interés en saber los drivers de red que pueden existir y cuándo se usan, podéis leer [aquí](https://www.docker.com/blog/understanding-docker-networking-drivers-use-cases/) o un pequeño resumen [aquí](https://docs.docker.com/network/drivers/#network-driver-summary)
+    Si tenéis interés en saber los drivers de red que pueden existir y cuándo se usan, podéis leer [aquí](https://www.docker.com/blog/understanding-docker-networking-drivers-use-cases/) o un pequeño resumen [aquí](https://docs.docker.com/engine/network/drivers/#network-driver-summary)
 
 Luego tenemos un `docker-compose.yml` para construir los contenedores que vamos a utilizar:
 
