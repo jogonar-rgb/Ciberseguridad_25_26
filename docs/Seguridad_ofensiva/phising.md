@@ -6,7 +6,7 @@ description: Los ataques de phising cada vez son más elaborados con el fin de p
 
 ## SSDP (Simple Service Discovery Protocol)
 
-SSDP es un protocolo de red basado en IP y UDP para anunciar y buscar/encontrar dispositivos en una red. Consigue este cometido sin la necesidad de mecanismos de configuración basados en un servidor (como pueda ser DHCP o DNS) y sin una configuración estática del host. Para su objetivo, SSDP se apoya en el protocolo [UPnP (Universal Plub and Play)](https://en.wikipedia.org/wiki/Universal_Plug_and_Play).
+SSDP es un protocolo de red basado en IP y UDP para anunciar y buscar/encontrar dispositivos en una red. Consigue este cometido sin la necesidad de mecanismos de configuración basados en un servidor (como pueda ser DHCP o DNS) y sin una configuración estática del host. Para su objetivo, SSDP se apoya en el protocolo [UPnP (Universal Plug and Play)](https://en.wikipedia.org/wiki/Universal_Plug_and_Play).
 
 UPnP es un set de protocolos de red que permite que dispositivos de red tales como ordenadores personales, impresoras, access-points, Chromecast, NAS, consolas, Smart TVs... descubran entre sí su presencia en la red y establezcan servicios de comunicación de red o compartición de datos. Un dispositivos compatible con UPnP no necesita ninguna configuración de red, puede integrarse en una red, obtener una IP, publicar su nombre y anunciar sus servicios bajo petición, todo de forma automática. De la misma forma, puede detectar la presencia y servicios de otros dispositivos.
 
@@ -53,7 +53,7 @@ Necesitaréis dos máquinas:
 + Windows/Linux como atacante
 + Windows como víctima
 
-Podéis hacerlo con dos máquinas virtuales, con la vuestra física y otra virtual o como queráis, <u>lo importante es que se trate de dos máquinas diferente.</u>
+Podéis hacerlo con dos máquinas virtuales, con la vuestra física y otra virtual o como queráis, <u>lo importante es que se trate de dos máquinas diferentes.</u>
 
 Debéis buscar información de forma autónoma sobre cómo llevar a cabo este ataque con las dos herramienta que os propongo. Os doy un par de referencias:
 
