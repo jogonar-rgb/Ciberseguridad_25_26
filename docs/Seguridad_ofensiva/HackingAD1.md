@@ -98,7 +98,7 @@ Yo he utilizado Parrot pero podréis utilizar Kali o la que más os guste. En es
 
 ### Explicación 
 
-Cuando Vuze intenta descubrir otros dispositivos en la red local, SSDP envía un mensaje UDP multicast a la dirección 239.255.255.250 y puerto **1900**. Esto permite a Vuze localizar dispositivos UPnP. Es por esto precisamente que el atacante será capza de responder a estos paquetes con una herramienta como evil-ssdp, diciéndole al cliente que es un dispositovo compartido llamado *Device Descriptor*.
+Cuando Vuze intenta descubrir otros dispositivos en la red local, SSDP envía un mensaje UDP multicast a la dirección 239.255.255.250 y puerto **1900**. Esto permite a Vuze localizar dispositivos UPnP. Es por esto precisamente que el atacante será capaz de responder a estos paquetes con una herramienta como evil-ssdp, diciéndole al cliente que es un dispositovo compartido llamado *Device Descriptor*.
 
 Tras esto, Vuze parsea el contenido del XML de *Device Descriptor* sobre HTTP, pudiendo así obtener archivos, hashes o inclusos shells del atacante. En nuestro caso particular, vamos a ejecutar un ataque XXE que producirá una conexión SMB, permitiéndonos capturar el hash del desafío/respuesta.
 
@@ -147,7 +147,7 @@ Si analizamos el escenario como mandan los canones con Wireshark, veremos cosas 
 !!!info 
     Microsoft está empezando a hacer más enfásis en algunos aspectos históricos de su seguridad. Uno de ellos era que por defecto los mensajes SMB no estaban firmados,[ cosa que parece que empieza a cambiar](https://techcommunity.microsoft.com/t5/storage-at-microsoft/smb-signing-required-by-default-in-windows-insider/ba-p/3831704) y a requerirse que sí lo haga por defecto.
 
-    [<u>¿Qué significa que los mensajes SMB estén firmados?</u>](https://learn.microsoft.com/es-es/troubleshoot/windows-server/networking/overview-server-message-block-**signing**)
+    [<u>¿Qué significa que los mensajes SMB estén firmados?</u>](https://learn.microsoft.com/es-es/troubleshoot/windows-server/networking/overview-server-message-block-signing)
 
     *La firma SMB (también conocida como firmas de seguridad) es un mecanismo de seguridad en el protocolo SMB. La firma SMB significa que cada mensaje SMB contiene una firma que se genera mediante la clave de sesión. El cliente coloca un hash de todo el mensaje en el campo de firma del encabezado SMB.*
 
@@ -213,7 +213,7 @@ nmap --script=smb2-security-mode -p445 192.168.18.0/24
 
 Hace muchos años ya que venimos escuchando que la implantación de IPv6 es inminente, que no quedan direcciones IPv4 disponibles y que ese es el destino inmediato e inexorable.
 
-No obstante, la realidad es un tanto distinta. Mientras que sí es cierto que IPv6, aunque muy lentamente, se abre paso en Internet, en las redes internas de las empreass es bastante raro verlo. Sin embargo, muchas de estas empresas desconocen que a pesar de su desuso, Windows desde su versión Vista, así como sus versiones de servidor, **tienen IPv6 activado por defecto y éste tiene preferencia sobre IPv4**.
+No obstante, la realidad es un tanto distinta. Mientras que sí es cierto que IPv6, aunque muy lentamente, se abre paso en Internet, en las redes internas de las empresas es bastante raro verlo. Sin embargo, muchas de estas empresas desconocen que a pesar de su desuso, Windows desde su versión Vista, así como sus versiones de servidor, **tienen IPv6 activado por defecto y éste tiene preferencia sobre IPv4**.
 
 ### DNS Spoofing
 
@@ -363,7 +363,7 @@ También podemos hacer uso de algún programa para acceso remoto, como por ejemp
 
 [MITM6 Strikes Again: The Dark Side of IPv6  ](https://www.blackhillsinfosec.com/mitm6-strikes-again-the-dark-side-of-ipv6/)
 
-[Kerberos Fundamentals](https://www.qomplx.com/blog/about-kerberos/)
+[Kerberos Fundamentals](https://heartburn.dev/kerberos-fundamentals/)
 
 [Cómo proteger Active Directory contra Kerberoasting: Seguridad AD 101](https://www.semperis.com/es/blog/protecting-active-directory-from-kerberoasting/)
 
