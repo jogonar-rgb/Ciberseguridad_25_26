@@ -1107,34 +1107,30 @@ Tipos de Pivoting</p>
 <p>La máquina <em>helper</em> o <em>gateway</em> tiene dos interfaces, una en cada una de las dos subredes de este escenario.</p>
 <h2 id="explicacion-de-los-archivos-de-docker-compose">Explicación de los archivos de docker compose</h2>
 <p>En primer lugar, tenemos un archivo <code>docker-compose-subnet.yml</code> cuyo fin único es la creación de las subredes que vamos a necesitar y que hemos nombrado anteriormente.</p>
-<div class="highlight"><pre><span></span><code><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.8&quot;</span>
-
-<span class="nt">networks</span><span class="p">:</span>
-<span class="hll"><span class="w">  </span><span class="nt">attacker</span><span class="p">:</span>
-</span><span class="w">    </span><span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bridge</span>
-<span class="w">    </span><span class="nt">ipam</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
+<div class="highlight"><pre><span></span><code><span class="nt">networks</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">attacker</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bridge</span>
+<span class="hll"><span class="w">    </span><span class="nt">ipam</span><span class="p">:</span>
+</span><span class="w">      </span><span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
 <span class="w">      </span><span class="nt">config</span><span class="p">:</span>
-<span class="hll"><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">subnet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.16.100.0/24</span>
-</span><span class="hll"><span class="w">          </span><span class="nt">gateway</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.16.100.2</span>
-</span>
-<span class="hll"><span class="w">  </span><span class="nt">victim</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">subnet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.16.100.0/24</span>
+<span class="w">          </span><span class="nt">gateway</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.16.100.2</span>
+<span class="hll">
+</span><span class="hll"><span class="w">  </span><span class="nt">victim</span><span class="p">:</span>
 </span><span class="w">    </span><span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bridge</span>
-<span class="w">    </span><span class="nt">ipam</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
+<span class="hll"><span class="w">    </span><span class="nt">ipam</span><span class="p">:</span>
+</span><span class="w">      </span><span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
 <span class="w">      </span><span class="nt">config</span><span class="p">:</span>
-<span class="hll"><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">subnet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.16.101.0/24</span>
-</span><span class="hll"><span class="w">          </span><span class="nt">gateway</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.16.101.3</span>
-</span></code></pre></div>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">subnet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.16.101.0/24</span>
+<span class="w">          </span><span class="nt">gateway</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.16.101.3</span>
+</code></pre></div>
 <p>La sección <code>ipam</code> es un acrónimo de <strong>IP Address Management</strong> y es dónde indicamos las direcciones de red así como las puertas de enlace. Para este escenario el driver por defecto (bridge) es suficiente. </p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>Si tenéis interés en saber los drivers de red que pueden existir y cuándo se usan, podéis leer <a href="https://www.docker.com/blog/understanding-docker-networking-drivers-use-cases/">aquí</a> o un pequeño resumen <a href="https://docs.docker.com/engine/network/drivers/#network-driver-summary">aquí</a></p>
 </div>
 <p>Luego tenemos un <code>docker-compose.yml</code> para construir los contenedores que vamos a utilizar:</p>
-<p><div class="highlight"><pre><span></span><code><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.8&quot;</span>
-
-<span class="nt">services</span><span class="p">:</span>
+<p><div class="highlight"><pre><span></span><code><span class="nt">services</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">attacker</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">build</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./dockerfiles</span>
@@ -1149,9 +1145,9 @@ Tipos de Pivoting</p>
 <span class="w">      </span><span class="nt">attacker</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">ipv4_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.16.100.10</span>
 
-<span class="hll"><span class="w">  </span><span class="nt">helper</span><span class="p">:</span>
-</span><span class="hll"><span class="w">    </span><span class="nt">build</span><span class="p">:</span>
-</span><span class="hll"><span class="w">      </span><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./dockerfiles</span>
+<span class="w">  </span><span class="nt">helper</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span>
+<span class="hll"><span class="w">      </span><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./dockerfiles</span>
 </span><span class="hll"><span class="w">      </span><span class="nt">dockerfile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">helper.Dockerfile</span>
 </span><span class="hll"><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">helper</span>
 </span><span class="hll"><span class="w">    </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">helper</span>
@@ -1163,9 +1159,9 @@ Tipos de Pivoting</p>
 </span><span class="hll"><span class="w">        </span><span class="nt">ipv4_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.16.100.11</span>
 </span><span class="hll"><span class="w">      </span><span class="nt">victim</span><span class="p">:</span>
 </span><span class="hll"><span class="w">        </span><span class="nt">ipv4_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.16.101.11</span>
-</span>
-<span class="w">  </span><span class="nt">victim1</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">build</span><span class="p">:</span>
+</span><span class="hll">
+</span><span class="hll"><span class="w">  </span><span class="nt">victim1</span><span class="p">:</span>
+</span><span class="w">    </span><span class="nt">build</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./dockerfiles</span>
 <span class="w">      </span><span class="nt">dockerfile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">victim1.Dockerfile</span>
 <span class="w">    </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">victim1</span>
