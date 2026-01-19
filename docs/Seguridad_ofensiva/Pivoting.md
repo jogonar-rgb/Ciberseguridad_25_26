@@ -72,7 +72,6 @@ La máquina *helper* o *gateway* tiene dos interfaces, una en cada una de las do
 En primer lugar, tenemos un archivo `docker-compose-subnet.yml` cuyo fin único es la creación de las subredes que vamos a necesitar y que hemos nombrado anteriormente.
 
 ```yaml hl_lines="4 9 10 12 17 18"
-version: "3.8"
 
 networks:
   attacker:
@@ -100,7 +99,6 @@ La sección `ipam` es un acrónimo de **IP Address Management** y es dónde indi
 Luego tenemos un `docker-compose.yml` para construir los contenedores que vamos a utilizar:
 
 ```yaml hl_lines="18-31"
-version: "3.8"
 
 services:
   attacker:

@@ -29,13 +29,13 @@ Linux ya viene con un cliente SSH preinstalado, por lo que no sería necesaria m
 
 + Si queréis conectaros por el nombre de la máquina en lugar de por la IP, podéis añadir el nombre a `/etc/hosts`
 
-    !!!tip
+    !!! tip
 
         Cuidado porque si la máquina coge la IP por DHCP, puede que ésta vaya cambiando, por lo que esta forma puede convertirse en más tediosa.
 
 + Probad que podéis conectaros desde el cliente usando obviamente la IP de su interfaz
 
-+ Para conectaros desde un ordenador con Windows deberéis instalaros un cliente SSH como [Putty](https://www.aemilius.net/ayuda/articulos/acceso-ssh-ssl-secure-shell-telnet- putty.html)
++ Para conectaros desde un ordenador con Windows deberéis instalaros un cliente SSH como [Putty](https://www.aemilius.net/ayuda/articulos/acceso-ssh-ssl-secure-shell-telnet-putty.html)
 
 La primera vez que os conectéis, os aparecerá algo como esto
 
@@ -112,7 +112,7 @@ Al denegar el acceso al usuario root, cada vez que necesitemos realizar tareas a
 
 ### Directriz StrictModes
 
-En esta directriz se establece que *sshd* (el servicio ssh) revisara los modos y permisos de los archivos de los usuarios y el directorio `$HOME` de el usuario antes de aceptar la sesión. Esto es normalmente deseable porque a veces algunos usuarios dejan sus directorios, accidentalmente, con permiso de escritura para cualquiera. El valor predeterminado es yes, por lo tanto, lo dejaremos con su valor predeterminado.
+En esta directriz se establece que *sshd* (el servicio ssh) revisara los modos y permisos de los archivos de los usuarios y el directorio `$HOME` del usuario antes de aceptar la sesión. Esto es normalmente deseable porque a veces algunos usuarios dejan sus directorios, accidentalmente, con permiso de escritura para cualquiera. El valor predeterminado es yes, por lo tanto, lo dejaremos con su valor predeterminado.
 
 `StrictModes yes/no`
 
@@ -160,20 +160,20 @@ Con esta directriz establecemos que usuarios del sistema pueden ingresar vía SS
 
 `AllowUsers raul profesor administrador otroprofesor`
 
-Los usuarios r*aul, profesor, administrador y otroprofesor* podrán acceder desde cualquier ordenador, no se valida el host desde el que se conectan. 
+Los usuarios *jose, profesor, administrador y otroprofesor* podrán acceder desde cualquier ordenador, no se valida el host desde el que se conectan. 
 
 Si se quiere más seguridad, es posible indicar también el host o hosts (desde los cuales el usuario se puede conectar) mediante el símbolo @. Veamos los siguientes ejemplos:
 
 ```linuxconf
-AllowUsers raul@192.168.10.2 (Sólo desde la IP indicada)
-AllowUsers raul@172.1.1.* (Toda la red indicada)
-AllowUsers raul@*.raul.es(Todo el dominio indicado)
-AllowUsers raul@clienteciber.raul.es (Solo el equipo del dominio indicado)
+AllowUsers jose@192.168.10.2 (Sólo desde la IP indicada)
+AllowUsers jose@172.1.1.* (Toda la red indicada)
+AllowUsers jose@*.raul.es(Todo el dominio indicado)
+AllowUsers jose@clienteciber.jose.es (Solo el equipo del dominio indicado)
 ```
 Combinación de varias:
 
 ```linuxconf
-AllowUsers raul@192.168.10.2 profesor@172.1.1.* administrador@*.raul.es otroprofesor
+AllowUsers jose@192.168.10.2 profesor@172.1.1.* administrador@*.jose.es otroprofesor
 ```
 
 
@@ -280,7 +280,7 @@ Especifica si se permite hacer redireccionamiento de protocolos basados en TCP. 
 
 ### Directriz PrintLastLog
 
-Aquí se especifica si se mostrara un mensaje mostrando la dirección IP de donde se conecto el usuario la ultima vez. Muy útil para saber si alguien más se está conectando con un usuario en especifico.
+Aquí se especifica si se mostrara un mensaje mostrando la dirección IP de donde se conecto el usuario la ultima vez. Muy útil para saber si alguien más se está conectando con un usuario especifico.
 
 `PrintLastLog yes/no`
 
@@ -374,10 +374,10 @@ Podemos crearnos un asciiart para crearnos un motd personalizado, además de un 
 
 Podéis crearos un ascciart [aquí](http://www.patorjk.com/software/taag/#p=display&f=Graffiti&t=Type%20Something%20)
 
-!!!task "Tarea"
+!!! task "Tarea"
     **Comprueba** adjuntando una captura de pantalla, que aparece correctamente el motd al hacer login mediante ssh.
 
-!!!task "Tarea"
+!!! task "Tarea"
     Parámetros de seguridad que debéis configurar dentro de sshd_config **mediante las directivas** que hemos visto antes(las que no estén, deberéis añadirlos vosotros)
 
       + Utilizar sólo la versión 2 del protocolo
