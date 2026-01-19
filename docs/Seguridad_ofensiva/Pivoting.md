@@ -456,7 +456,7 @@ Antes de llevar a cabo la explotación, vamos a comprobar que existe conectivida
 !!!question "Cuestión"
     ¿Consigues establecer esta conexión?¿Por qué?
 
-Si repasamos el código de `poc.sh` vemos que el teórico curso de los acontecimientos ha de ser:
+Si repasamos el código de `poc.sh` vemos que el teórico curso de los acontecimientos debe ser:
 
 1. Ejecutar un servidor web en el terminal de **attacker** para que el comando que se inyecte en la víctima haga que se descargue nuestra reverse shell `rev.sh` en su directorio `/tmp`: 
   ```python
@@ -473,7 +473,7 @@ Si repasamos el código de `poc.sh` vemos que el teórico curso de los acontecim
 Aquí necesitamos utilizar el concepto de de **remote port forwarding**. Con esta técnica crearemos un nuevo túnel que nos permitirá redirigir todo el tráfico que vaya destinado al puerto 80 de la máquina **victim2** hacia el puerto 80 de nuestra máquina **attacker**. Con esto conseguiremos que cuando ejecutemos `poc.sh`, se consiga la comunicación con el servidor web de python que se está ejecutando en **attacker**
 
 !!!task "Tarea"
-    Consulta [este](https://cyberblog.es/index.php/2023/03/19/ssh-tunneling-local-remote-port-forwarding/) link o cualquier otro que te sea necesario para entender el concepto de remote port forwarding y ser capaz de completar el siguiente comando, que deberá ser ejecutado en **attacker**:
+    Consulta [este](https://www.digitalocean.com/community/tutorials/ssh-port-forwarding) link o cualquier otro que te sea necesario para entender el concepto de remote port forwarding y ser capaz de completar el siguiente comando, que deberá ser ejecutado en **attacker**:
     
       ```bash
       ssh ___ :___:172.16.100.10:___ root@helper __ __
@@ -502,8 +502,6 @@ Ahora sólo estamos a un pequeñísimo paso de conseguir nuestra shell inversa. 
     Comprueba y documenta que con esta defensa, la técnica anteriormente empleada ya no funciona.
 
 # Referencias 
-
-[SSH Tunneling: Local & Remote Port Forwarding](https://cyberblog.es/index.php/2023/03/19/ssh-tunneling-local-remote-port-forwarding/)
 
 [Túnel SSH port forwarding: Local, remote y dynamic [Explicado]](https://www.zonasystem.com/2019/01/tunel-ssh-port-forwarding-local-remote-dynamic.html)
 
