@@ -1459,7 +1459,7 @@ Antes de llevar a cabo la explotación, vamos a comprobar que existe conectivida
 <p class="admonition-title">Cuestión</p>
 <p>¿Consigues establecer esta conexión?¿Por qué?</p>
 </div>
-<p>Si repasamos el código de <code>poc.sh</code> vemos que el teórico curso de los acontecimientos ha de ser:</p>
+<p>Si repasamos el código de <code>poc.sh</code> vemos que el teórico curso de los acontecimientos debe ser:</p>
 <ol>
 <li>Ejecutar un servidor web en el terminal de <strong>attacker</strong> para que el comando que se inyecte en la víctima haga que se descargue nuestra reverse shell <code>rev.sh</code> en su directorio <code>/tmp</code>: 
   <div class="highlight"><pre><span></span><code><span class="err">$</span> <span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">http</span><span class="o">.</span><span class="n">server</span> <span class="mi">80</span>
@@ -1475,7 +1475,7 @@ Antes de llevar a cabo la explotación, vamos a comprobar que existe conectivida
 <p>Aquí necesitamos utilizar el concepto de de <strong>remote port forwarding</strong>. Con esta técnica crearemos un nuevo túnel que nos permitirá redirigir todo el tráfico que vaya destinado al puerto 80 de la máquina <strong>victim2</strong> hacia el puerto 80 de nuestra máquina <strong>attacker</strong>. Con esto conseguiremos que cuando ejecutemos <code>poc.sh</code>, se consiga la comunicación con el servidor web de python que se está ejecutando en <strong>attacker</strong></p>
 <div class="admonition task">
 <p class="admonition-title">Tarea</p>
-<p>Consulta <a href="https://cyberblog.es/index.php/2023/03/19/ssh-tunneling-local-remote-port-forwarding/">este</a> link o cualquier otro que te sea necesario para entender el concepto de remote port forwarding y ser capaz de completar el siguiente comando, que deberá ser ejecutado en <strong>attacker</strong>:</p>
+<p>Consulta <a href="https://www.digitalocean.com/community/tutorials/ssh-port-forwarding">este</a> link o cualquier otro que te sea necesario para entender el concepto de remote port forwarding y ser capaz de completar el siguiente comando, que deberá ser ejecutado en <strong>attacker</strong>:</p>
 <div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>___<span class="w"> </span>:___:172.16.100.10:___<span class="w"> </span>root@helper<span class="w"> </span>__<span class="w"> </span>__
 </code></pre></div>
 </div>
@@ -1502,7 +1502,6 @@ Antes de llevar a cabo la explotación, vamos a comprobar que existe conectivida
 <p>Comprueba y documenta que con esta defensa, la técnica anteriormente empleada ya no funciona.</p>
 </div>
 <h1 id="referencias">Referencias</h1>
-<p><a href="https://cyberblog.es/index.php/2023/03/19/ssh-tunneling-local-remote-port-forwarding/">SSH Tunneling: Local &amp; Remote Port Forwarding</a></p>
 <p><a href="https://www.zonasystem.com/2019/01/tunel-ssh-port-forwarding-local-remote-dynamic.html">Túnel SSH port forwarding: Local, remote y dynamic [Explicado]</a></p>
 <p><a href="https://www.thehacker.recipes/infra/pivoting/port-forwarding">🛠️ Port forwarding</a></p>
 <p><a href="https://sushant747.gitbooks.io/total-oscp-guide/content/port_forwarding_and_tunneling.html">Total OSCP Guide</a></p>
