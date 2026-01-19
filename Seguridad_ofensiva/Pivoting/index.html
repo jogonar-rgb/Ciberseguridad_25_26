@@ -1079,7 +1079,7 @@ Tipos de Pivoting</p>
 <p><strong>Segmentación de red y VLAN:</strong> Asegurar que las subredes estén correctamente segmentadas y que solo los sistemas autorizados puedan comunicarse entre ellas.</p>
 </li>
 <li>
-<p>M<strong>onitorización de tráfico:</strong> Detectar conexiones inusuales desde servidores comprometidos hacia otras partes de la red interna.</p>
+<p><strong>Monitorización de tráfico:</strong> Detectar conexiones inusuales desde servidores comprometidos hacia otras partes de la red interna.</p>
 </li>
 <li>
 <p><strong>Políticas de privilegios mínimos:</strong> Asegurarse de que los usuarios y servicios tengan acceso solo a lo estrictamente necesario.</p>
@@ -1263,7 +1263,7 @@ Dáos cuenta de como las imágenes se construyen localmente, cada una haciendo u
 <span class="w">   </span>ncat<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span><span class="o">&amp;&amp;</span><span class="w"> </span>curl<span class="w"> </span>https://raw.githubusercontent.com/danielmiessler/SecLists/master/Passwords/Leaked-Databases/rockyou-05.txt<span class="w"> </span>-o<span class="w"> </span>/home/rock.txt
 </code></pre></div>
-<p>A continuación, el Dockerfile para <code>victim1</code>tampoco tiene mucho misterio. Con el comando <code>wget</code> descarga la herramienta <em>sar2html</em>. Se trata de na aplicación usada para graficar estadísticas de uso del sistema. Esta herramienta posee una vulnerabilidad que aprovecharemos más adelante para nuestro escenario:</p>
+<p>A continuación, el Dockerfile para <code>victim1</code>tampoco tiene mucho misterio. Con el comando <code>wget</code> descarga la herramienta <em>sar2html</em>. Se trata de una aplicación usada para graficar estadísticas de uso del sistema. Esta herramienta posee una vulnerabilidad que aprovecharemos más adelante para nuestro escenario:</p>
 <div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">phusion/baseimage:jammy-1.0.1</span>
 
 <span class="k">RUN</span><span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span>-y<span class="w"> </span><span class="se">\</span>
@@ -1298,21 +1298,21 @@ Para posteriormente arrancarlo</p>
 <li>De <em>victim2</em> a <em>victim1</em></li>
 <li>De <em>victim1</em> a <em>victim2</em></li>
 <li>De helper a <em>victim1</em> y a <em>victim2</em></li>
-<li>Comprueba que el ping de <em>attacker</em> a <em>victim1</em> y a <em>victim2</em> no es exitoso, no por nombre ni por IP</li>
+<li>Comprueba que el ping de <em>attacker</em> a <em>victim1</em> y a <em>victim2</em> no es exitoso, ni por nombre ni por IP</li>
 </ul>
 </div>
 <h1 id="ataque-y-pivoting">Ataque y pivoting</h1>
 <p>En esta fase lo primero que vamos a hacer es escanear los puertos del host <strong>helper</strong>.</p>
 <div class="admonition task">
 <p class="admonition-title">Tarea</p>
-<p>Accede por SSH a la máquina (contenedor) <strong>attacker</strong> y realiza un escaneo de puertos con <em>nmap</em>  contra l máquina <strong>helper</strong>.</p>
+<p>Accede por SSH a la máquina (contenedor) <strong>attacker</strong> y realiza un escaneo de puertos con <em>nmap</em>  contra la máquina <strong>helper</strong>.</p>
 </div>
 <div class="admonition task">
 <p class="admonition-title">Tarea</p>
 <p>En base a los descubrimientos del anterior punto, intenta obtener acceso a la máquina <strong>helper</strong>.</p>
-<p>Puede ayudarte de <em>hydra</em> y del diccionario <em>rockyou</em> ubicado el el home.</p>
+<p>Puede ayudarte de <em>hydra</em> y del diccionario <em>rockyou</em> ubicado el home.</p>
 </div>
-<p>Una vez obtenido el acceso al contenedor <strong>helper</strong> y haciendo uso del comando <code>ip a</code>, descubriremos que estamos conectados a dos redes diferentes, ya que tenemos dos interfaces, cada una conectada una de esas redes (<code>172.16.100.11</code> y <code>172.16.101.11</code>)</p>
+<p>Una vez obtenido el acceso al contenedor <strong>helper</strong> y haciendo uso del comando <code>ip a</code>, descubriremos que estamos conectados a dos redes diferentes, ya que tenemos dos interfaces, cada una conectada a una de esas redes (<code>172.16.100.11</code> y <code>172.16.101.11</code>)</p>
 <p>También es posible utilizar el comando <code>hostname -I</code> para ver todas las IP del host.</p>
 <p>Con todos estos datos encima de la mesa, habiendo descubierto la infraestructura, podemos llevar a cabo una redirección de puertos utilizando un proxy SOCKS. Con esto conseguimos que todo el tráfico hacia un determinado puerto en el servidor destino, viaje a través de una conexión ssh. </p>
 <p>Para ello debéis utilizar el comando, que deberéis completar, con la forma:</p>
@@ -1386,7 +1386,7 @@ Donde, lo que debéis rellenar en los huecos, por estricto orden de aparición d
 <li>
 <p>Generar el archivo <em>.tar</em> malicioso. Mirando la ayuda del script del repositorio que nos hemos clonado antes, generaremos el archivo malicioso atendiendo a:</p>
 <ul>
-<li>Para el sistema operativo lnux</li>
+<li>Para el sistema operativo linux</li>
 <li>El nombre del tar será "pivoting.tar" y contendrá el archivo "test.css"</li>
 <li>El path o ruta será <em>static/css</em></li>
 <li>Una profundidad o número de directorios de los que se hará <em>traversal</em>, será de 3</li>
@@ -1399,7 +1399,7 @@ Donde, lo que debéis rellenar en los huecos, por estricto orden de aparición d
 </ol>
 <div class="admonition task">
 <p class="admonition-title">Tarea</p>
-<p>Comprueba y documenta que accediendo a la ruta del archivo podemos comprobar que esta máquina ha sido comprometida, tanto desde el navegador como desde el terminal (de la máquina <em>attacker</em>) con el comando <em>curl</em>, haciendo uso dde <em>proxychains</em></p>
+<p>Comprueba y documenta que accediendo a la ruta del archivo podemos comprobar que esta máquina ha sido comprometida, tanto desde el navegador como desde el terminal (de la máquina <em>attacker</em>) con el comando <em>curl</em>, haciendo uso de <em>proxychains</em></p>
 </div>
 <h2 id="victim2">Victim2</h2>
 <p>Para comenzar con esta nueva máquina, debemos realizar <u>de nuevo</u> un escaneo con <em>nmap</em> idéntico al anterior, a través de <em>proxychains</em> desde la máquina <strong>attacker</strong> a la máquina <strong>victim2</strong> y al <strong>MySQL</strong>.</p>
