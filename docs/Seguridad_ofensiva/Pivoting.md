@@ -34,7 +34,7 @@ Tipos de Pivoting
 
   + **Segmentación de red y VLAN:** Asegurar que las subredes estén correctamente segmentadas y que solo los sistemas autorizados puedan comunicarse entre ellas.
 
-  + M**onitorización de tráfico:** Detectar conexiones inusuales desde servidores comprometidos hacia otras partes de la red interna.
+  + **Monitorización de tráfico:** Detectar conexiones inusuales desde servidores comprometidos hacia otras partes de la red interna.
 
   + **Políticas de privilegios mínimos:** Asegurarse de que los usuarios y servicios tengan acceso solo a lo estrictamente necesario.
 
@@ -240,7 +240,7 @@ RUN apt update -y \
    && curl https://raw.githubusercontent.com/danielmiessler/SecLists/master/Passwords/Leaked-Databases/rockyou-05.txt -o /home/rock.txt
 ```
 
-A continuación, el Dockerfile para `victim1`tampoco tiene mucho misterio. Con el comando `wget` descarga la herramienta *sar2html*. Se trata de na aplicación usada para graficar estadísticas de uso del sistema. Esta herramienta posee una vulnerabilidad que aprovecharemos más adelante para nuestro escenario:
+A continuación, el Dockerfile para `victim1`tampoco tiene mucho misterio. Con el comando `wget` descarga la herramienta *sar2html*. Se trata de una aplicación usada para graficar estadísticas de uso del sistema. Esta herramienta posee una vulnerabilidad que aprovecharemos más adelante para nuestro escenario:
 
 ```Dockerfile
 FROM phusion/baseimage:jammy-1.0.1
@@ -286,21 +286,21 @@ Si listamos los contenedores arrancados, deberíamos tener 5.
      + De *victim2* a *victim1*
      + De *victim1* a *victim2*
      + De helper a *victim1* y a *victim2*
-     + Comprueba que el ping de *attacker* a *victim1* y a *victim2* no es exitoso, no por nombre ni por IP
+     + Comprueba que el ping de *attacker* a *victim1* y a *victim2* no es exitoso, ni por nombre ni por IP
 
 # Ataque y pivoting
 
 En esta fase lo primero que vamos a hacer es escanear los puertos del host **helper**.
 
 !!!task "Tarea"
-    Accede por SSH a la máquina (contenedor) **attacker** y realiza un escaneo de puertos con *nmap*  contra l máquina **helper**.
+    Accede por SSH a la máquina (contenedor) **attacker** y realiza un escaneo de puertos con *nmap*  contra la máquina **helper**.
 
 !!!task "Tarea"
     En base a los descubrimientos del anterior punto, intenta obtener acceso a la máquina **helper**.
 
-    Puede ayudarte de *hydra* y del diccionario *rockyou* ubicado el el home.
+    Puede ayudarte de *hydra* y del diccionario *rockyou* ubicado el home.
 
-Una vez obtenido el acceso al contenedor **helper** y haciendo uso del comando `ip a`, descubriremos que estamos conectados a dos redes diferentes, ya que tenemos dos interfaces, cada una conectada una de esas redes (`172.16.100.11` y `172.16.101.11`)
+Una vez obtenido el acceso al contenedor **helper** y haciendo uso del comando `ip a`, descubriremos que estamos conectados a dos redes diferentes, ya que tenemos dos interfaces, cada una conectada a una de esas redes (`172.16.100.11` y `172.16.101.11`)
 
 También es posible utilizar el comando `hostname -I` para ver todas las IP del host.
 
@@ -385,7 +385,7 @@ Para explotar esta vulnerabilidad, podéis seguir los siguientes pasos:
     ```
     
 3. Generar el archivo *.tar* malicioso. Mirando la ayuda del script del repositorio que nos hemos clonado antes, generaremos el archivo malicioso atendiendo a:
-    + Para el sistema operativo lnux
+    + Para el sistema operativo linux
     + El nombre del tar será "pivoting.tar" y contendrá el archivo "test.css"
     + El path o ruta será *static/css*
     + Una profundidad o número de directorios de los que se hará *traversal*, será de 3
@@ -394,7 +394,7 @@ Para explotar esta vulnerabilidad, podéis seguir los siguientes pasos:
 5. Acceder a la ruta del archivo
 
 !!!task "Tarea"
-    Comprueba y documenta que accediendo a la ruta del archivo podemos comprobar que esta máquina ha sido comprometida, tanto desde el navegador como desde el terminal (de la máquina *attacker*) con el comando *curl*, haciendo uso dde *proxychains*
+    Comprueba y documenta que accediendo a la ruta del archivo podemos comprobar que esta máquina ha sido comprometida, tanto desde el navegador como desde el terminal (de la máquina *attacker*) con el comando *curl*, haciendo uso de *proxychains*
 
 
 ## Victim2
