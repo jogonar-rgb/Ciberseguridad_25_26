@@ -1001,7 +1001,7 @@ En segunda instancia haremos la configuración con un cliente Windows.</p>
 <p>Probad que podéis conectaros desde el cliente usando obviamente la IP de su interfaz</p>
 </li>
 <li>
-<p>Para conectaros desde un ordenador con Windows deberéis instalaros un cliente SSH como <a href="https://www.aemilius.net/ayuda/articulos/acceso-ssh-ssl-secure-shell-telnet- putty.html">Putty</a></p>
+<p>Para conectaros desde un ordenador con Windows deberéis instalaros un cliente SSH como <a href="https://www.aemilius.net/ayuda/articulos/acceso-ssh-ssl-secure-shell-telnet-putty.html">Putty</a></p>
 </li>
 </ul>
 <p>La primera vez que os conectéis, os aparecerá algo como esto</p>
@@ -1053,7 +1053,7 @@ hace durante ese período de tiempo el login se cerrará, evitando así dejar po
 <p>Muchos ataques de fuerza bruta se concentran en atacar al usuario root con la esperanza de que tenga una contraseña débil. Sabiendo una parte de la ecuación (root) solo será cuestión de tiempo para que alguien con paciencia y suerte vulnere el sistema. En esta directriz denegamos el acceso al usuario root y por lo tanto, cualquier intento de ataque directo al usuario root será inútil.</p>
 <p>Al denegar el acceso al usuario root, cada vez que necesitemos realizar tareas administrativas, accederemos como un usuario normal y una vez dentro, utilizando alguno de los comandos su o sudo podremos realizar dichas tareas administrativas. Por lo tanto, denegando el acceso al usuario root, el atacante tendrá que acertar tanto el nombre de un usuario del sistema como su contraseña, algo que disminuye notablemente la probabilidad de una intrusión.</p>
 <h3 id="directriz-strictmodes">Directriz StrictModes</h3>
-<p>En esta directriz se establece que <em>sshd</em> (el servicio ssh) revisara los modos y permisos de los archivos de los usuarios y el directorio <code>$HOME</code> de el usuario antes de aceptar la sesión. Esto es normalmente deseable porque a veces algunos usuarios dejan sus directorios, accidentalmente, con permiso de escritura para cualquiera. El valor predeterminado es yes, por lo tanto, lo dejaremos con su valor predeterminado.</p>
+<p>En esta directriz se establece que <em>sshd</em> (el servicio ssh) revisara los modos y permisos de los archivos de los usuarios y el directorio <code>$HOME</code> del usuario antes de aceptar la sesión. Esto es normalmente deseable porque a veces algunos usuarios dejan sus directorios, accidentalmente, con permiso de escritura para cualquiera. El valor predeterminado es yes, por lo tanto, lo dejaremos con su valor predeterminado.</p>
 <p><code>StrictModes yes/no</code></p>
 <h3 id="directriz-maxauthtries">Directriz MaxAuthTries</h3>
 <p>El valor de esta directriz establece el máximo número de intentos de autenticación permitidos por conexión, es decir, la cantidad de veces que podemos equivocarnos al ingresar el usuario
@@ -1078,15 +1078,15 @@ X11UseLocalhost yes/no
 <h3 id="directriz-allowusers">Directriz AllowUsers</h3>
 <p>Con esta directriz establecemos que usuarios del sistema pueden ingresar vía SSH. Solo los usuarios listados en esta directriz podrán acceder.</p>
 <p><code>AllowUsers raul profesor administrador otroprofesor</code></p>
-<p>Los usuarios r<em>aul, profesor, administrador y otroprofesor</em> podrán acceder desde cualquier ordenador, no se valida el host desde el que se conectan. </p>
+<p>Los usuarios <em>jose, profesor, administrador y otroprofesor</em> podrán acceder desde cualquier ordenador, no se valida el host desde el que se conectan. </p>
 <p>Si se quiere más seguridad, es posible indicar también el host o hosts (desde los cuales el usuario se puede conectar) mediante el símbolo @. Veamos los siguientes ejemplos:</p>
-<p><div class="highlight"><pre><span></span><code>AllowUsers raul@192.168.10.2 (Sólo desde la IP indicada)
-AllowUsers raul@172.1.1.* (Toda la red indicada)
-AllowUsers raul@*.raul.es(Todo el dominio indicado)
-AllowUsers raul@clienteciber.raul.es (Solo el equipo del dominio indicado)
+<p><div class="highlight"><pre><span></span><code>AllowUsers jose@192.168.10.2 (Sólo desde la IP indicada)
+AllowUsers jose@172.1.1.* (Toda la red indicada)
+AllowUsers jose@*.raul.es(Todo el dominio indicado)
+AllowUsers jose@clienteciber.jose.es (Solo el equipo del dominio indicado)
 </code></pre></div>
 Combinación de varias:</p>
-<div class="highlight"><pre><span></span><code>AllowUsers raul@192.168.10.2 profesor@172.1.1.* administrador@*.raul.es otroprofesor
+<div class="highlight"><pre><span></span><code>AllowUsers jose@192.168.10.2 profesor@172.1.1.* administrador@*.jose.es otroprofesor
 </code></pre></div>
 <h3 id="directriz-usedns">Directriz UseDNS</h3>
 <p>Cuando un cliente SSH realiza una conexión hacia un servidor SSH, el servidor intentará resolver la dirección IP del cliente. Si el servidor DNS predeterminado del sistema carece de una zona de resolución inversa que resuelva un nombre para la dirección IP del cliente, la conexión se demorará algunos segundos más de lo normal.</p>
@@ -1142,7 +1142,7 @@ LogLevel INFO
 <p>Especifica si se permite hacer redireccionamiento de protocolos basados en TCP. Permite crear túneles a conexiones de protocolos no seguros, enviando la información en texto plano por un túnel cifrado. Muy usada en conexiones POP3 o IMAP, se recomienda dejarlo por defecto.</p>
 <p><code>AllowTcpForwarding yes/no</code></p>
 <h3 id="directriz-printlastlog">Directriz PrintLastLog</h3>
-<p>Aquí se especifica si se mostrara un mensaje mostrando la dirección IP de donde se conecto el usuario la ultima vez. Muy útil para saber si alguien más se está conectando con un usuario en especifico.</p>
+<p>Aquí se especifica si se mostrara un mensaje mostrando la dirección IP de donde se conecto el usuario la ultima vez. Muy útil para saber si alguien más se está conectando con un usuario especifico.</p>
 <p><code>PrintLastLog yes/no</code></p>
 <h3 id="directriz-tcpkeepalive">Directriz TCPKeepAlive</h3>
 <p>Nos indica que el servidor sshd enviará mensajes de keepalive al cliente después de que detecta alguna inactividad. Este método puede ser explotado por técnicas de <a href="https://es.wikipedia.org/wiki/Suplantaci%C3%B3n">spoofing</a>.</p>

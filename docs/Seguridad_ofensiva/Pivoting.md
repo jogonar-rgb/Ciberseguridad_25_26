@@ -228,6 +228,7 @@ LABEL name="attacker"
 
 RUN apt update -y \
    && apt install -y \
+   ssh \
    nmap \
    iputils-ping \
    net-tools \
