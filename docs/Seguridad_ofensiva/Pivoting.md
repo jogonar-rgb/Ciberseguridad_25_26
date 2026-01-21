@@ -228,7 +228,6 @@ LABEL name="attacker"
 
 RUN apt update -y \
    && apt install -y \
-   ssh \
    nmap \
    iputils-ping \
    net-tools \
@@ -292,7 +291,7 @@ Si listamos los contenedores arrancados, deberíamos tener 5.
 En esta fase lo primero que vamos a hacer es escanear los puertos del host **helper**.
 
 !!!task "Tarea"
-    Accede por SSH a la máquina (contenedor) **attacker** y realiza un escaneo de puertos con *nmap*  contra la máquina **helper**.
+    Accede al bash de la máquina (contenedor) **attacker** y realiza un escaneo de puertos con *nmap*  contra la máquina **helper**.
 
 !!!task "Tarea"
     En base a los descubrimientos del anterior punto, intenta obtener acceso a la máquina **helper**.
