@@ -322,7 +322,7 @@ Donde, lo que debéis rellenar en los huecos, por estricto orden de aparición d
 
 Lo que necesitamos ahora es un proxy para poder enviar todo nuestro tráfico a través del puerto `8500` y que, por tanto, se produzca la redirección configurada anteriormente. 
 
-La herramienta que utilizaremos para este cometido es `proxychains` y por tanto hemos de configurarla en el archivo `/etc/proxychains.conf`, concretamente la línea del archivo que configura el *socks4*, debemos decirle que utilice el puerto `8500`.
+La herramienta que utilizaremos para este cometido es `proxychains4` y por tanto hemos de configurarla en el archivo `/etc/proxychains4.conf`, concretamente la línea del archivo que configura el *socks4*, debemos decirle que utilice el puerto `8500`.
 
 !!!note "Consejo"
     Recordad que para cambiar valores en un fichero, podéis utilizar el comando:
