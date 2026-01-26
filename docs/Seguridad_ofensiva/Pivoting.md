@@ -256,6 +256,8 @@ WORKDIR /opt/sar2html-4.0.0/
 
 RUN pip3 install -r requirements.txt
 
+RUN pip3 install --no-cache-dir toolz==0.12.0
+
 CMD bash -c "./startWeb"
 ```
 
