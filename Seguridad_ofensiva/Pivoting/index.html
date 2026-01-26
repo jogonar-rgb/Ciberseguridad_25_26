@@ -1275,6 +1275,8 @@ Dáos cuenta de como las imágenes se construyen localmente, cada una haciendo u
 
 <span class="k">RUN</span><span class="w"> </span>pip3<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
 
+<span class="k">RUN</span><span class="w"> </span>pip3<span class="w"> </span>install<span class="w"> </span>--no-cache-dir<span class="w"> </span><span class="nv">toolz</span><span class="o">==</span><span class="m">0</span>.12.0
+
 <span class="k">CMD</span><span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;./startWeb&quot;</span>
 </code></pre></div>
 <p>Por último, para <code>victim2</code> no hace falta modificar ninguna imagen ya que en el registro de Docker ya existe una imagen de WordPress vulnerable. Simplemente construiremos el contenedor a partir de ella, configurando los parámetros adecuados, incluyendo además una base de datos MySQL.</p>
