@@ -156,7 +156,7 @@ En este ejercicio deberéis llevar a cabo las siguientes acciones:
         ```console
         systemctl start suricata.service
 
-        systemctl start suricata.service
+        systemctl status suricata.service
         ```
         ![](./img/idps_13.png)
   

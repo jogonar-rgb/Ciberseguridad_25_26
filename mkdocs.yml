@@ -80,7 +80,7 @@ nav:
     - Seguridad_defensiva/index.md
     - Análisis de Logs: Seguridad_defensiva/logs.md
     - Monitorización con IDS/IPS: Seguridad_defensiva/idps.md
-  #  - Hardening SSH: Seguridad_defensiva/hardening.ssh.md
+    - Hardening SSH: Seguridad_defensiva/hardening.ssh.md
   #  - Monitorización con Security Onion: Seguridad_defensiva/seconion.md
   #  - Monitorización de red con Arkime: Seguridad_defensiva/arkime.md
   #  - Análisis de archivos con TruffleHog: Seguridad_defensiva/truffle.md
