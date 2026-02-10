@@ -137,11 +137,7 @@ En este ejercicio deberéis llevar a cabo las siguientes acciones:
     
         ![](./img/idps_11.png)
 
-        Y con este comando le diremos a Suricata que recargue todas las reglas sin reiniciar el proceso:
 
-        ```console
-        kill -usr2 $(pidof suricata)
-        ```
   
     + Actualizamos las reglas de Suricata:
         
@@ -159,6 +155,12 @@ En este ejercicio deberéis llevar a cabo las siguientes acciones:
         systemctl status suricata.service
         ```
         ![](./img/idps_13.png)
+
+Y con este comando le diremos a Suricata que recargue todas las reglas sin reiniciar el proceso:
+
+        ```console
+        kill -usr2 $(pidof suricata)
+        ```
   
 
 3. Comprobar que muestra las alertas que detecta de acuerdo a sus reglas
