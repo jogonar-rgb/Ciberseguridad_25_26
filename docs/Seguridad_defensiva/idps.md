@@ -300,4 +300,4 @@ En este ejercicio deberéis llevar a cabo las siguientes acciones:
 
 [How To Install Suricata on Debian 11/Debian 10](https://computingforgeeks.com/how-to-install-suricata-ids-ips-on-debian/)
 
-[Suricta User Guide](https://suricata.readthedocs.io/en/suricata-6.0.0/)
+[Suricata User Guide](https://suricata.readthedocs.io/en/suricata-6.0.0/)
