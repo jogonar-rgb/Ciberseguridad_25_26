@@ -1391,9 +1391,6 @@
 <li>
 <p>Para permitir que Suricata permita una recarga <em>en vivo</em> de las reglas, es decir, que se puedan añadir, eliminar y editar las reglas sin la necesidad de reiniciar el proceso de Suricata:    </p>
 <p><img alt="" src="../img/idps_11.png" /></p>
-<p>Y con este comando le diremos a Suricata que recargue todas las reglas sin reiniciar el proceso:</p>
-<div class="highlight"><pre><span></span><code><span class="go">kill -usr2 $(pidof suricata)</span>
-</code></pre></div>
 </li>
 <li>
 <p>Actualizamos las reglas de Suricata:</p>
@@ -1414,6 +1411,13 @@
 </li>
 </ul>
 </li>
+</ol>
+<p>Y con este comando le diremos a Suricata que recargue todas las reglas sin reiniciar el proceso:</p>
+<div class="highlight"><pre><span></span><code>    ```console
+    kill -usr2 $(pidof suricata)
+    ```
+</code></pre></div>
+<ol>
 <li>
 <p>Comprobar que muestra las alertas que detecta de acuerdo a sus reglas</p>
 <ul>

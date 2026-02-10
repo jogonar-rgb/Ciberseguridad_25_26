@@ -156,7 +156,7 @@ En este ejercicio deberéis llevar a cabo las siguientes acciones:
         ```
         ![](./img/idps_13.png)
 
-Y con este comando le diremos a Suricata que recargue todas las reglas sin reiniciar el proceso:
+    + Y con este comando le diremos a Suricata que recargue todas las reglas sin reiniciar el proceso:
 
         ```console
         kill -usr2 $(pidof suricata)
