@@ -505,16 +505,13 @@ Comprobamos que el servicio funciona sin problemas:
 
 Lo primero que debemos hacer es instalar algún firewall que bloquee las IPs que *sshguard* le indique cuando sea necesario. Procedamos con el clásico y archiconocido ***iptables*** si no lo tuvieráis instalado todavía:
 
-```bash
-sudo apt install sshguard
-```
 
 Y le decimos al firewall que todo el tráfico que le entre con el puerto destino TCP 22 (SSH), lo redirija a la cadena sshguard que creamos en el primer paso y que es donde se introducirán las reglas de bloqueo pertinente:
 
 ```bash
 sudo iptables -N sshguard
 sudo iptables -A INPUT -m multiport -p tcp --destination-ports 8022 -j sshguard
-sudo iptables-save > /home/raul/iptables.rules
+sudo iptables-save > /home/ubuntu/iptables.rules
 ```
 
 El archivo de configuración de este servicio se llama *sshguard.conf* y lo encontraréis en el siguiente directorio: `/etc/sshguard`
@@ -530,7 +527,7 @@ El archivo de configuración de este servicio se llama *sshguard.conf* y lo enco
 + Para solucionarlo, en el archivo de configuración debemos cambiar el valor del parámetro LOGREADER` para que quede así:
 
     ```bash
-    LOGREADER="LANG=C.UTF8 /bin/journalctl -afb -p info -n1 -o cat -t sshd
+    LOGREADER="LANG=C.UTF8 /bin/journalctl -afb -p info -n1 -t sshd -o cat"
     ```
 
 + Además, aunque sshguard permite utilizar múltiples firewalls como ya hemos dicho, vamos a utilizar **iptables**. Para ello hay que cambiar el valor del parámetro BACKEND para que quede así:

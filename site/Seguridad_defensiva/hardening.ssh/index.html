@@ -1721,7 +1721,7 @@ En segunda instancia haremos la configuración con un cliente Windows.</p>
 hace durante ese período de tiempo el login se cerrará, evitando así dejar por tiempo indeterminado pantallas de login sin que nadie las use, o que alguien este intentando mediante un <strong>script</strong> adivinar un usuario y su contraseña.</p>
 <p>Si el valor es <strong>0</strong>, no hay límite de tiempo para que un usuario se autentique, lo cual no es recomendable ya que de esta forma un atacante podría utilizar ataques de fuerza bruta o usando métodos de diccionario para adivinar la contraseña, por lo tanto no es recomendable dejar esta directriz a <strong>0</strong>.</p>
 <h3 id="directriz-permitrootlogin">Directriz PermitRootLogin</h3>
-<p>Probablemente sea la directriz de seguridad más importante que podemos establecer para asegurar nuestro servidor SSH. En los sistemas Unix y Linux se crea por defecto al usuario root, con privilegios de adnimistrador.</p>
+<p>Probablemente sea la directriz de seguridad más importante que podemos establecer para asegurar nuestro servidor SSH. En los sistemas Unix y Linux se crea por defecto al usuario root, con privilegios de administrador.</p>
 <p>Muchos ataques de fuerza bruta se concentran en atacar al usuario root con la esperanza de que tenga una contraseña débil. Sabiendo una parte de la ecuación (root) solo será cuestión de tiempo para que alguien con paciencia y suerte vulnere el sistema. En esta directriz denegamos el acceso al usuario root y por lo tanto, cualquier intento de ataque directo al usuario root será inútil.</p>
 <p>Al denegar el acceso al usuario root, cada vez que necesitemos realizar tareas administrativas, accederemos como un usuario normal y una vez dentro, utilizando alguno de los comandos su o sudo podremos realizar dichas tareas administrativas. Por lo tanto, denegando el acceso al usuario root, el atacante tendrá que acertar tanto el nombre de un usuario del sistema como su contraseña, algo que disminuye notablemente la probabilidad de una intrusión.</p>
 <h3 id="directriz-strictmodes">Directriz StrictModes</h3>
@@ -1749,12 +1749,12 @@ X11UseLocalhost yes/no
 </code></pre></div>
 <h3 id="directriz-allowusers">Directriz AllowUsers</h3>
 <p>Con esta directriz establecemos que usuarios del sistema pueden ingresar vía SSH. Solo los usuarios listados en esta directriz podrán acceder.</p>
-<p><code>AllowUsers raul profesor administrador otroprofesor</code></p>
+<p><code>AllowUsers jose profesor administrador otroprofesor</code></p>
 <p>Los usuarios <em>jose, profesor, administrador y otroprofesor</em> podrán acceder desde cualquier ordenador, no se valida el host desde el que se conectan. </p>
 <p>Si se quiere más seguridad, es posible indicar también el host o hosts (desde los cuales el usuario se puede conectar) mediante el símbolo @. Veamos los siguientes ejemplos:</p>
 <p><div class="highlight"><pre><span></span><code>AllowUsers jose@192.168.10.2 (Sólo desde la IP indicada)
 AllowUsers jose@172.1.1.* (Toda la red indicada)
-AllowUsers jose@*.raul.es(Todo el dominio indicado)
+AllowUsers jose@*.severo.es(Todo el dominio indicado)
 AllowUsers jose@clienteciber.jose.es (Solo el equipo del dominio indicado)
 </code></pre></div>
 Combinación de varias:</p>
@@ -1771,7 +1771,8 @@ Combinación de varias:</p>
 # HostKey /etc/ssh/ssh_host_key
 # HostKeys for protocol version 2
 # HostKey /etc/ssh/ssh_host_rsa_key
-# HostKey /etc/ssh/ssh_host_dsa_key #HostKey /etc/ssh/ssh_host_ecdsa_ke
+# HostKey /etc/ssh/ssh_host_dsa_key 
+# HostKey /etc/ssh/ssh_host_ecdsa_key
 </code></pre></div>
 <p>La directriz HostKey nos indica la ubicación de las llaves públicas para el servidor sshd, tanto para el protocolo SSHv1 y SSHv2 de SSH. Como en nuestro ejemplo solo usaremos el protocolo SSHv2, eliminaremos (o comentaremos) las líneas correspondientes al protocolo SSHv1.</p>
 <p>Si quisiéramos usar el algoritmos RSA para nuestras claves, deberíamos dejar algo así:</p>
@@ -1856,12 +1857,12 @@ RhostsRSAAuthentication yes/no
 <ul>
 <li>Para empezar, si os habéis fijado, al hacer login en un Ubuntu Server (p. ej.), se nos muestra una gran cantidad e información, algo así</li>
 </ul>
-<p><img alt="" src="../img/ssh_login_info.jpg" /></p>
+<p><img alt="" src="./img/ssh_login_info.jpg" /></p>
 <p>Esto, como hemos visto en las directivas, es lo que conocemos como <strong><em>motd o “message of the day”</em></strong>.</p>
 <p>Puede que en algunos casos esto resulte útil pero para el caso que nos ocupa, es demasiada información, se hace innecesaria y proporciona demasiada pistas sobre la máquina.
 La única forma de desactivar este motd por defecto es impidiendo que se ejecuten los archivos de configuración asociados:</p>
 <p>Podemos crearnos un asciiart para crearnos un motd personalizado, además de un mensaje advirtiendo del acceso restringido a la máquina. Este motd personalizado debemos crearlo en el directorio /etc y dentro de este directorio, en un archivo llamado <strong>motd</strong>.</p>
-<p>Podéis crearos un ascciart <a href="http://www.patorjk.com/software/taag/#p=display&amp;f=Graffiti&amp;t=Type%20Something%20">aquí</a></p>
+<p>Podéis crearos un asciiart <a href="http://www.patorjk.com/software/taag/#p=display&amp;f=Graffiti&amp;t=Type%20Something%20">aquí</a></p>
 <div class="admonition task">
 <p class="admonition-title">Tarea</p>
 <p><strong>Comprueba</strong> adjuntando una captura de pantalla, que aparece correctamente el motd al hacer login mediante ssh.</p>
