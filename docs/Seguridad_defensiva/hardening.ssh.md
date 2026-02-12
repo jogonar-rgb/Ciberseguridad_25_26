@@ -553,7 +553,7 @@ Así las cosas, lo que hemos configurado es lo siguiente:
   2. Cabe decir que si la IP insiste, cada nueva vez que se vuelva a bloquear, lo hará durante el doble de tiempo que la anterior ocasión (primero 10s, luego 20s, luego 40s…)
    
 !!!task "Comprobación"
-    Conéctate por SSH al servidor desde tu terminal Linux: `ssh usuraio@servidor`
+    Conéctate por SSH al servidor desde tu terminal Linux: `ssh usuario@servidor`
 
     O desde Putty en Windows.
 
@@ -565,7 +565,7 @@ Así las cosas, lo que hemos configurado es lo siguiente:
      + Además, comprueba desde el cliente que, efectivamente, se te ha bloqueado el acceso y no te deja hacer un SSH al servidor. Adjunta captura de pantalla.
 
 !!!tip "Notas importantes"
-    Si en un principio ssguard no bloquea las IP, es posible que haya que informar al firewall con los siguientes comandos:
+    Si en un principio sshguard no bloquea las IP, es posible que haya que informar al firewall con los siguientes comandos:
     ```bash
     iptables -N sshguard
     iptables -A INPUT -m multiport -p tcp --destination-ports 8022 -j sshguard
@@ -632,7 +632,7 @@ Los pasos que se deben seguir son los siguientes:
 6. En la siguiente pregunta, al responder que sí, le indicáis que el código que uséis caduque en ese mismo instante. Esto quiere decir que sólo se podrá realizar un login cada 30 segundos pero aumentará la protección frente a ataques automatizados
     ![](./img/ssh_authenticator3.png)
 7. Por defecto los códigos se generan cada 30 segundos, dejando un pequeño margen temporal donde el código anterior y el posterior seguirán siendo válidos. Esto es para compensar ciertos desajustes temporales entre la hora del servidor y del cliente.
-    Aquí responderemos que no pues este margen es suficiente y podría comprometer la seguridad del aumentarlo
+    Aquí responderemos que no pues este margen es suficiente y podría comprometer la seguridad al aumentarlo
     ![](./img/ssh_authenticator4.png)
 9.  Para proteger nuestro servidor contra ataques de fuerza bruta responderemos que sí a la pregunta de permitir un máximo de 3 intentos de login cada 30 segundos
     ![](./img/ssh_authenticator2.png)
@@ -713,7 +713,7 @@ Después de esto, al intentar hacer el ssh, nos pedirá el password además del 
 ![](./img/ssh_authenticator14.png)
 
 !!!task "Tarea"
-    Comprueba  que te funciona  correctamente el login con  los tres factores de autenticación.
+    Comprueba  que te funciona  correctamente el login con los tres factores de autenticación.
     
     Adjunta una captura con la opción “-v” donde indiques, con un recuadro, dónde se están utilizando cada uno de los tres factores.
 
