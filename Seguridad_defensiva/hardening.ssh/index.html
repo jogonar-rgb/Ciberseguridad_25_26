@@ -1979,12 +1979,10 @@ chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>~
 <p><code>systemctl status sshguard</code></p>
 <h3 id="configuracion-de-sshguard">Configuración de <em>sshguard</em></h3>
 <p>Lo primero que debemos hacer es instalar algún firewall que bloquee las IPs que <em>sshguard</em> le indique cuando sea necesario. Procedamos con el clásico y archiconocido <strong><em>iptables</em></strong> si no lo tuvieráis instalado todavía:</p>
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>sshguard
-</code></pre></div>
 <p>Y le decimos al firewall que todo el tráfico que le entre con el puerto destino TCP 22 (SSH), lo redirija a la cadena sshguard que creamos en el primer paso y que es donde se introducirán las reglas de bloqueo pertinente:</p>
 <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>iptables<span class="w"> </span>-N<span class="w"> </span>sshguard
 sudo<span class="w"> </span>iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-m<span class="w"> </span>multiport<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--destination-ports<span class="w"> </span><span class="m">8022</span><span class="w"> </span>-j<span class="w"> </span>sshguard
-sudo<span class="w"> </span>iptables-save<span class="w"> </span>&gt;<span class="w"> </span>/home/raul/iptables.rules
+sudo<span class="w"> </span>iptables-save<span class="w"> </span>&gt;<span class="w"> </span>/home/ubuntu/iptables.rules
 </code></pre></div>
 <p>El archivo de configuración de este servicio se llama <em>sshguard.conf</em> y lo encontraréis en el siguiente directorio: <code>/etc/sshguard</code></p>
 <p><em>Sshguard</em> se basa en revisar los logs en busca de registros de intentos de login fallidos. Si detecta más de <em>X</em> intentos fallidos en <em>Y</em> tiempo (ambas cosas configurables), introduce una regla en el firewall para bloquear a la IP origen de esos ataques.</p>
@@ -1993,7 +1991,7 @@ sudo<span class="w"> </span>iptables-save<span class="w"> </span>&gt;<span class
 <ul>
 <li>
 <p>Para solucionarlo, en el archivo de configuración debemos cambiar el valor del parámetro LOGREADER` para que quede así:</p>
-<div class="highlight"><pre><span></span><code><span class="nv">LOGREADER</span><span class="o">=</span><span class="s2">&quot;LANG=C.UTF8 /bin/journalctl -afb -p info -n1 -o cat -t sshd</span>
+<div class="highlight"><pre><span></span><code><span class="nv">LOGREADER</span><span class="o">=</span><span class="s2">&quot;LANG=C.UTF8 /bin/journalctl -afb -p info -n1 -t sshd -o cat&quot;</span>
 </code></pre></div>
 </li>
 <li>
