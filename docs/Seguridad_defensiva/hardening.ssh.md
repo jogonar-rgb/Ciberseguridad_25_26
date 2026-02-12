@@ -103,7 +103,7 @@ Si el valor es **0**, no hay límite de tiempo para que un usuario se autentique
 
 ### Directriz PermitRootLogin
 
-Probablemente sea la directriz de seguridad más importante que podemos establecer para asegurar nuestro servidor SSH. En los sistemas Unix y Linux se crea por defecto al usuario root, con privilegios de adnimistrador.
+Probablemente sea la directriz de seguridad más importante que podemos establecer para asegurar nuestro servidor SSH. En los sistemas Unix y Linux se crea por defecto al usuario root, con privilegios de administrador.
 
 Muchos ataques de fuerza bruta se concentran en atacar al usuario root con la esperanza de que tenga una contraseña débil. Sabiendo una parte de la ecuación (root) solo será cuestión de tiempo para que alguien con paciencia y suerte vulnere el sistema. En esta directriz denegamos el acceso al usuario root y por lo tanto, cualquier intento de ataque directo al usuario root será inútil.
 
@@ -158,7 +158,7 @@ X11UseLocalhost yes/no
 
 Con esta directriz establecemos que usuarios del sistema pueden ingresar vía SSH. Solo los usuarios listados en esta directriz podrán acceder.
 
-`AllowUsers raul profesor administrador otroprofesor`
+`AllowUsers jose profesor administrador otroprofesor`
 
 Los usuarios *jose, profesor, administrador y otroprofesor* podrán acceder desde cualquier ordenador, no se valida el host desde el que se conectan. 
 
@@ -167,7 +167,7 @@ Si se quiere más seguridad, es posible indicar también el host o hosts (desde 
 ```linuxconf
 AllowUsers jose@192.168.10.2 (Sólo desde la IP indicada)
 AllowUsers jose@172.1.1.* (Toda la red indicada)
-AllowUsers jose@*.raul.es(Todo el dominio indicado)
+AllowUsers jose@*.severo.es(Todo el dominio indicado)
 AllowUsers jose@clienteciber.jose.es (Solo el equipo del dominio indicado)
 ```
 Combinación de varias:
@@ -197,7 +197,8 @@ Estudiemos las siguientes líneas:
 # HostKey /etc/ssh/ssh_host_key
 # HostKeys for protocol version 2
 # HostKey /etc/ssh/ssh_host_rsa_key
-# HostKey /etc/ssh/ssh_host_dsa_key #HostKey /etc/ssh/ssh_host_ecdsa_ke
+# HostKey /etc/ssh/ssh_host_dsa_key 
+# HostKey /etc/ssh/ssh_host_ecdsa_key
 ```
 
 La directriz HostKey nos indica la ubicación de las llaves públicas para el servidor sshd, tanto para el protocolo SSHv1 y SSHv2 de SSH. Como en nuestro ejemplo solo usaremos el protocolo SSHv2, eliminaremos (o comentaremos) las líneas correspondientes al protocolo SSHv1.
@@ -372,7 +373,7 @@ La única forma de desactivar este motd por defecto es impidiendo que se ejecute
 
 Podemos crearnos un asciiart para crearnos un motd personalizado, además de un mensaje advirtiendo del acceso restringido a la máquina. Este motd personalizado debemos crearlo en el directorio /etc y dentro de este directorio, en un archivo llamado **motd**.
 
-Podéis crearos un ascciart [aquí](http://www.patorjk.com/software/taag/#p=display&f=Graffiti&t=Type%20Something%20)
+Podéis crearos un asciiart [aquí](http://www.patorjk.com/software/taag/#p=display&f=Graffiti&t=Type%20Something%20)
 
 !!! task "Tarea"
     **Comprueba** adjuntando una captura de pantalla, que aparece correctamente el motd al hacer login mediante ssh.
