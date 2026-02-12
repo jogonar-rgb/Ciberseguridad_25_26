@@ -1409,15 +1409,13 @@
 </code></pre></div>
     <img alt="" src="../img/idps_13.png" /></p>
 </li>
+<li>
+<p>Y con este comando le diremos a Suricata que recargue todas las reglas sin reiniciar el proceso:</p>
+<div class="highlight"><pre><span></span><code><span class="go">kill -usr2 $(pidof suricata)</span>
+</code></pre></div>
+</li>
 </ul>
 </li>
-</ol>
-<p>Y con este comando le diremos a Suricata que recargue todas las reglas sin reiniciar el proceso:</p>
-<div class="highlight"><pre><span></span><code>    ```console
-    kill -usr2 $(pidof suricata)
-    ```
-</code></pre></div>
-<ol>
 <li>
 <p>Comprobar que muestra las alertas que detecta de acuerdo a sus reglas</p>
 <ul>

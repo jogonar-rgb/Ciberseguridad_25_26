@@ -4,7 +4,7 @@ Para el cometido de esta práctica necesitaremos un par de máquinas virtuales:
 
 + Un servidor Linux (Ubuntu Server por ejemplo). No hace falta que haga uso del entorno gráfico, así haremos la máquina más liviana, sin necesidad de tantos recursos.
   
-    Poseerá una interfaz tipo bridge/puente.
+    Poseerá una interfaz tipo bridge/puente o en red interna, según prefiráis.
 
 + Un cliente para conectarnos al servidor. En primer lugar utilizaremos una máquina Linux cualquiera. Puede ser desde vuestra Kali/Parrot hasta un ligero Xubuntu que instaléis para la ocasión.
 En segunda instancia haremos la configuración con un cliente Windows.
