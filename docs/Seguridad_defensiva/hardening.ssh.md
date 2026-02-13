@@ -396,7 +396,7 @@ Podéis crearos un asciiart [aquí](http://www.patorjk.com/software/taag/#p=disp
         + No se debe permitir la autenticación mediante Kerberos, ni mediante GSSAPI.
       + Ignorar rhosts
       + Deshabilitar TCPKeepAlive
-      + Sólo se permite hacer login al usuario “raul” desde la IP de vuestros clientes.
+      + Sólo se permite hacer login al usuario “ubuntu” desde la IP de vuestros clientes.
           + Añadid un nuevo usuario1[^1] que sea vuestro primer apellido a la máquina que hace de servidor y comprobad, adjuntando una captura de pantalla, que no podéis hacer login con ese nuevo usuario.
       + Debe estar activada la autenticación PAM
       + El SyslogFacility debe ser AUTH y el nivel de LOG debe ser INFO
@@ -699,9 +699,9 @@ En la fase 3 hemos listado varios tipos de autenticación permitidas, en el arch
 + Password (password publickey)
 + Código de verificación (keyboard-interactive)
 
-Pero a pesar de ello, sólo hemos permitido el login mediante clave pública + código de verificación.
+Pero a pesar de ello, sólo hemos permitido el login mediante clave pública + código de verificación o password.
 
-Si quisiéramos tener los tres factores, se podría realizar con un cambio rápido. Simpleente habría que descomentar la línea que hemos comentado antes en el archivo `/etc/pam.d/sshd`
+Si quisiéramos tener los tres factores, se podría realizar con un cambio rápido. Simplemente habría que descomentar la línea que hemos comentado antes en el archivo `/etc/pam.d/sshd`
 
 ![](./img/ssh_authenticator13.png)
 

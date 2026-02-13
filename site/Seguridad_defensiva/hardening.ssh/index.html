@@ -2097,9 +2097,9 @@ iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> 
 <p>Y añadiremos al final del archivo la línea</p>
 <p><img alt="" src="../img/ssh_authenticator6.png" /></p>
 <p>El “nullok” del final sirve para indicarle al mecanismo de autorización centralizado de Linux, PAM (Pluggable Authentication Modules) que este método de autenticación es opcional. De esta forma permitiremos que los usuarios que no utilicen el 2FA, puedan seguir haciendo login todavía usando sus claves.</p>
-<p>A continuación debemos configurar el archivo de configuración del servicio SSH para que soporte este tipo de autenticación, editando el archivo <code>/etc/ssh/ssdh_config</code> para añadir:</p>
+<p>A continuación debemos configurar el archivo de configuración del servicio SSH para que soporte este tipo de autenticación, editando el archivo <code>/etc/ssh/sshd_config</code> para añadir:</p>
 <p><img alt="" src="../img/ssh_authenticator7.png" /></p>
-<p>Guardamos el archivo y reiniciamos el servicio: <code>systemctl restart sshd</code></p>
+<p>Guardamos el archivo y reiniciamos el servicio: <code>systemctl restart ssh</code></p>
 <h3 id="haciendo-que-ssh-sea-consciente-de-la-autenticacion-multifactor">Haciendo que SSH sea consciente de la autenticación multifactor</h3>
 <p>Reabrimos el archivo de configuración del servicio ssh <code>/etc/ssh/sshd_config</code></p>
 <p>Y añadimos esta línea al final del archivo, para indicarle al SSH que métodos de autenticación se requieren. Esto le indica a SSH que necesitamos o una clave SSH, o un password o un código de verificación (o las tres cosas)</p>
@@ -2107,15 +2107,14 @@ iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> 
 <p>Cerramos y guardamos este archivo. Ahora volvemos a abrir el archivo de configuración de PAM <code>/etc/pam.d/sshd</code></p>
 <p>Debemos buscar y comentar la línea indicada para decirle a PAM que no muestre la opción de introducir password</p>
 <p><img alt="" src="../img/ssh_authenticator9.png" /></p>
-<p>Guardamos y cerramos el archivo. Acto seguido reiniciamos el servicio <code>systemctl restart sshd</code></p>
+<p>Guardamos y cerramos el archivo. Acto seguido reiniciamos el servicio <code>systemctl restart ssh</code></p>
 <p>Ahora debéis intentar hacer login de nuevo en el server. En esta ocasión debería pediros el código de verificación.</p>
-<p>Este código de verificación es el que aparece en Google-authenticator cada 30 segundos, así que deberéis consultarlo en el móvil, introducirlo y si todo va bien, estaréis logueados.</p>
+<p>Este password o código de verificación es el que aparece en Google-authenticator cada 30 segundos, así que deberéis consultarlo en el móvil, introducirlo y si todo va bien, estaréis logueados.</p>
 <p><img alt="" src="../img/ssh_authenticator10.png" /></p>
 <p>A pesar de que no se explicita, se han usado tanto las claves SSH como el código de verificación, es decir, dos factores. Para verificarlo, haced el ssh con la opción -v (de verbose) para poder comprobarlo</p>
-<p><img alt="" src="../img/ssh_authenticator11.png" />
-<img alt="" src="../img/ssh_authenticator12.png" /></p>
+<p><img alt="" src="../img/ssh_authenticator11.png" /></p>
 <p>En el <strong>recuadro rojo</strong> podéis ver que se produce la <strong>autenticación mediante claves</strong>, resultando en una autenticación parcial.</p>
-<p>Quedaría la segunda parte, que se corresponde con la parte configurada como interactiva con el teclado (keyboard-interactive), que no es mas que introducir el <strong>código temporal de Google-authenticator</strong>, como os dice en el fragmento <strong>recuadrado en verde</strong>.</p>
+<p>Quedaría la segunda parte, que se corresponde con la parte configurada como interactiva con el teclado (keyboard-interactive) o el password, que no es más que introducir el <strong>código temporal de Google-authenticator</strong>, como os dice en el fragmento <strong>recuadrado en verde</strong>.</p>
 <div class="admonition task">
 <p class="admonition-title">Tarea</p>
 <p>Comprueba que te funciona este doble factor de autenticación.</p>
