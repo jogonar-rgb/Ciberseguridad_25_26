@@ -651,11 +651,11 @@ Y añadiremos al final del archivo la línea
 
 El “nullok” del final sirve para indicarle al mecanismo de autorización centralizado de Linux, PAM (Pluggable Authentication Modules) que este método de autenticación es opcional. De esta forma permitiremos que los usuarios que no utilicen el 2FA, puedan seguir haciendo login todavía usando sus claves.
 
-A continuación debemos configurar el archivo de configuración del servicio SSH para que soporte este tipo de autenticación, editando el archivo `/etc/ssh/ssdh_config` para añadir:
+A continuación debemos configurar el archivo de configuración del servicio SSH para que soporte este tipo de autenticación, editando el archivo `/etc/ssh/sshd_config` para añadir:
 
 ![](./img/ssh_authenticator7.png)
 
-Guardamos el archivo y reiniciamos el servicio: `systemctl restart sshd`
+Guardamos el archivo y reiniciamos el servicio: `systemctl restart ssh`
 
 ### Haciendo que SSH sea consciente de la autenticación multifactor
 
@@ -671,22 +671,21 @@ Debemos buscar y comentar la línea indicada para decirle a PAM que no muestre l
 
 ![](./img/ssh_authenticator9.png)
 
-Guardamos y cerramos el archivo. Acto seguido reiniciamos el servicio `systemctl restart sshd`
+Guardamos y cerramos el archivo. Acto seguido reiniciamos el servicio `systemctl restart ssh`
 
 Ahora debéis intentar hacer login de nuevo en el server. En esta ocasión debería pediros el código de verificación.
 
-Este código de verificación es el que aparece en Google-authenticator cada 30 segundos, así que deberéis consultarlo en el móvil, introducirlo y si todo va bien, estaréis logueados.
+Este password o código de verificación es el que aparece en Google-authenticator cada 30 segundos, así que deberéis consultarlo en el móvil, introducirlo y si todo va bien, estaréis logueados.
 
 ![](./img/ssh_authenticator10.png)
 
 A pesar de que no se explicita, se han usado tanto las claves SSH como el código de verificación, es decir, dos factores. Para verificarlo, haced el ssh con la opción -v (de verbose) para poder comprobarlo
 
 ![](./img/ssh_authenticator11.png)
-![](./img/ssh_authenticator12.png)
 
 En el **recuadro rojo** podéis ver que se produce la **autenticación mediante claves**, resultando en una autenticación parcial.
 
-Quedaría la segunda parte, que se corresponde con la parte configurada como interactiva con el teclado (keyboard-interactive), que no es mas que introducir el **código temporal de Google-authenticator**, como os dice en el fragmento **recuadrado en verde**.
+Quedaría la segunda parte, que se corresponde con la parte configurada como interactiva con el teclado (keyboard-interactive) o el password, que no es más que introducir el **código temporal de Google-authenticator**, como os dice en el fragmento **recuadrado en verde**.
 
 !!!task "Tarea"
     Comprueba que te funciona este doble factor de autenticación.

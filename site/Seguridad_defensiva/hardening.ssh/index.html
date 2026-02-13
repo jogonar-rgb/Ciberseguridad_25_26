@@ -2019,7 +2019,7 @@ En definitiva, el fichero sshguard.conf debe quedar así</p>
 </ol>
 <div class="admonition task">
 <p class="admonition-title">Comprobación</p>
-<p>Conéctate por SSH al servidor desde tu terminal Linux: <code>ssh usuraio@servidor</code></p>
+<p>Conéctate por SSH al servidor desde tu terminal Linux: <code>ssh usuario@servidor</code></p>
 <p>O desde Putty en Windows.</p>
 <p>Ejecuta el siguiente comando para ver los logs de <em>sshguard</em> en tiempo real: <code>journalctl -u sshguard -f</code></p>
 <p>Ahora, desde el cliente, intenta conectarte por SSH al servidor pero introduciendo un nombre de usuario incorrecto o una contraseña incorrecta.</p>
@@ -2030,7 +2030,7 @@ En definitiva, el fichero sshguard.conf debe quedar así</p>
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Notas importantes</p>
-<p>Si en un principio ssguard no bloquea las IP, es posible que haya que informar al firewall con los siguientes comandos:
+<p>Si en un principio sshguard no bloquea las IP, es posible que haya que informar al firewall con los siguientes comandos:
 <div class="highlight"><pre><span></span><code>iptables<span class="w"> </span>-N<span class="w"> </span>sshguard
 iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> </span>-m<span class="w"> </span>multiport<span class="w"> </span>-p<span class="w"> </span>tcp<span class="w"> </span>--destination-ports<span class="w"> </span><span class="m">8022</span><span class="w"> </span>-j<span class="w"> </span>sshguard
 </code></pre></div></p>
@@ -2082,7 +2082,7 @@ iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> 
 <li>En la siguiente pregunta, al responder que sí, le indicáis que el código que uséis caduque en ese mismo instante. Esto quiere decir que sólo se podrá realizar un login cada 30 segundos pero aumentará la protección frente a ataques automatizados
     <img alt="" src="../img/ssh_authenticator3.png" /></li>
 <li>Por defecto los códigos se generan cada 30 segundos, dejando un pequeño margen temporal donde el código anterior y el posterior seguirán siendo válidos. Esto es para compensar ciertos desajustes temporales entre la hora del servidor y del cliente.
-    Aquí responderemos que no pues este margen es suficiente y podría comprometer la seguridad del aumentarlo
+    Aquí responderemos que no pues este margen es suficiente y podría comprometer la seguridad al aumentarlo
     <img alt="" src="../img/ssh_authenticator4.png" /></li>
 <li>Para proteger nuestro servidor contra ataques de fuerza bruta responderemos que sí a la pregunta de permitir un máximo de 3 intentos de login cada 30 segundos
     <img alt="" src="../img/ssh_authenticator2.png" /></li>
@@ -2134,7 +2134,7 @@ iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> 
 <p><img alt="" src="../img/ssh_authenticator14.png" /></p>
 <div class="admonition task">
 <p class="admonition-title">Tarea</p>
-<p>Comprueba  que te funciona  correctamente el login con  los tres factores de autenticación.</p>
+<p>Comprueba  que te funciona  correctamente el login con los tres factores de autenticación.</p>
 <p>Adjunta una captura con la opción “-v” donde indiques, con un recuadro, dónde se están utilizando cada uno de los tres factores.</p>
 </div>
 <h2 id="referencias">Referencias</h2>
