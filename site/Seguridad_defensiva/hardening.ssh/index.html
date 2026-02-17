@@ -1897,7 +1897,7 @@ La única forma de desactivar este motd por defecto es impidiendo que se ejecute
 </li>
 <li>Ignorar rhosts</li>
 <li>Deshabilitar TCPKeepAlive</li>
-<li>Sólo se permite hacer login al usuario “raul” desde la IP de vuestros clientes.<ul>
+<li>Sólo se permite hacer login al usuario “ubuntu” desde la IP de vuestros clientes.<ul>
 <li>Añadid un nuevo usuario1<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">2</a></sup> que sea vuestro primer apellido a la máquina que hace de servidor y comprobad, adjuntando una captura de pantalla, que no podéis hacer login con ese nuevo usuario.</li>
 </ul>
 </li>
@@ -2125,8 +2125,8 @@ iptables<span class="w"> </span>-A<span class="w"> </span>INPUT<span class="w"> 
 + Claves públicas (publickey)
 + Password (password publickey)
 + Código de verificación (keyboard-interactive)</p>
-<p>Pero a pesar de ello, sólo hemos permitido el login mediante clave pública + código de verificación.</p>
-<p>Si quisiéramos tener los tres factores, se podría realizar con un cambio rápido. Simpleente habría que descomentar la línea que hemos comentado antes en el archivo <code>/etc/pam.d/sshd</code></p>
+<p>Pero a pesar de ello, sólo hemos permitido el login mediante clave pública + código de verificación o password.</p>
+<p>Si quisiéramos tener los tres factores, se podría realizar con un cambio rápido. Simplemente habría que descomentar la línea que hemos comentado antes en el archivo <code>/etc/pam.d/sshd</code></p>
 <p><img alt="" src="../img/ssh_authenticator13.png" /></p>
 <p>Y reiniciar el servicio.</p>
 <p>Después de esto, al intentar hacer el ssh, nos pedirá el password además del código de verificación.</p>
