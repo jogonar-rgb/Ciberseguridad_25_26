@@ -709,7 +709,7 @@ Y reiniciar el servicio.
 
 Después de esto, al intentar hacer el ssh, nos pedirá el password además del código de verificación.
 
-![](./img/ssh_authenticator14.png)
+![](./img/ssh_authenticator141.png)
 
 !!!task "Tarea"
     Comprueba  que te funciona  correctamente el login con los tres factores de autenticación.
