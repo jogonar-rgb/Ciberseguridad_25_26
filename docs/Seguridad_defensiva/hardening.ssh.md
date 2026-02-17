@@ -363,7 +363,7 @@ Como siempre que vayamos a modificar una configuración, lo primero será hacer 
 
 + Para empezar, si os habéis fijado, al hacer login en un Ubuntu Server (p. ej.), se nos muestra una gran cantidad e información, algo así
 
-![](./img/ssh_login_info1.jpg)
+![](./img/ssh_login_info.jpg)
 
 Esto, como hemos visto en las directivas, es lo que conocemos como ***motd o “message of the day”***.
 
