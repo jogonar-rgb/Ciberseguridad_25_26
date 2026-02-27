@@ -72,7 +72,7 @@ Si queremos borrar las alertas generadas y las visualizaciones en ElasticSearch,
 sudo so-nsm-clear
 sudo so-elastic-clear
 ```
-También tendremos que borrar las carpetas con los hashes de los ficheros importados que se encuentran en /nsm/import/
+También tendremos que borrar las carpetas con los hashes de los ficheros importados que se encuentran en `/nsm/import/`
 
 Y, tras ello, podemos importar el .pcap así:
 
