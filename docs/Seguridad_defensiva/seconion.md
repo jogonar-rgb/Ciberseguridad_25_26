@@ -12,12 +12,12 @@ En este caso vamos a ver una herramienta que aglutine a varias de las anteriores
 
 ![](./img/securityonion.jpg){: style="height:175px;width:150px"}
 
-Tal y como podemos leer en su [documentación](https://docs.securityonion.net/en/2.3/about.html):
+Tal y como podemos leer en su [documentación](https://docs.securityonion.net/en/2.4/about.html):
 
 !!!quote
-    Security Onion is a free and open platform for threat hunting, enterprise security monitoring, and log management. It includes our own tools for Alerts, Dashboards, Hunt, PCAP, and Cases as well as other tools such as Playbook, FleetDM, osquery, CyberChef, Elasticsearch, Logstash, Kibana, Suricata, Zeek, and Wazuh. 
+    Security Onion is a free and open platform built by defenders for defenders. It includes network visibility, host visibility, intrusion detection honeypots, log management, and case management. Security Onion has been downloaded over 2 million times and is being used by security teams around the world to monitor and defend their enterprises. Our easy-to-use Setup wizard allows you to build a distributed grid for your enterprise in minutes! 
 
-Como vemos, Security Onion agrupa herramientas bien conocidas de terceros, como otras propias. De las conocidas ya hemos hablado de Suricata o ELK pero echemos un vistazo rápido a otras:
+Como vemos, Security Onion incluye herramientas para la visibilidad de red, visibilidad de host, honeypots de detección de intrusiones, gestión de registros y gestión de casos. Para ello utiliza herramientas conocidas y suyas propias. Entre las herramientas conocidas están Suricata o ELK pero echemos un vistazo rápido a otras:
 
 ### Zeek
 
@@ -36,7 +36,7 @@ Zeek es un analizador de tráfico que puede extraer información para su posteri
 
 ### Wazuh
 
-Wazuh es una plataforma gratuita y de código abierto que se usa para prevención de amenazas, detección y respuesta. Es capaz de ofrecer protección en enteorno on-premise, virtualizados, contenerizados o en cloud.
+Wazuh es una plataforma gratuita y de código abierto que se usa para prevención de amenazas, detección y respuesta. Es capaz de ofrecer protección en entorno on-premise, virtualizados, contenerizados o en cloud.
 
 ![](./img/wazuh.png){: style="height:175px;width:300px"}
 
@@ -56,7 +56,7 @@ Aunque ya lo hemos usado anteriormente, la mejor forma de definir Cyberchef es a
 
 ### Resto de herramientas de Security Onion
 
-La mejor forma de descubrir las herramientas que integra Security Onion es acudir directamente a su [documentación](https://docs.securityonion.net/en/2.3/introduction.html)
+La mejor forma de descubrir las herramientas que integra Security Onion es acudir directamente a su [documentación](https://docs.securityonion.net/en/2.4/introduction.html)
 
 ## Demostración práctica
 
@@ -72,6 +72,7 @@ Si queremos borrar las alertas generadas y las visualizaciones en ElasticSearch,
 sudo so-nsm-clear
 sudo so-elastic-clear
 ```
+También tendremos que borrar las carpetas con los hashes de los ficheros importados que se encuentran en /nsm/import/
 
 Y, tras ello, podemos importar el .pcap así:
 
