@@ -74,7 +74,7 @@ sudo so-elastic-clear
 ```
 También tendremos que borrar las carpetas con los hashes de los ficheros importados que se encuentran en `/nsm/import/`
 
-Y, tras ello, podemos importar el .pcap así:
+Y, tras ello, podemos importar el siguiente [.pcap](https://gvaedu.sharepoint.com/:u:/r/sites/Section_EQ_00340864/Materiales%20de%20clase/Seguridad%20sistemas%20(PPS)/Security%20Onion%20ejemplo.zip?csf=1&web=1&e=GFwBE5) así:
 
 ```bash
 sudo so-import-pcap /ruta/absoluta/a/archivo.pcap
