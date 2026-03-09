@@ -76,8 +76,37 @@ Y así sucesivamente.
         + Como conclusión sabemos que, pese a la infección, se está enviando relativamente poca información de la víctima al C2
 
 + Identificando tráfico C2C (Lokibot)
+    +  Para este PCAP vamos a utilizar `SPI View`.
+    + Por razones de rendimiento, no se cargan todos los datos cuando vamos a esta página. Un ejemplo de este comportamiento es el DNS
+	    + Indica que tiene 10 entradas pero no se cargan todas
+	    + Si hacemos click en el botón *Cargar todo*, entonces podremos ver toda la información.
+        + De todas maneras, para este caso nos centraremos en el user-agent de HTTP. En ocasiones, el `user-agent` puede ser una pieza de información muy significativa que podemos usar para pivotar entre indicios y explorar que está ocurriendo en nuestra red. Este es un ejemplo de **Lokibot** y este malware, históricamente, ha usado un nombre de `user-agent` muy distintivo. ¿Cual es el user agent de Lokbit?
+        + Pivotamos sobre ese User Agent. Una de las primeras cosas que pasan con una infección de Lokibot es que se produce un contacto con su panel de control. ¿Cuál es la URL del panel de control en este caso?
+        +  Si expandimos el primer *check-in* con el panel podemos ver que parece que se ha enviado nuestro nombre de usuario, así como nuestro nombre de PC. ¿Dónde aparece?
+        + Si nos fijamos, parece una infraestructura sofisticada porque el panel parece ser que se ha configurado para que devuelva un código HTTP legítimo `404 not found`. Incluso incluye en el body de la respuesta un `File not found`. Esto está hecho expresamente para despistar al analista de seguridad, haciéndole pensar que a pesar de que se ha producio una infección en el entorno, no se ha podido contactar con éxito con el panel de control. Si aún así no estamos seguros de esto, podríamos continuar analizando los `check-ins` adicionales que tenemos.
+        + Si miramos el siguiente, vemos que se ha enviado mucha más información al panel. ¿Podemos saber que ha pasado? 
+        + En ocasiones los investigadores de seguridad publican información sobre como descibrar el tráfico cifrado del command&control para ciertas familias de malware.
+            + Este sería siempre el siguiente paso a realizar, mirar si hay publicaciones hechas al respecto, o scripts o cualquier material que nos ayude a identificar el tráfico.
+            + No obstante, esto no siempre es posible así que sólo nos queda crear una hipótesis que parte de los resultados de nuestro análisis.
 
-+ Identificación de malware usando comunicaciones seguras con TLS y utilización de hashes JA3 para detectar nodos del command&control
++ Identificación de malware usando comunicaciones seguras con TLS y utilización de hashes JA3 para detectar nodos del command&control.
+    + Es importante entender cómo observar y analizar tráfico cifrado. Debido al cifrado, mucha información que nos gustaría observar no puede ser visualizada. Esto, sin embargo, no quiere decir que como defensores no tengamos opciones y en eso se centra este dejericcio. Volvemos al primer PCAP de la clase pero en lugar de centrarnos en el payload que *suelta* el ejecutable, nos centraremos en el tráfico post infección, particularmente en el TLS. 
+        + Empezamos en la pestaña Conexiones que todavía no habíamos usado.
+            + En esta pestaña se muestrar gráficos de comunicaciones entre nodos.
+            + Aquí vemos que hay un nodo predominante y que es el que más conexiones produce. ¿Cual es la IP del host?
+        + Ahora filtraremos por protocolo HTTP y por sesiones con muchos bytes:
+            ```
+            protocols == http && bytes > 500000
+            ```
+        + ¿Cómo esta enmascarado el troyano? 
+        + Quitamos el filtro de los bytes y seleccionamos el tiempo desde esta sesión y media hora más. Vemos tráfico legítimo como windows update u otros.
+        + Cambiamos el filtro y quitamos el número de bytes y ponemos para ver si el malware usa cifrado, manteniendo la IP de nuestro host investigado
+	        ```
+	        protocols == tls && ip.src == 192.168.56.103
+	        ```
+    + Parece que hay sesiones legítimas pero también hay un tráfico TLS por el puerto no estándar. ¿Qué puertos son?
+    +  Miramos la información del certificado de estas sesiones y parece autofirmado y "raro". También tenemos valores de hashes JA3 y JA3s
+	    + Son hashes que se calculan basados en la información proporcionada por el handshake inicial de TLS (tecnología opensource de Salesforce)
 
 
 ## Referencias
