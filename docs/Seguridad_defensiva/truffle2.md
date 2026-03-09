@@ -81,7 +81,7 @@ Utilizando esto podemos vincular las técnicas de ataque con los métodos de def
 
 Es decir, hacer un commit con credenciales intencionadamente inseguras para identificar a los atacantes.
 
-Dependiendo de los procesos, madurez y prioridades de una empresa, TuffleHog puede ser desde ejecutado manualmente por los desarrolladores hasta formar parte de un [proceso automatizado de DevSecOps, donde se ejecute mediante GitHub actions](https://container-devsecops.awssecworkshops.com/), por ejemplo.
+Dependiendo de los procesos, madurez y prioridades de una empresa, TuffleHog puede ser desde ejecutado manualmente por los desarrolladores hasta formar parte de un [proceso automatizado de DevSecOps, donde se ejecute mediante GitHub actions](https://aws.containerdevsecops.io/), por ejemplo.
 
 ### Auditando repositorios para detectar filtrado de credenciales
 

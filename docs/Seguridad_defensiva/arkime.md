@@ -53,11 +53,27 @@ Y así sucesivamente.
 !!! quote "Cita de [Kasperksy](https://latam.kaspersky.com/resource-center/definitions/spear-phishing)"
     El spear phishing es una estafa de correo electrónico o comunicaciones dirigida a personas, organizaciones o empresas específicas. Aunque su objetivo a menudo es robar datos para fines maliciosos, los cibercriminales también pueden tratar de instalar malware en la computadora de la víctima.
 
-## Demostración práctica de Arkime
+## Práctica de Arkime
 
 + Analizando tráfico spear phising (Dridex)
+    + Filtramos conexiones por el puerto 80 porque tenemos sospechas de un tráfico malicioso.
+    + Filtramos el dominio (URI), que no incluyan los de microsoft update, y luego todos los dominios con el asterisco: `port.dst == 80 && http.uri != www.download.windowsupdate.com/*`
+    + El número de bytes de una petición también da pistas, ¿qué tipo de archivo es?
+    + Entramos en el detalle, ¿a qué host apunta? ¿hay algo extraño en ese detalle?
+    + Buscamos en virustotal a ver que nos aparece.
 
 + Identificando tráfico C2C (Emotet)
+    + Ordenamos por tamaño y comprobamos uno muy grande. ¿Qué destino tiene?
+    + ¿Qué aparece en el detalle que ya hemos visto?
+    + Queremos ver el tráfico post infección, filtramos entre el inicio de este paquete y 5 minutos más. En la tercera sesión vemos el *request* de nuestro troyano. Vemos dos sesiones subsiguientes y ese es **el tráfico postinfección** ¿Qué destino tienen estas dos sesiones?
+    + Una vez infectado un nuevo sistema, utiliza un nuevo set de IPs, no el dominio comprometido y se dedica a recopilar información.  Nuestro siguiente paso es investigar qué ha comunicado el troyano desde nuestra vícitma, a estos nodos del Command and control. Si expandimos la segunda o tercera sesión, podremos ver la petición HTTP completa. Vemos que en términos de cabeceras HTTP parece bastante más legítima que el anterior caso, ya que contiene un número normal de ellas, tal y como esperaríamos ver desde una sesión de un navegador normal. Incluso tenemos cabeceras clave como el `Referrer` y esto es importante porque en caso de no estar, hay algunos IDS que generarían una alerta. Seguimos bajando y llegamos al **cuerpo** de la petición:
+	    + Hay un número pequeño de datos simplemente mirando el tamaño
+	    + Cada carácter representa un byte por lo que hay pocos bytes
+	    + Poca información enviándose al panel C2
+	    + No podemos interpretar estos bytes porque están cifrados. Porqué:
+		    + Emotet usa cifrado para proteger estos datos
+		    + Aunque no se esté usando TLS, se establece una comunicación segura para cifrar los datos que envía
+        + Como conclusión sabemos que, pese a la infección, se está enviando relativamente poca información de la víctima al C2
 
 + Identificando tráfico C2C (Lokibot)
 

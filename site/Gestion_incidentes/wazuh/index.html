@@ -994,6 +994,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -1131,6 +1135,52 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_defensiva/arkime/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Monitorización de red con Arkime
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Seguridad_defensiva/truffle2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Análisis de archivos con TruffleHog
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1254,7 +1304,7 @@
 <ul>
 <li><strong><u>Archivos subidos o modificados recientemente:</u></strong> los atacantes suelen subir sus web shells en los directorios utilizados por los servidores web o modificar archivos ya presentes en ellos. Disonancias en las fechas de modificación pueden ser un indicativo.</u></li>
 <li><strong><u>Conexiones de red inusuales:</u></strong> las web shell puede que tengan que poner determinados puertos a la escucha para establecer <em>reverse shells</em> o shells inversas hacia los atacantes. Esto producirá tráfico inusual (TCP o UDP), que puede ser un indicador de compromiso.</li>
-<li><strong><u>Configuraciones extrañas/erróneas y cabeceras modificadas:</u></strong> cabeceras clásiscas de las peticiones HTTP son <em>user-agent</em> o <em>referer</em>. Los atacantes pueden realizar la modificación de estas cabeceras de tal forma que se intente una ejecución de comandos mediante ellas.</li>
+<li><strong><u>Configuraciones extrañas/erróneas y cabeceras modificadas:</u></strong> cabeceras clásicas de las peticiones HTTP son <em>user-agent</em> o <em>referer</em>. Los atacantes pueden realizar la modificación de estas cabeceras de tal forma que se intente una ejecución de comandos mediante ellas.</li>
 <li><strong><u>Técnicas de ofuscación:</u></strong> puede que el atacante emplee técnicas de codificación, compresión o sustitución para intentar ser detectado por los sitemas de seguridad.</li>
 </ul>
 <h2 id="manos-a-la-obra-configuracion-del-laboratorio">Manos a la obra, configuración del laboratorio</h2>
@@ -1308,7 +1358,7 @@
 <p><img alt="" src="../img/windows-server-wazuh2.png" /></p>
 </li>
 <li>
-<p>En <em>Server Roles</em> instalamos <strong>Web Server (IIS)</strong> conm, al menos, las siguientes funciones:</p>
+<p>En <em>Server Roles</em> instalamos <strong>Web Server (IIS)</strong> con, al menos, las siguientes funciones:</p>
 <p><img alt="" src="../img/windows-server-wazuh.png" /></p>
 </li>
 <li>
@@ -1326,7 +1376,7 @@
 <h2 id="tecnicas-de-deteccion">Técnicas de detección</h2>
 <p>Utilizaremos distintas capacidades de Wazuh para detectar la presencia de web shells en PHP o ASP.NET.</p>
 <h3 id="integridad-de-ficheros">Integridad de ficheros</h3>
-<p>Utilizaremos <strong>FIM (File Integritiy Monitorint)</strong> para deteta rla creación y modificación de archivos que contengan web shells.</p>
+<p>Utilizaremos <strong>FIM (File Integritiy Monitorint)</strong> para deteta la creación y modificación de archivos que contengan web shells.</p>
 <p>El módulo FIM de Wazuih puede detectar, casi en tiempo real, cambios en los archivos accesibles via web y de esta forma alertar a los administradores.</p>
 <p>Usaremos este módulo para detectar cuando se han creado o odificado archivos en <code>/var/wwww/html</code>y en <code>C:\inetpub\wwwroot</code>, directorios raiz por defecto en Ubuntu y Windows respectivamente.</p>
 <p>Además, FIM escanea los contenidos de los archivos para monitorizar la aparción de firmas de web shells cuando los archivos se modifican.</p>
