@@ -55,14 +55,14 @@ Y así sucesivamente.
 
 ## Práctica de Arkime
 
-+ Analizando tráfico spear phising (Dridex)
++ Analizando tráfico spear phising (Dridex) `fichero: 01-04.spearphising-dridex.pcap`
     + Filtramos conexiones por el puerto 80 porque tenemos sospechas de un tráfico malicioso.
     + Filtramos el dominio (URI), que no incluyan los de microsoft update, y luego todos los dominios con el asterisco: `port.dst == 80 && http.uri != www.download.windowsupdate.com/*`
     + El número de bytes de una petición también da pistas, ¿qué tipo de archivo es?
     + Entramos en el detalle, ¿a qué host apunta? ¿hay algo extraño en ese detalle?
     + Buscamos en virustotal a ver que nos aparece.
 
-+ Identificando tráfico C2C (Emotet)
++ Identificando tráfico C2C (Emotet) `fichero: 02.c2-emotet.pcap`
     + Ordenamos por tamaño y comprobamos uno muy grande. ¿Qué destino tiene?
     + ¿Qué aparece en el detalle que ya hemos visto?
     + Queremos ver el tráfico post infección, filtramos entre el inicio de este paquete y 5 minutos más. En la tercera sesión vemos el *request* de nuestro troyano. Vemos dos sesiones subsiguientes y ese es **el tráfico postinfección** ¿Qué destino tienen estas dos sesiones?
@@ -75,7 +75,7 @@ Y así sucesivamente.
 		    + Aunque no se esté usando TLS, se establece una comunicación segura para cifrar los datos que envía
         + Como conclusión sabemos que, pese a la infección, se está enviando relativamente poca información de la víctima al C2
 
-+ Identificando tráfico C2C (Lokibot)
++ Identificando tráfico C2C (Lokibot) `fichero: 03.c2-lokibot.pcap`
     +  Para este PCAP vamos a utilizar `SPI View`.
     + Por razones de rendimiento, no se cargan todos los datos cuando vamos a esta página. Un ejemplo de este comportamiento es el DNS
 	    + Indica que tiene 10 entradas pero no se cargan todas
@@ -89,7 +89,7 @@ Y así sucesivamente.
             + Este sería siempre el siguiente paso a realizar, mirar si hay publicaciones hechas al respecto, o scripts o cualquier material que nos ayude a identificar el tráfico.
             + No obstante, esto no siempre es posible así que sólo nos queda crear una hipótesis que parte de los resultados de nuestro análisis.
 
-+ Identificación de malware usando comunicaciones seguras con TLS y utilización de hashes JA3 para detectar nodos del command&control.
++ Identificación de malware usando comunicaciones seguras con TLS y utilización de hashes JA3 para detectar nodos del command&control. `fichero: 01-04.spearphising-dridex.pcap`
     + Es importante entender cómo observar y analizar tráfico cifrado. Debido al cifrado, mucha información que nos gustaría observar no puede ser visualizada. Esto, sin embargo, no quiere decir que como defensores no tengamos opciones y en eso se centra este dejericcio. Volvemos al primer PCAP de la clase pero en lugar de centrarnos en el payload que *suelta* el ejecutable, nos centraremos en el tráfico post infección, particularmente en el TLS. 
         + Empezamos en la pestaña Conexiones que todavía no habíamos usado.
             + En esta pestaña se muestrar gráficos de comunicaciones entre nodos.
