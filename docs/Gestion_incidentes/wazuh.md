@@ -99,7 +99,7 @@ La mayoría de los web shells siguen los mismos principios de diseño y e intenc
 
 + **<u>Archivos subidos o modificados recientemente:</u>** los atacantes suelen subir sus web shells en los directorios utilizados por los servidores web o modificar archivos ya presentes en ellos. Disonancias en las fechas de modificación pueden ser un indicativo.</u>
 + **<u>Conexiones de red inusuales:</u>** las web shell puede que tengan que poner determinados puertos a la escucha para establecer *reverse shells* o shells inversas hacia los atacantes. Esto producirá tráfico inusual (TCP o UDP), que puede ser un indicador de compromiso.
-+ **<u>Configuraciones extrañas/erróneas y cabeceras modificadas:</u>** cabeceras clásiscas de las peticiones HTTP son *user-agent* o *referer*. Los atacantes pueden realizar la modificación de estas cabeceras de tal forma que se intente una ejecución de comandos mediante ellas.
++ **<u>Configuraciones extrañas/erróneas y cabeceras modificadas:</u>** cabeceras clásicas de las peticiones HTTP son *user-agent* o *referer*. Los atacantes pueden realizar la modificación de estas cabeceras de tal forma que se intente una ejecución de comandos mediante ellas.
 + **<u>Técnicas de ofuscación:</u>** puede que el atacante emplee técnicas de codificación, compresión o sustitución para intentar ser detectado por los sitemas de seguridad.
 
 ## Manos a la obra, configuración del laboratorio
@@ -160,7 +160,7 @@ Para proceder con esta instalación:
 
     ![](./img/windows-server-wazuh2.png)
 
-2. En *Server Roles* instalamos **Web Server (IIS)** conm, al menos, las siguientes funciones:
+2. En *Server Roles* instalamos **Web Server (IIS)** con, al menos, las siguientes funciones:
     
     ![](./img/windows-server-wazuh.png)
 
@@ -184,7 +184,7 @@ Utilizaremos distintas capacidades de Wazuh para detectar la presencia de web sh
 
 ### Integridad de ficheros
 
-Utilizaremos **FIM (File Integritiy Monitorint)** para deteta rla creación y modificación de archivos que contengan web shells.
+Utilizaremos **FIM (File Integritiy Monitorint)** para deteta la creación y modificación de archivos que contengan web shells.
 
 El módulo FIM de Wazuih puede detectar, casi en tiempo real, cambios en los archivos accesibles via web y de esta forma alertar a los administradores.
 

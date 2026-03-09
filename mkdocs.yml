@@ -82,9 +82,9 @@ nav:
     - Monitorización con IDS/IPS: Seguridad_defensiva/idps.md
     - Hardening SSH: Seguridad_defensiva/hardening.ssh.md
     - Monitorización con Security Onion: Seguridad_defensiva/seconion.md
-  #  - Monitorización de red con Arkime: Seguridad_defensiva/arkime.md
+    - Monitorización de red con Arkime: Seguridad_defensiva/arkime.md
   #  - Análisis de archivos con TruffleHog: Seguridad_defensiva/truffle.md
-  #  - (ACTUALIZADO) Análisis de archivos con TruffleHog: Seguridad_defensiva/truffle2.md
+    - Análisis de archivos con TruffleHog: Seguridad_defensiva/truffle2.md
   #  - Análisis de infraestructura (contenedores) con Trivy: Seguridad_defensiva/trivy.md
   #- Gestión de incidentes (IR):
   #  - Gestion_incidentes/index.md
