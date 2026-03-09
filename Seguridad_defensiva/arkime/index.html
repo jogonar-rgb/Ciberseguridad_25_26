@@ -1393,7 +1393,7 @@ Arkime is not meant to replace Intrusion Detection Systems (IDS) but instead pro
 <h2 id="practica-de-arkime">Práctica de Arkime</h2>
 <ul>
 <li>
-<p>Analizando tráfico spear phising (Dridex)</p>
+<p>Analizando tráfico spear phising (Dridex) <code>fichero: 01-04.spearphising-dridex.pcap</code></p>
 <ul>
 <li>Filtramos conexiones por el puerto 80 porque tenemos sospechas de un tráfico malicioso.</li>
 <li>Filtramos el dominio (URI), que no incluyan los de microsoft update, y luego todos los dominios con el asterisco: <code>port.dst == 80 &amp;&amp; http.uri != www.download.windowsupdate.com/*</code></li>
@@ -1403,7 +1403,7 @@ Arkime is not meant to replace Intrusion Detection Systems (IDS) but instead pro
 </ul>
 </li>
 <li>
-<p>Identificando tráfico C2C (Emotet)</p>
+<p>Identificando tráfico C2C (Emotet) <code>fichero: 02.c2-emotet.pcap</code></p>
 <ul>
 <li>Ordenamos por tamaño y comprobamos uno muy grande. ¿Qué destino tiene?</li>
 <li>¿Qué aparece en el detalle que ya hemos visto?</li>
@@ -1423,7 +1423,7 @@ Arkime is not meant to replace Intrusion Detection Systems (IDS) but instead pro
 </ul>
 </li>
 <li>
-<p>Identificando tráfico C2C (Lokibot)</p>
+<p>Identificando tráfico C2C (Lokibot) <code>fichero: 03.c2-lokibot.pcap</code></p>
 <ul>
 <li>Para este PCAP vamos a utilizar <code>SPI View</code>.</li>
 <li>Por razones de rendimiento, no se cargan todos los datos cuando vamos a esta página. Un ejemplo de este comportamiento es el DNS<ul>
@@ -1444,7 +1444,7 @@ Arkime is not meant to replace Intrusion Detection Systems (IDS) but instead pro
 </ul>
 </li>
 <li>
-<p>Identificación de malware usando comunicaciones seguras con TLS y utilización de hashes JA3 para detectar nodos del command&amp;control.</p>
+<p>Identificación de malware usando comunicaciones seguras con TLS y utilización de hashes JA3 para detectar nodos del command&amp;control. <code>fichero: 01-04.spearphising-dridex.pcap</code></p>
 <ul>
 <li>Es importante entender cómo observar y analizar tráfico cifrado. Debido al cifrado, mucha información que nos gustaría observar no puede ser visualizada. Esto, sin embargo, no quiere decir que como defensores no tengamos opciones y en eso se centra este dejericcio. Volvemos al primer PCAP de la clase pero en lugar de centrarnos en el payload que <em>suelta</em> el ejecutable, nos centraremos en el tráfico post infección, particularmente en el TLS. <ul>
 <li>Empezamos en la pestaña Conexiones que todavía no habíamos usado.<ul>
