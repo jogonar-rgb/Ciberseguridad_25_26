@@ -1234,18 +1234,18 @@
 <p>Para esta demostración el primer paso es, como cabía esperar, instalar Trivy. Para ello:</p>
 <ol>
 <li>
-<p>Debéis hacer un fork del repositorio: <code>https://github.com/raul-profesor/practica-de-trivy</code> y luego clonarlo en vuestra máquina virtual</p>
+<p>Debéis hacer un fork del repositorio: <code>https://github.com/jogonar-rgb/practica-de-trivy</code> y luego clonarlo en vuestra máquina virtual</p>
 </li>
 <li>
 <p>Si echamos un ojo al script <code>install.sh</code> vemos que:</p>
 <ol>
-<li>Obtiene el nombre de la distribución</li>
-<li>Instala Trivy y las dependencias necesarias</li>
-<li>También instala <code>container-diff</code> para inspeccionar y detectar imágenes que hayan sido manipuladas </li>
-<li>Se instala Docker en caso de que sea necesario porque no esté instalado ya</li>
+<li>Obtiene el nombre de la distribución.</li>
+<li>Instala Trivy y las dependencias necesarias.</li>
+<li>También instala <code>container-diff</code> para inspeccionar y detectar imágenes que hayan sido manipuladas.</li>
+<li>Se instala Docker en caso de que sea necesario porque no esté instalado ya.</li>
 </ol>
 </li>
-<li>Ejecutamos el script de instalación y comprobamos que Trivy se ha instalado correctamente</li>
+<li>Ejecutamos el script de instalación y comprobamos que Trivy se ha instalado correctamente.</li>
 </ol>
 <p>Comencemos pues con la demo propiamente dicha. Podemos ver que Trivy tiene multitud de opciones, como escaneo de imágenes, de sistema de archivos local, repositorio remoto...:</p>
 <p><div class="highlight"><pre><span></span><code><span class="gp">$ </span>trivy<span class="w"> </span>--help
@@ -1255,7 +1255,7 @@ No obstante, en nuestro caso nos centraremos únicamente en el escaneo de imáge
 </code></pre></div>
 <ul>
 <li>
-<p>En primer lugar vemos que Tivy se queja de que estamos usando el tag <code>latest</code>. Para nuestros propósitos no hay problema alguno puesto que no estamos cambiando nada de las capas subyacentes de la imagen, más adelante ya nos preocuparemos de esto.</p>
+<p>En primer lugar vemos que Trivy se queja de que estamos usando el tag <code>latest</code>. Para nuestros propósitos no hay problema alguno, puesto que no estamos cambiando nada de las capas subyacentes de la imagen, más adelante ya nos preocuparemos de esto.</p>
 </li>
 <li>
 <p>Vemos que Trivy nos informa de más de 400 vulnerabilidades en el momento en que se escriben estos apuntes. De locos. Inabarcable.</p>
@@ -1272,10 +1272,10 @@ Y realizar un escaneo más sensato y priorizando vulnerabilidades. Esto incluye 
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>La severidad que muestra Trivy para las vulnerabilidades puede venir de distintos sitios. Se puede obtener de la NVD (National Vulnerability Database) o directamente del vendor o fabricante. 
-Por ejemplo, para un paquete de Ubuntu, Trivy aprovehcará el reporte de vulnerabilidades que haya publicado la propia Canonical y favorecerá esta severidad respecto a la de la NVD.</p>
+Por ejemplo, para un paquete de Ubuntu, Trivy aprovechará el reporte de vulnerabilidades que haya publicado la propia Canonical y favorecerá esta severidad respecto a la de la NVD.</p>
 </div>
 <p>Vemos que la mayoría de los <strong>CRITICAL</strong> y <strong>HIGH</strong> se los llevan algunas librerías de OpenSSL, incluyendo el famoso Heartbleed que permite que un usuario malicioso no autenticado pueda, en ciertos casos, leer la memoria de la máquina.</p>
-<p>En definitiva y para terminar, podemos decir que hemos utilizado Trivy para llevar a cabo una estrategia reactiva puesto que mediante ella detectamos las vulnerabilidades a posteriori, teniendo que solucionarlas una vez están ya en producción. Veremos en la próxima demostroación como podemos adoptar una estrategia más preventiva con el fin de evitar que estos problemas lleguen ni siquiera a publicarse.</p>
+<p>En definitiva y para terminar, podemos decir que hemos utilizado Trivy para llevar a cabo una estrategia reactiva puesto que mediante ella detectamos las vulnerabilidades a posteriori, teniendo que solucionarlas una vez están ya en producción. Veremos en la próxima demostración como podemos adoptar una estrategia más preventiva con el fin de evitar que estos problemas lleguen ni siquiera a publicarse.</p>
 <h2 id="demostracion-2">Demostración 2</h2>
 <h3 id="que-es-github-actions">¿Qué es Github actions?</h3>
 <p>GitHub Actions es una plataforma de integración y despliegue continuos (CI/CD) que te permite automatizar tu mapa de compilación, pruebas y despliegue. Puedes crear flujos de trabajo (<em>workflows</em>) y crear y probar cada solicitud de cambios en tu repositorio o desplegar solicitudes de cambios fusionadas a producción.</p>
@@ -1291,7 +1291,7 @@ Por ejemplo, para un paquete de Ubuntu, Trivy aprovehcará el reporte de vulnera
 <p>Básicamente, lo que vamos a hacer con GitHub Actions es crear un Ubuntu Server que estará hospedado en la infraestructura de GitHub y podremos usarlo para auditar los cambios antes de subir la imagen al Docker Registry. Es más, podemos examinar el resultado del escaneo de Trivy e incluirlo en un Pull Request, permitiendo que se produzca una discusión antes de incorporar los cambios.</p>
 <p><img alt="" src="../img/trivy_ghactions.png" style="height:425px;width:825px" /> </p>
 <p>En primer lugar, debéis hacer un <em>fork</em> en vuestra cuenta del repositorio, <strong>únicamente de la rama main</strong>.</p>
-<p><code>https://https://github.com/raul-profesor/practica-de-trivy</code></p>
+<p><code>https://github.com/jogonar-rgb/practica-de-trivy</code></p>
 <p>Y tras ello, en el terminal, os debéis clonar el repositorio que utilizaremos como referencia:</p>
 <div class="highlight"><pre><span></span><code><span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/nombre-usuario/practica-de-trivy
 </code></pre></div>
@@ -1728,7 +1728,7 @@ git<span class="w"> </span>pull<span class="w"> </span>origin<span class="w"> </
 <p>Hacemos uso de <code>container-diff</code> para ver las diferencias entre imágenes. </p>
 </li>
 <li>
-<p>Tras todo esto, no vamos a subir la imagen al registro de Docker sino que se necesita comenzar una investigación forense y/o enviar una alerta a un SIEM..</p>
+<p>Tras todo esto, no vamos a subir la imagen al registro de Docker sino que se necesita comenzar una investigación forense y/o enviar una alerta a un SIEM.</p>
 </li>
 <li>
 <p>Si se ejecuta esta parte del código es que no se ha detectado ninguna modificación y se subirá la iamgen, así como la firma de la misma.</p>
@@ -1813,7 +1813,7 @@ git<span class="w"> </span>pull<span class="w"> </span>origin<span class="w"> </
 <p>Shellshock no se ha detectado por una razón concreta y es una de las causas del tipo de vulnerabilidades que no detecta Trivy y se necesita la aprobación humana que comentábamos antes. ¿Sabrías decir cuál es esta razón?</p>
 </div>
 <h2 id="conclusion">Conclusión</h2>
-<p>Ninguna herramienta de ciberseguridad puede monitorizar TODOS los ataques. Sin embargo, una combinación de herramientas adecuadas pueden ofrecer pintas sobre qué ha cambiado</p>
+<p>Ninguna herramienta de ciberseguridad puede monitorizar TODOS los ataques. Sin embargo, una combinación de herramientas adecuadas pueden ofrecer pintas sobre qué ha cambiado.</p>
 <div class="admonition question">
 <p class="admonition-title">Pregunta</p>
 <p>¿Serías capaz de en la salida que nos ofrece la pestaña <em>Actions</em> identificar la salida de <code>container-diff</code> y donde se ven todos los archivos relativos a bash que se han añadido a la imagen?</p>
