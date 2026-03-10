@@ -1396,12 +1396,12 @@ Arkime is not meant to replace Intrusion Detection Systems (IDS) but instead pro
 <p>Analizando tráfico spear phising (Dridex) <code>fichero: 01-04.spearphising-dridex.pcap</code></p>
 <ul>
 <li>Filtramos conexiones por el puerto 80 porque tenemos sospechas de un tráfico malicioso.</li>
-<li>Filtramos el dominio (URI), que no incluyan los de microsoft update, y luego todos los dominios con el asterisco: 
-<code>port.dst == 80 &amp;&amp; http.uri != www.download.windowsupdate.com/*</code></li>
-<li>El número de bytes de una petición también da pistas, ¿qué tipo de archivo es?</li>
-<li>Entramos en el detalle, ¿a qué host apunta? ¿hay algo extraño en ese detalle?</li>
-<li>Buscamos en virustotal a ver que nos aparece.</li>
+<li>Filtramos el dominio (URI), que no incluyan los de microsoft update, y luego todos los dominios con el asterisco:</li>
 </ul>
+<p><code>port.dst == 80 &amp;&amp; http.uri != www.download.windowsupdate.com/*</code>
++ El número de bytes de una petición también da pistas, ¿qué tipo de archivo es?
++ Entramos en el detalle, ¿a qué host apunta? ¿hay algo extraño en ese detalle?
++ Buscamos en virustotal a ver que nos aparece.</p>
 </li>
 <li>
 <p>Identificando tráfico C2C (Emotet) <code>fichero: 02.c2-emotet.pcap</code></p>

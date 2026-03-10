@@ -1299,7 +1299,7 @@
 <p>Son scripts web que permiten a los atacantes acceso remoto sin restricciones. Puede pasar que un atacante logra comprometer un servidor, consiguiendo el acceso inicial al servicio web mediante alguna técnica ya conocida (SQLi, XSS, RFI...).</p>
 <p>Con este compromiso inicial, se puede intentar realizar la inyección de una web shell en el directorio del servidor y que constituirá un <em>backdoor</em> que dará paso a actividades post-explotación (ejecución de comandos, exfiltración de información, infección de malware...).</p>
 <p><img alt="" src="../img/wazuh1.png" /></p>
-<p>La mayoría de los web shells siguen los mismos principios de diseño y e intenciones. Normalmente suelen estar escritos en lenguajes soportados por los servidores web: PHP, ASP, ASP.NET, Perl, Python...</p>
+<p>La mayoría de los web shells siguen los mismos principios de diseño e intenciones. Normalmente suelen estar escritos en lenguajes soportados por los servidores web: PHP, ASP, ASP.NET, Perl, Python...</p>
 <h3 id="indicadores-comunes-de-los-web-shells">Indicadores comunes de los web shells</h3>
 <ul>
 <li><strong><u>Archivos subidos o modificados recientemente:</u></strong> los atacantes suelen subir sus web shells en los directorios utilizados por los servidores web o modificar archivos ya presentes en ellos. Disonancias en las fechas de modificación pueden ser un indicativo.</u></li>
@@ -1308,11 +1308,11 @@
 <li><strong><u>Técnicas de ofuscación:</u></strong> puede que el atacante emplee técnicas de codificación, compresión o sustitución para intentar ser detectado por los sitemas de seguridad.</li>
 </ul>
 <h2 id="manos-a-la-obra-configuracion-del-laboratorio">Manos a la obra, configuración del laboratorio</h2>
-<p>Para este laboratorio utilizaremos AWS, por la versatilidad que nos ofrece y así deshacernos de los problemas de infraestructa a los que pueda limitarnos nuestra máquina. Se van a utilizar <strong>4 máquinas</strong>:</p>
+<p>Para este laboratorio utilizaremos AWS, por la versatilidad que nos ofrece y así deshacernos de los problemas de infraestructura a los que pueda limitarnos nuestra máquina. Se van a utilizar <strong>4 máquinas</strong>:</p>
 <ol>
 <li><strong>Amazon Linux 2:</strong> para instalar el servidor de Wazuh.</li>
 <li><strong>Ubuntu:</strong> como víctima endpoint que está ejecutando un agente de Wazuh. Correrá un servidor Apache para aplicaciones PHP.</li>
-<li><strong>Windows Server 2022:</strong> otra víctima endpoint ejecutadno otro agente de Wazuh. Correrá un servidor IIS para aplicaciones ASP.NET.</li>
+<li><strong>Windows Server 2022:</strong> otra víctima endpoint ejecutando otro agente de Wazuh. Correrá un servidor IIS para aplicaciones ASP.NET.</li>
 <li><strong>Debian:</strong> como máquina atacante.</li>
 </ol>
 <h3 id="wazuh-server-en-amazon-linux-2">Wazuh server en Amazon Linux 2</h3>
@@ -1376,7 +1376,7 @@
 <h2 id="tecnicas-de-deteccion">Técnicas de detección</h2>
 <p>Utilizaremos distintas capacidades de Wazuh para detectar la presencia de web shells en PHP o ASP.NET.</p>
 <h3 id="integridad-de-ficheros">Integridad de ficheros</h3>
-<p>Utilizaremos <strong>FIM (File Integritiy Monitorint)</strong> para deteta la creación y modificación de archivos que contengan web shells.</p>
+<p>Utilizaremos <strong>FIM (File Integritiy Monitorint)</strong> para detectar la creación y modificación de archivos que contengan web shells.</p>
 <p>El módulo FIM de Wazuih puede detectar, casi en tiempo real, cambios en los archivos accesibles via web y de esta forma alertar a los administradores.</p>
 <p>Usaremos este módulo para detectar cuando se han creado o odificado archivos en <code>/var/wwww/html</code>y en <code>C:\inetpub\wwwroot</code>, directorios raiz por defecto en Ubuntu y Windows respectivamente.</p>
 <p>Además, FIM escanea los contenidos de los archivos para monitorizar la aparción de firmas de web shells cuando los archivos se modifican.</p>
