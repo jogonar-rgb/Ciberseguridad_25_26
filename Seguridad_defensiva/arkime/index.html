@@ -1396,7 +1396,8 @@ Arkime is not meant to replace Intrusion Detection Systems (IDS) but instead pro
 <p>Analizando tráfico spear phising (Dridex) <code>fichero: 01-04.spearphising-dridex.pcap</code></p>
 <ul>
 <li>Filtramos conexiones por el puerto 80 porque tenemos sospechas de un tráfico malicioso.</li>
-<li>Filtramos el dominio (URI), que no incluyan los de microsoft update, y luego todos los dominios con el asterisco: <code>port.dst == 80 &amp;&amp; http.uri != www.download.windowsupdate.com/*</code></li>
+<li>Filtramos el dominio (URI), que no incluyan los de microsoft update, y luego todos los dominios con el asterisco: 
+<code>port.dst == 80 &amp;&amp; http.uri != www.download.windowsupdate.com/*</code></li>
 <li>El número de bytes de una petición también da pistas, ¿qué tipo de archivo es?</li>
 <li>Entramos en el detalle, ¿a qué host apunta? ¿hay algo extraño en ese detalle?</li>
 <li>Buscamos en virustotal a ver que nos aparece.</li>
@@ -1408,7 +1409,7 @@ Arkime is not meant to replace Intrusion Detection Systems (IDS) but instead pro
 <li>Ordenamos por tamaño y comprobamos uno muy grande. ¿Qué destino tiene?</li>
 <li>¿Qué aparece en el detalle que ya hemos visto?</li>
 <li>Queremos ver el tráfico post infección, filtramos entre el inicio de este paquete y 5 minutos más. En la tercera sesión vemos el <em>request</em> de nuestro troyano. Vemos dos sesiones subsiguientes y ese es <strong>el tráfico postinfección</strong> ¿Qué destino tienen estas dos sesiones?</li>
-<li>Una vez infectado un nuevo sistema, utiliza un nuevo set de IPs, no el dominio comprometido y se dedica a recopilar información.  Nuestro siguiente paso es investigar qué ha comunicado el troyano desde nuestra vícitma, a estos nodos del Command and control. Si expandimos la segunda o tercera sesión, podremos ver la petición HTTP completa. Vemos que en términos de cabeceras HTTP parece bastante más legítima que el anterior caso, ya que contiene un número normal de ellas, tal y como esperaríamos ver desde una sesión de un navegador normal. Incluso tenemos cabeceras clave como el <code>Referrer</code> y esto es importante porque en caso de no estar, hay algunos IDS que generarían una alerta. Seguimos bajando y llegamos al <strong>cuerpo</strong> de la petición:<ul>
+<li>Una vez infectado un nuevo sistema, utiliza un nuevo set de IPs, no el dominio comprometido y se dedica a recopilar información. Nuestro siguiente paso es investigar qué ha comunicado el troyano desde nuestra vícitma, a estos nodos del Command and control. Si expandimos la segunda o tercera sesión, podremos ver la petición HTTP completa. Vemos que en términos de cabeceras HTTP parece bastante más legítima que el anterior caso, ya que contiene un número normal de ellas, tal y como esperaríamos ver desde una sesión de un navegador normal. Incluso tenemos cabeceras clave como el <code>Referrer</code> y esto es importante porque en caso de no estar, hay algunos IDS que generarían una alerta. Seguimos bajando y llegamos al <strong>cuerpo</strong> de la petición:<ul>
 <li>Hay un número pequeño de datos simplemente mirando el tamaño</li>
 <li>Cada carácter representa un byte por lo que hay pocos bytes</li>
 <li>Poca información enviándose al panel C2</li>
