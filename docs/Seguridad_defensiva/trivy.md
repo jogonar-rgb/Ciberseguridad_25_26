@@ -43,14 +43,14 @@ Así las cosas, Trivy nos ayudará a identificar y documentar las vulnerabilidad
 
 Para esta demostración el primer paso es, como cabía esperar, instalar Trivy. Para ello:
 
-1. Debéis hacer un fork del repositorio: `https://github.com/raul-profesor/practica-de-trivy` y luego clonarlo en vuestra máquina virtual
+1. Debéis hacer un fork del repositorio: `https://github.com/jogonar-rgb/practica-de-trivy` y luego clonarlo en vuestra máquina virtual
 
 2. Si echamos un ojo al script `install.sh` vemos que:
-      1. Obtiene el nombre de la distribución
-      2. Instala Trivy y las dependencias necesarias
-      3. También instala `container-diff` para inspeccionar y detectar imágenes que hayan sido manipuladas 
-      4. Se instala Docker en caso de que sea necesario porque no esté instalado ya
-3. Ejecutamos el script de instalación y comprobamos que Trivy se ha instalado correctamente
+      1. Obtiene el nombre de la distribución.
+      2. Instala Trivy y las dependencias necesarias.
+      3. También instala `container-diff` para inspeccionar y detectar imágenes que hayan sido manipuladas.
+      4. Se instala Docker en caso de que sea necesario porque no esté instalado ya.
+3. Ejecutamos el script de instalación y comprobamos que Trivy se ha instalado correctamente.
 
 Comencemos pues con la demo propiamente dicha. Podemos ver que Trivy tiene multitud de opciones, como escaneo de imágenes, de sistema de archivos local, repositorio remoto...:
 
@@ -63,7 +63,7 @@ No obstante, en nuestro caso nos centraremos únicamente en el escaneo de imáge
 $ trivy image zachroofsec/trivy-tutorial1
 ```
 
-+ En primer lugar vemos que Tivy se queja de que estamos usando el tag `latest`. Para nuestros propósitos no hay problema alguno puesto que no estamos cambiando nada de las capas subyacentes de la imagen, más adelante ya nos preocuparemos de esto.
++ En primer lugar vemos que Trivy se queja de que estamos usando el tag `latest`. Para nuestros propósitos no hay problema alguno, puesto que no estamos cambiando nada de las capas subyacentes de la imagen, más adelante ya nos preocuparemos de esto.
 
 + Vemos que Trivy nos informa de más de 400 vulnerabilidades en el momento en que se escriben estos apuntes. De locos. Inabarcable.
 
@@ -80,11 +80,11 @@ $ trivy image zachroofsec/trivy-tutorial1
 
 !!!info
     La severidad que muestra Trivy para las vulnerabilidades puede venir de distintos sitios. Se puede obtener de la NVD (National Vulnerability Database) o directamente del vendor o fabricante. 
-    Por ejemplo, para un paquete de Ubuntu, Trivy aprovehcará el reporte de vulnerabilidades que haya publicado la propia Canonical y favorecerá esta severidad respecto a la de la NVD.
+    Por ejemplo, para un paquete de Ubuntu, Trivy aprovechará el reporte de vulnerabilidades que haya publicado la propia Canonical y favorecerá esta severidad respecto a la de la NVD.
 
 Vemos que la mayoría de los **CRITICAL** y **HIGH** se los llevan algunas librerías de OpenSSL, incluyendo el famoso Heartbleed que permite que un usuario malicioso no autenticado pueda, en ciertos casos, leer la memoria de la máquina.
 
-En definitiva y para terminar, podemos decir que hemos utilizado Trivy para llevar a cabo una estrategia reactiva puesto que mediante ella detectamos las vulnerabilidades a posteriori, teniendo que solucionarlas una vez están ya en producción. Veremos en la próxima demostroación como podemos adoptar una estrategia más preventiva con el fin de evitar que estos problemas lleguen ni siquiera a publicarse.
+En definitiva y para terminar, podemos decir que hemos utilizado Trivy para llevar a cabo una estrategia reactiva puesto que mediante ella detectamos las vulnerabilidades a posteriori, teniendo que solucionarlas una vez están ya en producción. Veremos en la próxima demostración como podemos adoptar una estrategia más preventiva con el fin de evitar que estos problemas lleguen ni siquiera a publicarse.
 
 ## Demostración 2
 
@@ -116,7 +116,7 @@ Básicamente, lo que vamos a hacer con GitHub Actions es crear un Ubuntu Server 
 
 En primer lugar, debéis hacer un *fork* en vuestra cuenta del repositorio, **únicamente de la rama main**.
 
-`https://https://github.com/raul-profesor/practica-de-trivy`
+`https://github.com/jogonar-rgb/practica-de-trivy`
 
 Y tras ello, en el terminal, os debéis clonar el repositorio que utilizaremos como referencia:
 
@@ -586,7 +586,7 @@ done
 
 13. Hacemos uso de `container-diff` para ver las diferencias entre imágenes. 
 
-14. Tras todo esto, no vamos a subir la imagen al registro de Docker sino que se necesita comenzar una investigación forense y/o enviar una alerta a un SIEM..
+14. Tras todo esto, no vamos a subir la imagen al registro de Docker sino que se necesita comenzar una investigación forense y/o enviar una alerta a un SIEM.
 
 15. Si se ejecuta esta parte del código es que no se ha detectado ninguna modificación y se subirá la iamgen, así como la firma de la misma.
 
@@ -691,7 +691,7 @@ Si todo ha ido correctamente, el workflow fallará. Y si miráis los detalles, d
 
 ## Conclusión
 
-Ninguna herramienta de ciberseguridad puede monitorizar TODOS los ataques. Sin embargo, una combinación de herramientas adecuadas pueden ofrecer pintas sobre qué ha cambiado
+Ninguna herramienta de ciberseguridad puede monitorizar TODOS los ataques. Sin embargo, una combinación de herramientas adecuadas pueden ofrecer pintas sobre qué ha cambiado.
 
 !!!question "Pregunta"
     ¿Serías capaz de en la salida que nos ofrece la pestaña *Actions* identificar la salida de `container-diff` y donde se ven todos los archivos relativos a bash que se han añadido a la imagen?
