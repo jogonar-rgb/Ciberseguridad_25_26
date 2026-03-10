@@ -1432,12 +1432,12 @@ Arkime is not meant to replace Intrusion Detection Systems (IDS) but instead pro
 <li>Por razones de rendimiento, no se cargan todos los datos cuando vamos a esta página. Un ejemplo de este comportamiento es el DNS<ul>
 <li>Indica que tiene 10 entradas pero no se cargan todas</li>
 <li>Si hacemos click en el botón <em>Cargar todo</em>, entonces podremos ver toda la información.</li>
-<li>De todas maneras, para este caso nos centraremos en el user-agent de HTTP. En ocasiones, el <code>user-agent</code> puede ser una pieza de información muy significativa que podemos usar para pivotar entre indicios y explorar que está ocurriendo en nuestra red. Este es un ejemplo de <strong>Lokibot</strong> y este malware, históricamente, ha usado un nombre de <code>user-agent</code> muy distintivo. ¿Cual es el user agent de Lokbit?</li>
+<li>De todas maneras, para este caso nos centraremos en el user-agent de HTTP. En ocasiones, el <code>user-agent</code> puede ser una pieza de información muy significativa que podemos usar para pivotar entre indicios y explorar que está ocurriendo en nuestra red. Este es un ejemplo de <strong>Lokibot</strong> y este malware, históricamente, ha usado un nombre de <code>user-agent</code> muy distintivo. ¿Cual es el user agent de Lokibot?</li>
 <li>Pivotamos sobre ese User Agent. Una de las primeras cosas que pasan con una infección de Lokibot es que se produce un contacto con su panel de control. ¿Cuál es la URL del panel de control en este caso?</li>
 <li>Si expandimos el primer <em>check-in</em> con el panel podemos ver que parece que se ha enviado nuestro nombre de usuario, así como nuestro nombre de PC. ¿Dónde aparece?</li>
 <li>Si nos fijamos, parece una infraestructura sofisticada porque el panel parece ser que se ha configurado para que devuelva un código HTTP legítimo <code>404 not found</code>. Incluso incluye en el body de la respuesta un <code>File not found</code>. Esto está hecho expresamente para despistar al analista de seguridad, haciéndole pensar que a pesar de que se ha producio una infección en el entorno, no se ha podido contactar con éxito con el panel de control. Si aún así no estamos seguros de esto, podríamos continuar analizando los <code>check-ins</code> adicionales que tenemos.</li>
 <li>Si miramos el siguiente, vemos que se ha enviado mucha más información al panel. ¿Podemos saber que ha pasado? </li>
-<li>En ocasiones los investigadores de seguridad publican información sobre como descibrar el tráfico cifrado del command&amp;control para ciertas familias de malware.<ul>
+<li>En ocasiones los investigadores de seguridad publican información sobre como descifrar el tráfico cifrado del command&amp;control para ciertas familias de malware.<ul>
 <li>Este sería siempre el siguiente paso a realizar, mirar si hay publicaciones hechas al respecto, o scripts o cualquier material que nos ayude a identificar el tráfico.</li>
 <li>No obstante, esto no siempre es posible así que sólo nos queda crear una hipótesis que parte de los resultados de nuestro análisis.</li>
 </ul>
@@ -1449,7 +1449,7 @@ Arkime is not meant to replace Intrusion Detection Systems (IDS) but instead pro
 <li>
 <p>Identificación de malware usando comunicaciones seguras con TLS y utilización de hashes JA3 para detectar nodos del command&amp;control. <code>fichero: 01-04.spearphising-dridex.pcap</code></p>
 <ul>
-<li>Es importante entender cómo observar y analizar tráfico cifrado. Debido al cifrado, mucha información que nos gustaría observar no puede ser visualizada. Esto, sin embargo, no quiere decir que como defensores no tengamos opciones y en eso se centra este dejericcio. Volvemos al primer PCAP de la clase pero en lugar de centrarnos en el payload que <em>suelta</em> el ejecutable, nos centraremos en el tráfico post infección, particularmente en el TLS. <ul>
+<li>Es importante entender cómo observar y analizar tráfico cifrado. Debido al cifrado, mucha información que nos gustaría observar no puede ser visualizada. Esto, sin embargo, no quiere decir que como defensores no tengamos opciones y en eso se centra este ejercicio. Volvemos al primer PCAP de la clase pero en lugar de centrarnos en el payload que <em>suelta</em> el ejecutable, nos centraremos en el tráfico post infección, particularmente en el TLS. <ul>
 <li>Empezamos en la pestaña Conexiones que todavía no habíamos usado.<ul>
 <li>En esta pestaña se muestrar gráficos de comunicaciones entre nodos.</li>
 <li>Aquí vemos que hay un nodo predominante y que es el que más conexiones produce. ¿Cual es la IP del host?</li>
