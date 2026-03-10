@@ -93,7 +93,7 @@ Con este compromiso inicial, se puede intentar realizar la inyección de una web
 
 ![](./img/wazuh1.png)
 
-La mayoría de los web shells siguen los mismos principios de diseño y e intenciones. Normalmente suelen estar escritos en lenguajes soportados por los servidores web: PHP, ASP, ASP.NET, Perl, Python...
+La mayoría de los web shells siguen los mismos principios de diseño e intenciones. Normalmente suelen estar escritos en lenguajes soportados por los servidores web: PHP, ASP, ASP.NET, Perl, Python...
 
 ### Indicadores comunes de los web shells
 
@@ -104,11 +104,11 @@ La mayoría de los web shells siguen los mismos principios de diseño y e intenc
 
 ## Manos a la obra, configuración del laboratorio
 
-Para este laboratorio utilizaremos AWS, por la versatilidad que nos ofrece y así deshacernos de los problemas de infraestructa a los que pueda limitarnos nuestra máquina. Se van a utilizar **4 máquinas**:
+Para este laboratorio utilizaremos AWS, por la versatilidad que nos ofrece y así deshacernos de los problemas de infraestructura a los que pueda limitarnos nuestra máquina. Se van a utilizar **4 máquinas**:
 
 1. **Amazon Linux 2:** para instalar el servidor de Wazuh.
 2. **Ubuntu:** como víctima endpoint que está ejecutando un agente de Wazuh. Correrá un servidor Apache para aplicaciones PHP.
-3. **Windows Server 2022:** otra víctima endpoint ejecutadno otro agente de Wazuh. Correrá un servidor IIS para aplicaciones ASP.NET.
+3. **Windows Server 2022:** otra víctima endpoint ejecutando otro agente de Wazuh. Correrá un servidor IIS para aplicaciones ASP.NET.
 4. **Debian:** como máquina atacante.
  
 ### Wazuh server en Amazon Linux 2
@@ -184,7 +184,7 @@ Utilizaremos distintas capacidades de Wazuh para detectar la presencia de web sh
 
 ### Integridad de ficheros
 
-Utilizaremos **FIM (File Integritiy Monitorint)** para deteta la creación y modificación de archivos que contengan web shells.
+Utilizaremos **FIM (File Integritiy Monitorint)** para detectar la creación y modificación de archivos que contengan web shells.
 
 El módulo FIM de Wazuih puede detectar, casi en tiempo real, cambios en los archivos accesibles via web y de esta forma alertar a los administradores.
 

@@ -57,7 +57,8 @@ Y así sucesivamente.
 
 + Analizando tráfico spear phising (Dridex) `fichero: 01-04.spearphising-dridex.pcap`
     + Filtramos conexiones por el puerto 80 porque tenemos sospechas de un tráfico malicioso.
-    + Filtramos el dominio (URI), que no incluyan los de microsoft update, y luego todos los dominios con el asterisco: 
+    + Filtramos el dominio (URI), que no incluyan los de microsoft update, y luego todos los dominios con el asterisco:
+    
     `port.dst == 80 && http.uri != www.download.windowsupdate.com/*`
     + El número de bytes de una petición también da pistas, ¿qué tipo de archivo es?
     + Entramos en el detalle, ¿a qué host apunta? ¿hay algo extraño en ese detalle?
