@@ -32,7 +32,7 @@ Así las cosas, Trivy nos ayudará a identificar y documentar las vulnerabilidad
 ## Demostración 1
 
 !!!info 
-    Esta demostración ha sido realizada con Debian 11 Bullseye y se ha comprobado que funciona correctamente.
+    Esta demostración ha sido realizada con Kali-rolling y Ubuntu 22.04 y se ha comprobado que funciona correctamente.
 
     Prerrequisitos necesarios:
 
@@ -62,8 +62,6 @@ No obstante, en nuestro caso nos centraremos únicamente en el escaneo de imáge
 ```console
 $ trivy image zachroofsec/trivy-tutorial1
 ```
-
-+ En primer lugar vemos que Trivy se queja de que estamos usando el tag `latest`. Para nuestros propósitos no hay problema alguno, puesto que no estamos cambiando nada de las capas subyacentes de la imagen, más adelante ya nos preocuparemos de esto.
 
 + Vemos que Trivy nos informa de más de 400 vulnerabilidades en el momento en que se escriben estos apuntes. De locos. Inabarcable.
 
