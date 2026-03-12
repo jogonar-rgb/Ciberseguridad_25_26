@@ -11,7 +11,7 @@ En esta sección usaremos Trivy para auditar imágenes de contenedores y, ademá
 
 ### ¿Qué es Trivy?
 
-Trivi es un sencillo, rápido y completo escáner de vulnerabilidades para contenedores, muy adecuado para la integración continua y DevSecOps. Esta herramienta detecta vulnerabilidades en los paquetes de los sistemas operativos, sea éste Alpine, RHEL, Debian, Ubuntu, Amazon Linux o lo que proceda, además de en dependencias de aplicaciones (Node, Ruby, Python, Java...).
+Trivy es un sencillo, rápido y completo escáner de vulnerabilidades para contenedores, muy adecuado para la integración continua y DevSecOps. Esta herramienta detecta vulnerabilidades en los paquetes de los sistemas operativos, sea éste Alpine, RHEL, Debian, Ubuntu, Amazon Linux o lo que proceda, además de en dependencias de aplicaciones (Node, Ruby, Python, Java...).
 
 Debido a la rapidez de Trivy, podemos integrarlo fácilmente de forma directa en nuestros workflows de desarrollo. Dicho de otro modo, en cuánto un desarrollador actualice el código, éste puede ser escaneado en tiempo real en búsqueda de vulnerabilidades.
 
@@ -23,7 +23,7 @@ Este framework consta de tres componentes principales, el Core, los niveles de i
 
 ![](./img/nist.jpg){: style="height:355px;width:475px"}
 
-Trivy se centra en las funciones de identificación y protección, principalmente. Además, este framework define categorías para cada función y Trivy de nuevo se centra en dos de ellas, manejo del riesgo y procesos y proedimientos para la protección de la información.
+Trivy se centra en las funciones de identificación y protección, principalmente. Además, este framework define categorías para cada función y Trivy de nuevo se centra en dos de ellas, manejo del riesgo y procesos y procedimientos para la protección de la información.
 
 Así las cosas, Trivy nos ayudará a identificar y documentar las vulnerabilidades de nuestros activos (contenedores) y, mediante su integración con Github Actions, podremos controlar los controles de cambios:
 
@@ -32,7 +32,7 @@ Así las cosas, Trivy nos ayudará a identificar y documentar las vulnerabilidad
 ## Parte 1
 
 !!!info 
-    Este ejercicio ha sido realizada con Kali-rolling y Ubuntu 22.04 y se ha comprobado que funciona correctamente.
+    Este ejercicio ha sido realizado con Kali-rolling y Ubuntu 22.04 y se ha comprobado que funciona correctamente.
 
     Prerrequisitos necesarios:
 
@@ -221,7 +221,7 @@ También nos informa de que el *merge* está bloqueado puesto que requiere de ap
 ![](./img/pullrequest4.png)
 
 
-En la pestaña `Checks` podemos ver que se van ejecutando, una tras otra, todas las acciones definidias y comprobamos que, tras instalar Trivy en la máquina virtual de la infraestructura de GitHub, está ejecutando el escaneo de vulnerabilidades pertinente:
+En la pestaña `Checks` podemos ver que se van ejecutando, una tras otra, todas las acciones definidas y comprobamos que, tras instalar Trivy en la máquina virtual de la infraestructura de GitHub, está ejecutando el escaneo de vulnerabilidades pertinente:
 
 ![](./img/pullrequest5.png)
 
@@ -239,7 +239,7 @@ Hemos visto en una imagen más arriba que, puesto que soy administrador del repo
 !!!task "Tarea"
     Vamos a recomentar las líneas que teníamos comentadas en nuestro Dockerfile para solucionar nuestro fallo de haber incluido unas librería vulnerable (no hay que preocuparse, esta imagen por defecto lleva incluída la versión de `libSSL` correcta). Tras ello repetiremos nuestro `commit` y nuestro `push`, y comprobaremos que ahora sí, consigue pasar el `status check` con un estupendo tick verde.
 
-Llegados a este punto sólo necesitaríamos la aprobación de un revisor para hacer nuestro *merge*. Alquien podría preguntarse que si Trivy ha dado su beneplácito con un escaneo sin vulnerabilidades, para qué ibamos a necesitar una interacción humana en vez de dejarlo todo completamente automatizado. La repuesta es que aunque Trivy tiene muchísimas posibilidades y el funcinamiento es más que aceptable, es incapaz de detectar **todas** las vulnerabilidades que podrían ser introducidas dentro de una imagen Docker. Es por ello que siempre se necesita de un ojo experto y humano que revise el *pull request.*
+Llegados a este punto sólo necesitaríamos la aprobación de un revisor para hacer nuestro *merge*. Alguien podría preguntarse que si Trivy ha dado su beneplácito con un escaneo sin vulnerabilidades, para qué íbamos a necesitar una interacción humana en vez de dejarlo todo completamente automatizado. La respuesta es que aunque Trivy tiene muchísimas posibilidades y el funcionamiento es más que aceptable, es incapaz de detectar **todas** las vulnerabilidades que podrían ser introducidas dentro de una imagen Docker. Es por ello que siempre se necesita de un ojo experto y humano que revise el *pull request.*
 
 ### Explicación del código
 
@@ -564,7 +564,7 @@ done
 
 4. Empezamos a generar el nombre de la imagen
   
-5. Nos bajamos la iamgen del repositorio remoto
+5. Nos bajamos la imagen del repositorio remoto
 
 6. Construimos la imagen
 

@@ -1276,22 +1276,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#demostracion-1" class="md-nav__link">
+  <a href="#parte-1" class="md-nav__link">
     <span class="md-ellipsis">
-      Demostración 1
+      Parte 1
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#demostracion-2" class="md-nav__link">
+  <a href="#parte-2" class="md-nav__link">
     <span class="md-ellipsis">
-      Demostración 2
+      Parte 2
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Demostración 2">
+    <nav class="md-nav" aria-label="Parte 2">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1415,10 +1415,10 @@
 <p>Trivy se centra en las funciones de identificación y protección, principalmente. Además, este framework define categorías para cada función y Trivy de nuevo se centra en dos de ellas, manejo del riesgo y procesos y proedimientos para la protección de la información.</p>
 <p>Así las cosas, Trivy nos ayudará a identificar y documentar las vulnerabilidades de nuestros activos (contenedores) y, mediante su integración con Github Actions, podremos controlar los controles de cambios:</p>
 <p><img alt="" src="../img/nist_trivy.png" style="height:425px;width:825px" /></p>
-<h2 id="demostracion-1">Demostración 1</h2>
+<h2 id="parte-1">Parte 1</h2>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>Esta demostración ha sido realizada con Kali-rolling y Ubuntu 22.04 y se ha comprobado que funciona correctamente.</p>
+<p>Este ejercicio ha sido realizada con Kali-rolling y Ubuntu 22.04 y se ha comprobado que funciona correctamente.</p>
 <p>Prerrequisitos necesarios:</p>
 <ul>
 <li>Cuenta en GitHub</li>
@@ -1464,12 +1464,12 @@ Y realizar un escaneo más sensato y priorizando vulnerabilidades. Esto incluye 
 </div>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>La severidad que muestra Trivy para las vulnerabilidades puede venir de distintos sitios. Se puede obtener de la NVD (National Vulnerability Database) o directamente del vendor o fabricante. 
+<p>La severidad que muestra Trivy para las vulnerabilidades puede venir de distintos sitios. Se puede obtener de la NVD (National Vulnerability Database) o directamente del vendedor o fabricante. 
 Por ejemplo, para un paquete de Ubuntu, Trivy aprovechará el reporte de vulnerabilidades que haya publicado la propia Canonical y favorecerá esta severidad respecto a la de la NVD.</p>
 </div>
-<p>Vemos que la mayoría de los <strong>CRITICAL</strong> y <strong>HIGH</strong> se los llevan algunas librerías de OpenSSL, incluyendo el famoso Heartbleed que permite que un usuario malicioso no autenticado pueda, en ciertos casos, leer la memoria de la máquina.</p>
+<p>Vemos que la mayoría de los <strong>CRITICAL</strong> y <strong>HIGH</strong> se los llevan algunas librerías de OpenSSL.</p>
 <p>En definitiva y para terminar, podemos decir que hemos utilizado Trivy para llevar a cabo una estrategia reactiva puesto que mediante ella detectamos las vulnerabilidades a posteriori, teniendo que solucionarlas una vez están ya en producción. Veremos en la próxima demostración como podemos adoptar una estrategia más preventiva con el fin de evitar que estos problemas lleguen ni siquiera a publicarse.</p>
-<h2 id="demostracion-2">Demostración 2</h2>
+<h2 id="parte-2">Parte 2</h2>
 <h3 id="que-es-github-actions">¿Qué es Github actions?</h3>
 <p>GitHub Actions es una plataforma de integración y despliegue continuos (CI/CD) que te permite automatizar tu mapa de compilación, pruebas y despliegue. Puedes crear flujos de trabajo (<em>workflows</em>) y crear y probar cada solicitud de cambios en tu repositorio o desplegar solicitudes de cambios fusionadas a producción.</p>
 <p>GitHub Actions va más allá de solo DevOps y te permite ejecutar flujos de trabajo cuando otros eventos suceden en tu repositorio. Por ejemplo, puedes ejecutar un flujo de trabajo para que agregue automáticamente las etiquetas adecuadas cada que alguien cree una propuesta nueva en tu repositorio.</p>
