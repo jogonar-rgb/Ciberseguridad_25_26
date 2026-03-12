@@ -85,7 +85,7 @@ nav:
     - Monitorización de red con Arkime: Seguridad_defensiva/arkime.md
   #  - Análisis de archivos con TruffleHog: Seguridad_defensiva/truffle.md
     - Análisis de archivos con TruffleHog: Seguridad_defensiva/truffle2.md
-  #  - Análisis de infraestructura (contenedores) con Trivy: Seguridad_defensiva/trivy.md
+    - Análisis de infraestructura (contenedores) con Trivy: Seguridad_defensiva/trivy.md
   #- Gestión de incidentes (IR):
   #  - Gestion_incidentes/index.md
   #  - Introdución a la gestión de incidentes: Gestion_incidentes/intro.md
