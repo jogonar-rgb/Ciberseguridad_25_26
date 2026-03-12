@@ -29,10 +29,10 @@ Así las cosas, Trivy nos ayudará a identificar y documentar las vulnerabilidad
 
 ![](./img/nist_trivy.png){: style="height:425px;width:825px"}
 
-## Demostración 1
+## Parte 1
 
 !!!info 
-    Esta demostración ha sido realizada con Kali-rolling y Ubuntu 22.04 y se ha comprobado que funciona correctamente.
+    Este ejercicio ha sido realizada con Kali-rolling y Ubuntu 22.04 y se ha comprobado que funciona correctamente.
 
     Prerrequisitos necesarios:
 
@@ -77,14 +77,14 @@ $ trivy image zachroofsec/trivy-tutorial1
 
 
 !!!info
-    La severidad que muestra Trivy para las vulnerabilidades puede venir de distintos sitios. Se puede obtener de la NVD (National Vulnerability Database) o directamente del vendor o fabricante. 
+    La severidad que muestra Trivy para las vulnerabilidades puede venir de distintos sitios. Se puede obtener de la NVD (National Vulnerability Database) o directamente del vendedor o fabricante. 
     Por ejemplo, para un paquete de Ubuntu, Trivy aprovechará el reporte de vulnerabilidades que haya publicado la propia Canonical y favorecerá esta severidad respecto a la de la NVD.
 
-Vemos que la mayoría de los **CRITICAL** y **HIGH** se los llevan algunas librerías de OpenSSL, incluyendo el famoso Heartbleed que permite que un usuario malicioso no autenticado pueda, en ciertos casos, leer la memoria de la máquina.
+Vemos que la mayoría de los **CRITICAL** y **HIGH** se los llevan algunas librerías de OpenSSL.
 
 En definitiva y para terminar, podemos decir que hemos utilizado Trivy para llevar a cabo una estrategia reactiva puesto que mediante ella detectamos las vulnerabilidades a posteriori, teniendo que solucionarlas una vez están ya en producción. Veremos en la próxima demostración como podemos adoptar una estrategia más preventiva con el fin de evitar que estos problemas lleguen ni siquiera a publicarse.
 
-## Demostración 2
+## Parte 2
 
 ### ¿Qué es Github actions?
 
