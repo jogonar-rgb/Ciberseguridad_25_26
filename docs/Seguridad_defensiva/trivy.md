@@ -45,7 +45,7 @@ Para esta demostración el primer paso es, como cabía esperar, instalar Trivy. 
 
 1. Debéis hacer un fork del repositorio: `https://github.com/jogonar-rgb/practica-de-trivy` y luego clonarlo en vuestra máquina virtual
 
-2. Si echamos un ojo al script `install.sh` vemos que:
+2. Si echamos un ojo al script `install1.sh` vemos que:
       1. Obtiene el nombre de la distribución.
       2. Instala Trivy y las dependencias necesarias.
       3. También instala `container-diff` para inspeccionar y detectar imágenes que hayan sido manipuladas.

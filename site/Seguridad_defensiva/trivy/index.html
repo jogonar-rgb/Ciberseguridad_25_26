@@ -1406,19 +1406,19 @@
 <p>A medida que las aplicaciones cada vez más van cambiando su infraestructura a una basada en contenedores, más se va haciendo evidente que hay que auditar estos contenedores en búsqueda de vulnerabilidades.</p>
 <p>En esta sección usaremos Trivy para auditar imágenes de contenedores y, además, veremos como integrar Trivy con Github Actions para que se produzca un escaneo automático de la imagen cada vez que esta se construya. Además, gracias a ello, veremos cómo prevenir que imágenes vulnerables pasen a producción.</p>
 <h3 id="que-es-trivy">¿Qué es Trivy?</h3>
-<p>Trivi es un sencillo, rápido y completo escáner de vulnerabilidades para contenedores, muy adecuado para la integración continua y DevSecOps. Esta herramienta detecta vulnerabilidades en los paquetes de los sistemas operativos, sea éste Alpine, RHEL, Debian, Ubuntu, Amazon Linux o lo que proceda, además de en dependencias de aplicaciones (Node, Ruby, Python, Java...).</p>
+<p>Trivy es un sencillo, rápido y completo escáner de vulnerabilidades para contenedores, muy adecuado para la integración continua y DevSecOps. Esta herramienta detecta vulnerabilidades en los paquetes de los sistemas operativos, sea éste Alpine, RHEL, Debian, Ubuntu, Amazon Linux o lo que proceda, además de en dependencias de aplicaciones (Node, Ruby, Python, Java...).</p>
 <p>Debido a la rapidez de Trivy, podemos integrarlo fácilmente de forma directa en nuestros workflows de desarrollo. Dicho de otro modo, en cuánto un desarrollador actualice el código, éste puede ser escaneado en tiempo real en búsqueda de vulnerabilidades.</p>
 <p><img alt="" src="../img/trivy.png" /></p>
 <h3 id="nist-csf-y-trivy">NIST CSF y Trivy</h3>
 <p>Este framework consta de tres componentes principales, el Core, los niveles de implementación (Tiers) y los Perfiles. El core, que es lo que se muestra en la siguiente imagen, contiene las mejores prácticas a alto nivel para ciberseguridad y manejo del riesgo, en general.</p>
 <p><img alt="" src="../img/nist.jpg" style="height:355px;width:475px" /></p>
-<p>Trivy se centra en las funciones de identificación y protección, principalmente. Además, este framework define categorías para cada función y Trivy de nuevo se centra en dos de ellas, manejo del riesgo y procesos y proedimientos para la protección de la información.</p>
+<p>Trivy se centra en las funciones de identificación y protección, principalmente. Además, este framework define categorías para cada función y Trivy de nuevo se centra en dos de ellas, manejo del riesgo y procesos y procedimientos para la protección de la información.</p>
 <p>Así las cosas, Trivy nos ayudará a identificar y documentar las vulnerabilidades de nuestros activos (contenedores) y, mediante su integración con Github Actions, podremos controlar los controles de cambios:</p>
 <p><img alt="" src="../img/nist_trivy.png" style="height:425px;width:825px" /></p>
 <h2 id="parte-1">Parte 1</h2>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>Este ejercicio ha sido realizada con Kali-rolling y Ubuntu 22.04 y se ha comprobado que funciona correctamente.</p>
+<p>Este ejercicio ha sido realizado con Kali-rolling y Ubuntu 22.04 y se ha comprobado que funciona correctamente.</p>
 <p>Prerrequisitos necesarios:</p>
 <ul>
 <li>Cuenta en GitHub</li>
@@ -1564,7 +1564,7 @@ Y una vez hecho esto, haremos el <em>commit</em> y el <em>push</em>  correspondi
 <p>Acto seguido veremos cómo está pasando el check requerido, que no es más que la acción definidia en GitHub Actions para que escanee la imagen Docker creada.</p>
 <p>También nos informa de que el <em>merge</em> está bloqueado puesto que requiere de aprobación explícita. Esto es debido a las protecciones de rama que hemos configurado anteriormente.</p>
 <p><img alt="" src="../img/pullrequest4.png" /></p>
-<p>En la pestaña <code>Checks</code> podemos ver que se van ejecutando, una tras otra, todas las acciones definidias y comprobamos que, tras instalar Trivy en la máquina virtual de la infraestructura de GitHub, está ejecutando el escaneo de vulnerabilidades pertinente:</p>
+<p>En la pestaña <code>Checks</code> podemos ver que se van ejecutando, una tras otra, todas las acciones definidas y comprobamos que, tras instalar Trivy en la máquina virtual de la infraestructura de GitHub, está ejecutando el escaneo de vulnerabilidades pertinente:</p>
 <p><img alt="" src="../img/pullrequest5.png" /></p>
 <p>Y tras unos segundos, se produce un fallo debido a que se han encontrado vulnerabilidades (las mismas que en el escaneo local que vimos al principio):</p>
 <p><img alt="" src="../img/pullrequest6.png" /></p>
@@ -1575,7 +1575,7 @@ Y una vez hecho esto, haremos el <em>commit</em> y el <em>push</em>  correspondi
 <p class="admonition-title">Tarea</p>
 <p>Vamos a recomentar las líneas que teníamos comentadas en nuestro Dockerfile para solucionar nuestro fallo de haber incluido unas librería vulnerable (no hay que preocuparse, esta imagen por defecto lleva incluída la versión de <code>libSSL</code> correcta). Tras ello repetiremos nuestro <code>commit</code> y nuestro <code>push</code>, y comprobaremos que ahora sí, consigue pasar el <code>status check</code> con un estupendo tick verde.</p>
 </div>
-<p>Llegados a este punto sólo necesitaríamos la aprobación de un revisor para hacer nuestro <em>merge</em>. Alquien podría preguntarse que si Trivy ha dado su beneplácito con un escaneo sin vulnerabilidades, para qué ibamos a necesitar una interacción humana en vez de dejarlo todo completamente automatizado. La repuesta es que aunque Trivy tiene muchísimas posibilidades y el funcinamiento es más que aceptable, es incapaz de detectar <strong>todas</strong> las vulnerabilidades que podrían ser introducidas dentro de una imagen Docker. Es por ello que siempre se necesita de un ojo experto y humano que revise el <em>pull request.</em></p>
+<p>Llegados a este punto sólo necesitaríamos la aprobación de un revisor para hacer nuestro <em>merge</em>. Alguien podría preguntarse que si Trivy ha dado su beneplácito con un escaneo sin vulnerabilidades, para qué íbamos a necesitar una interacción humana en vez de dejarlo todo completamente automatizado. La respuesta es que aunque Trivy tiene muchísimas posibilidades y el funcionamiento es más que aceptable, es incapaz de detectar <strong>todas</strong> las vulnerabilidades que podrían ser introducidas dentro de una imagen Docker. Es por ello que siempre se necesita de un ojo experto y humano que revise el <em>pull request.</em></p>
 <h3 id="explicacion-del-codigo">Explicación del código</h3>
 <p>Veamos el contenido de los archivos más importantes implicados en nuestro workflow de GitHub Actions.</p>
 <p>Encontramos el archivo que define el workflow propiamente dicho en <code>.github/workflows/scan.yml</code>. El nombre del workflow es indiferente:</p>
@@ -1893,7 +1893,7 @@ git<span class="w"> </span>pull<span class="w"> </span>origin<span class="w"> </
 <p>Empezamos a generar el nombre de la imagen</p>
 </li>
 <li>
-<p>Nos bajamos la iamgen del repositorio remoto</p>
+<p>Nos bajamos la imagen del repositorio remoto</p>
 </li>
 <li>
 <p>Construimos la imagen</p>
